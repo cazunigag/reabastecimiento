@@ -10,6 +10,7 @@ $(document).ready(function(){
     var pos = [];
     var brcds = [];
     var arts = [];
+    var citas = [];
 
     //FUNCIONALIDADES ALERTA PKT
 
@@ -1120,6 +1121,7 @@ $(document).ready(function(){
         ]
     }).data("kendoWindow").center();
     $("#OLADetalles").click(function(){
+        actualizarAlertaOLA();
         var popupdetalleola = $("#POPUP_Detalle_OLA");
         popupdetalleola.data("kendoWindow").open();
         var grid = $("#gridDetOLA");
@@ -1218,6 +1220,23 @@ $(document).ready(function(){
         },
         pageSize: 15
     });
+    var dataSourceDetCITA = new kendo.data.DataSource({
+        transport: {
+            read: onReadDetCITA
+        },
+        schema: {
+            model: {
+                id: "APPT_NBR",
+                fields: {
+                        APPT_NBR: {type: "string"}, // number - string - date
+                        SHPMT_NBR: {type: "string"},
+                        CREATE_DATE_TIME: {type: "string"},
+                        MSG: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
     var dataSourceCodCITA = new kendo.data.DataSource({
         transport: {
             read: onReadCodCITA
@@ -1249,10 +1268,25 @@ $(document).ready(function(){
             }
         });
     }
-    function onReadCodCITA(e){
+    function onReadDetCITA(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/errores/CITA',
+            data: {codigo: codigo},
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+     function onReadCodCITA(e){
         $.ajax({
             type: "POST",
             url: baseURL + 'alertas/cita/resumenCod',
+            data: {codigo: codigo},
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1282,12 +1316,42 @@ $(document).ready(function(){
             {field: "SHORT_DESC",title: "DESC ESTADO",width:70,filterable: false},
             {field: "CREATE_DATE_TIME",title: "FECHA CREACION",width:70,filterable: false}
         ]
-    })
+    });
+    $("#gridDetCITA").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetCITA,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        change: function (e, args) {
+                    citas = [];
+                    var rows = e.sender.select();
+                    rows.each(function(e) {
+                        var grid = $("#gridDetCITA").data("kendoGrid");
+                        var item = grid.dataItem(this);
+                        citas.push({APPT_NBR: item.APPT_NBR});
+                    }) 
+        },
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "APPT_NBR",title: "NUMERO CITA",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "SHPMT_NBR",title: "ASN",width:70,filterable:false},
+            {field: "CREATE_DATE_TIME",title: "FECHA CREACION",width:70,filterable: false},
+            {field: "MSG",title: "MENSAJE",width:70,filterable: false}
+        ]
+    });
     $("#gridResCITA").kendoGrid({
         autoBind: false,
         dataSource: dataSourceResCITA,
         height: "100%", 
         width: "600px",
+        selectable: "row",
         sortable: true, 
         filterable: true,
         scrollable: true,
@@ -1307,24 +1371,13 @@ $(document).ready(function(){
         var grid = $("#gridResCITA").data("kendoGrid");
         var column = grid.columns[0];
         var dataItem = grid.dataItem(cell.closest("tr"));
-        $.ajax({
-            type: "POST",
-            url: baseURL + 'locaciones/detalle/imagen',
-            data:{ codigo: dataItem[column.field]},
-            dataType: 'json',
-            success: function(result){
-                result.forEach(function(element){
-                    $("#POPUP_img").html("<img src='https://home.ripley.cl/store/Attachment/WOP/D"+element.MERCH_TYPE+"/"+element.SKU_BRCD+"/"+element.SKU_BRCD+"_2.jpg' onerror='errorimg()' style='width: 100%; height: 100%' >");
-                });
-                
-            },
-            error: function(result){
-                alert(JSON.stringify(result));
-            }
-        });
-        var popupimg = $("#POPUP_img");
-        popupimg.data("kendoWindow").open();
+        codigo = dataItem[column.field];
+        var popupresumenola = $("#POPUP_Resumen_codCITA");
+        popupresumenola.data("kendoWindow").open();
+        var grid = $("#gridCodCITA");
+        grid.data("kendoGrid").dataSource.read();
     });
+
     $("#CITASBajadas").click(function(){
         var popupresumenola = $("#POPUP_Resumen_CITA");
         popupresumenola.data("kendoWindow").open();
@@ -1343,13 +1396,28 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").center();
-    $("#CITASBajadas").click(function(){
-        var popupresumenola = $("#POPUP_Resumen_codCITA");
+
+    $("#CITADetalles").click(function(){
+        actualizarAlertaCITA();
+        var popupresumenola = $("#POPUP_Detalle_CITA");
         popupresumenola.data("kendoWindow").open();
-        var grid = $("#gridResCITA");
+        var grid = $("#gridDetCITA");
         grid.data("kendoGrid").dataSource.read();
     });
-    var ventana_resumen_ola = $("#POPUP_Resumen_CITA");
+    var ventana_resumen_ola = $("#POPUP_Detalle_CITA");
+    ventana_resumen_ola.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Detalle Errores Cita",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+
+    var ventana_resumen_ola = $("#POPUP_Resumen_codCITA");
     ventana_resumen_ola.kendoWindow({
         width: "750px",
         height: "550px",
@@ -1362,8 +1430,8 @@ $(document).ready(function(){
         ]
     }).data("kendoWindow").center();
     function intermitenciaCITA(){
-      $("#OLABox").toggleClass("bg-green");
-      $("#OLABox").toggleClass("bg-red");
+      $("#CITABox").toggleClass("bg-green");
+      $("#CITABox").toggleClass("bg-red");
       $("#iconCITA").toggleClass("ion-clipboard");
       $("#iconCITA").toggleClass("ion-android-alert");
       if(stopedCITA == 0){
@@ -1406,7 +1474,156 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
-                    $("#nCITA").html(element.TOT);
+                    $("#nCITA").html(element.TOT);  
+                });
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function stopCITA(){
+        $("#CITABox").removeClass("bg-green");
+        $("#CITABox").removeClass("bg-red");
+        $("#iconCITA").removeClass("ion-clipboard");
+        $("#iconCITA").removeClass("ion-android-alert"); 
+        $("#CITABox").addClass("bg-green");
+        $("#iconCITA").addClass("ion-clipboard");
+    }
+    $("#toolbarCITA").kendoToolBar({
+        items: [
+            { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarCITA},
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarCITA}
+        ]
+    });
+    function ActualizarCITA(){
+        var data = JSON.stringify(pkts);
+        if(Array.isArray(pkts) && pkts.length != 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + 'alertas/pkt/actualizar',
+                data:{ pkts: data},
+                dataType: 'json',
+                success: function(result){
+                    if(result == 0){                       
+                        var popupdetallepkt = $("#POPUP_Detalle_PKT");
+                        popupdetallepkt.data("kendoWindow").close();
+                        $("#success-modal").text("Pick Ticket Actualizado Correctamente");
+                        $("#modal-success").modal('show');
+                        actualizarAlertaPKT();
+                    }
+                    else{
+                        var popupdetallepkt = $("#POPUP_Detalle_PKT");
+                        popupdetallepkt.data("kendoWindow").close();
+                        $("#error-modal").text("Error al actualizar Pick Ticket");
+                        $("#modal-danger").modal('show');
+                    }
+                },
+                error: function(xhr){
+                    console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            });
+        }
+        else{;
+            var popupdetallepkt = $("#POPUP_Detalle_PKT");
+            popupdetallepkt.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un Pick Ticket para actualizar");
+            $("#modal-danger").modal('show');
+        }
+    }
+    function EliminarCITA(){
+        if(Array.isArray(pkts) && pkts.length != 0){
+            var data = JSON.stringify(pkts);
+            var ok = confirm("Esta seguro que desea eliminar estos Pick Ticket?");
+            if(ok){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + 'alertas/pkt/eliminar',
+                    data:{ pkts: data},
+                    dataType: 'json',
+                    success: function(result){
+                        if(result == 0){
+                            var popupdetallepkt = $("#POPUP_Detalle_PKT");
+                            popupdetallepkt.data("kendoWindow").close();
+                            $("#success-modal").text("Pick Ticket Eliminado Correctamente");
+                            $("#modal-success").modal('show');
+                            actualizarAlertaPKT();
+                        }
+                        else{
+                            var popupdetallepkt = $("#POPUP_Detalle_PKT");
+                            popupdetallepkt.data("kendoWindow").close();
+                            $("#error-modal").text("Error al eliminar Pick Ticket");
+                            $("#modal-danger").modal('show');
+                        }
+                    },
+                    error: function(xhr){
+                        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                    }
+                });
+            }
+            else{
+                var popupdetallepkt = $("#POPUP_Detalle_PKT");
+                popupdetallepkt.data("kendoWindow").close();
+                $("#modal-info").modal('show');
+            }
+        }    
+        else{
+            console.log(pkts);
+            var popupdetallepkt = $("#POPUP_Detalle_PKT");
+            popupdetallepkt.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un pick ticket para eliminar");
+            $("#modal-danger").modal('show');
+        }  
+    }
+
+    //FUNCIONALIDADES ALERTA ASN
+
+    function intermitenciaCITA(){
+      $("#CITABox").toggleClass("bg-green");
+      $("#CITABox").toggleClass("bg-red");
+      $("#iconCITA").toggleClass("ion-clipboard");
+      $("#iconCITA").toggleClass("ion-android-alert");
+      if(stopedCITA == 0){
+         runningCITA = 1;
+         setTimeout(intermitenciaCITA, 500);
+      }
+      else{
+        stopCITA();
+      }
+    }
+    function actualizarAlertaCITA(){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/errores/cantCITA',
+            dataType: 'json',
+            success: function(result){
+                if(result > 0){
+                    if(runningCITA == 0){
+                        stopedCITA = 0;
+                        intermitenciaCITA();
+                        
+                    }
+                    setTimeout(actualizarAlertaCITA, 600000);
+                }else{
+                    setTimeout(actualizarAlertaCITA, 600000);
+                    if(stopedCITA == 0 && runningCITA == 1){
+                        runningCITA = 0;
+                        stopedCITA = 1
+                    }
+                }
+
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/cita/totCITA',
+            dataType: 'json',
+            success: function(result){
+                result.forEach(function(element){
+                    $("#nCITA").html(element.TOT);  
                 });
             },
             error: function(result){

@@ -382,7 +382,7 @@ class Centroalertas_model extends CI_Model{
 	}
 	public function erroresCITA(){
 		$sql = "SELECT A.APPT_NBR, A.SHPMT_NBR, A.CREATE_DATE_TIME, B.MSG FROM INPT_APPT_SCHED A, MSG_LOG B WHERE A.ERROR_SEQ_NBR > 0 
-				AND TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1";
+				AND TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -437,7 +437,7 @@ class Centroalertas_model extends CI_Model{
 					TRUNC(APPT.CREATE_DATE_TIME) = TRUNC(SYSDATE)
 					AND SC.REC_TYPE = 'S'
 					AND SC.CODE_TYPE = '628'
-					AND TO_CHAR(APPT.STAT_CODE = TO_CHAR(SC.CODE_ID)
+					AND TO_CHAR(APPT.STAT_CODE) = TO_CHAR(SC.CODE_ID)
 					AND APPT.STAT_CODE = '$codigo'";
 
 		$result = $this->db->query($sql);
@@ -449,5 +449,61 @@ class Centroalertas_model extends CI_Model{
 		else{
 			return $this->db->error();
 		}
+	}
+	public function reprocesarCITA($citas){
+		foreach ($citas as $key) {
+			$sql1 = "UPDATE INPT_APPT_SCHED, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE APPT_NBR = '$key->APPT_NBR'";
+			$sql2 = "UPDATE INPT_ASN_HDR, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE REF_FIELD_1 = '$key->APPT_NBR'";
+			$sql3 = "UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR
+					 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
+			$sql4 = "UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR
+					 INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
+			$sql5 = "UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR
+					 FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
+			$sql6 = "UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR IN(SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
+			$sql7 = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR
+					 WHERE REF_FIELD_1 = '$key->APPT_NBR')";
+
+			for ($i=1; $i <=7 ; $i++) { 
+				$result = $this->db->query($sql.''.$i);
+
+				if(!$result){
+					break;
+					return 1;
+				}	 	
+			}		 
+ 
+		}
+		return 0;
+	}
+	//falta funcion eliminar cita
+
+	public function erroresASN(){
+		$sql = "SELECT
+					A.SHPMT_NBR,
+					B.MSG AS MSG_SHPMT,
+					C.SIZE_DESC,
+					D.MSG AS MSG_SKU
+				FROM 
+					INPT_ASN_HDR A,
+					MSG_LOG B,
+					INPT_ASN_DTL C,
+					MSG_LOG D,
+				WHERE
+					TO_cHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+)
+					AND A.SHPMT_NBR = C.SHPMT_NBR(+)
+					AND TO TO_cHAR(C.ERROR_SEQ_NBR = D.REF_VALUE_1(+)
+					AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0)";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		} 
 	}
 }

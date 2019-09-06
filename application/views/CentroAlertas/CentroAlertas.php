@@ -214,6 +214,20 @@
             </div>
             <a id="CITADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
           </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="ASNBox">
+            <div class="inner">
+              <a id="ASNBajados"><h3 id="nASN">0</h3></a>
+
+              <p>ASN BAJADOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconASN" class="ion ion-clipboard"></i>
+            </div>
+            <a id="ASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
         </div>   
       </div>
       <!-- /.row -->
@@ -274,6 +288,11 @@
 <div id="POPUP_Resumen_codCITA" class="grid">
   <div id="gridCodCITA"></div>
 </div>
+<div id="POPUP_Detalle_CITA" class="grid">
+  <div id="toolbarCITA"></div>
+  <div id="gridDetCITA"></div>
+</div>
+
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -383,6 +402,7 @@
   var runningOLA = 0;
   var stopedCITA = 0;
   var runningCITA = 0;
+  var codigo = "";
 </script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/centroalertas.js">
 </script>
