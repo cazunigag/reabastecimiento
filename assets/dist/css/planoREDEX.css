@@ -1,0 +1,246 @@
+.estanteria:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .palletrackA:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .recepcion:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .embarques:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .dadomicilio:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .rackextanchC:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .rackextanchB:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .recepcolgados:hover{
+    cursor: pointer;
+    background-color: grey;
+    background: repeating-linear-gradient(
+      -45deg,
+      grey,
+      grey 10px,
+      #ffffff 10px,
+      #ffffff 20px
+    );
+  }
+  .palletrackA{
+    position: absolute;
+    width: 370px;
+    height: 195px;
+    left: 760px;
+    top: 300px;
+    background-color: lightgreen;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 195px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      lightblue,
+      lightblue 10px,
+      #e6f7ff 10px,
+      #e6f7ff  20px
+    );
+  }
+  .recepcion{
+    position: absolute;
+    width: 370px;
+    height: 70px;
+    left: 760px;
+    top: 510px;
+    background-color: yellow;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      yellow,
+      yellow 10px,
+      #ffffe6 10px,
+      #ffffe6  20px
+    );
+  }
+  .rackextanchC{
+    position: absolute;
+    width: 370px;
+    height: 90px;
+    left: 370px;
+    top: 200px;
+    background-color: orange;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      orange,
+      orange 10px,
+      #fff5e6 10px,
+      #fff5e6 20px
+    );
+  }
+  .rackextanchB{
+    position: absolute;
+    width: 370px;
+    height: 90px;
+    left: 370px;
+    top: 100px;
+    background-color: #cc9900;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      #cc9900,
+      #cc9900 10px,
+      #fff9e6 10px,
+      #fff9e6  20px
+    );
+  }
+  .embarques{
+    position: absolute;
+    width: 370px;
+    height: 70px;
+    left: 370px;
+    top: 510px;
+    background-color: red;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      red,
+      red 10px,
+      #ffe6e6 10px,
+      #ffe6e6  20px
+    );
+  }
+  .dadomicilio{
+    position: absolute;
+    writing-mode: tb-rl;
+    width: 70px;
+    height: 250px;
+    left: 290px;
+    top: 330px;
+    background-color: #d477d4;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    font-size: 20;
+    background: repeating-linear-gradient(
+      -45deg,
+      #d477d4,
+      #d477d4 10px,
+      #993399 10px,
+      #993399  20px
+    );
+  }
+  .recepcolgados{
+    overflow: auto;
+    position: absolute;
+    writing-mode: tb-rl;
+    width: 70px;
+    height: 250px;
+    left: 290px;
+    top: 70px;
+    background-color: #ff66ff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    font-size: 20;
+    background: repeating-linear-gradient(
+      -45deg,
+      #ff66ff,
+      #ff66ff 10px,
+      #ffe6ff 10px,
+      #ffe6ff  20px
+    );
+  }
+  .estanteria{
+    position: absolute;
+    width: 270px;
+    height: 70px;
+    left: 760px;
+    top: 220px;
+    background-color: lightgreen;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    font-size: 24;
+    background: repeating-linear-gradient(
+      -45deg,
+      lightgreen,
+      lightgreen 10px,
+      #ddffcc 10px,
+      #ddffcc 20px
+    );
+  }
+  span:hover{
+    cursor: pointer;
+  }
