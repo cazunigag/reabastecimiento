@@ -116,3 +116,12 @@ $route['alertas/errores/cantCITA'] = "centroAlertas/centroAlertas/cantErroresCIT
 $route['alertas/cita/totCITA'] = "centroAlertas/centroAlertas/totCITASBajadas";
 $route['alertas/cita/resumen'] = "centroAlertas/centroAlertas/resumenCITA";
 $route['alertas/cita/resumenCod'] = "centroAlertas/centroAlertas/detCodCITA";
+$route['alertas/cita/actualizar'] = "centroAlertas/centroAlertas/reprocesarCITA";
+$route['alertas/cita/eliminar'] = "centroAlertas/centroAlertas/eliminarCITA";
+
+$route['alertas/errores/ASN'] =  "centroAlertas/centroAlertas/erroresASN";
+$route['alertas/errores/cantASN'] =  "centroAlertas/centroAlertas/cantErroresASN";
+$route['alertas/asn/totASN'] =  "centroAlertas/centroAlertas/totASNBajados";
+$route['alertas/asn/resumen'] =  "centroAlertas/centroAlertas/resumenASN";
+$route['alertas/asn/resumencod'] =  "centroAlertas/centroAlertas/detCodASN";
+$route['alertas/asn/eliminar'] =  "centroAlertas/centroAlertas/eliminarASN";

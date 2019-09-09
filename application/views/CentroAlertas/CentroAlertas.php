@@ -292,6 +292,16 @@
   <div id="toolbarCITA"></div>
   <div id="gridDetCITA"></div>
 </div>
+<div id="POPUP_Resumen_ASN" class="grid">
+  <div id="gridResASN"></div>
+</div>
+<div id="POPUP_Resumen_codASN" class="grid">
+  <div id="gridRescodASN"></div>
+</div>
+<div id="POPUP_Detalle_ASN" class="grid">
+  <div id="toolbarASN"></div>
+  <div id="gridDetASN"></div>
+</div>
 
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
@@ -402,7 +412,10 @@
   var runningOLA = 0;
   var stopedCITA = 0;
   var runningCITA = 0;
-  var codigo = "";
+  var stopedASN = 0;
+  var runningASN = 0;
+  var codigoASN = "";
+  var codigoCITA = "";
 </script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/centroalertas.js">
 </script>

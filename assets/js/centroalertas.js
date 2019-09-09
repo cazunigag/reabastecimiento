@@ -5,12 +5,14 @@ $(document).ready(function(){
     actualizarAlertaART();
     actualizarAlertaOLA();
     actualizarAlertaCITA();
+    actualizarAlertaASN();
 
     var pkts = [];
     var pos = [];
     var brcds = [];
     var arts = [];
     var citas = [];
+    var asns = [];
 
     //FUNCIONALIDADES ALERTA PKT
 
@@ -1272,7 +1274,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             url: baseURL + 'alertas/errores/CITA',
-            data: {codigo: codigo},
+            data: {codigoCITA: codigoCITA},
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1282,11 +1284,11 @@ $(document).ready(function(){
             }
         });
     }
-     function onReadCodCITA(e){
+    function onReadCodCITA(e){
         $.ajax({
             type: "POST",
             url: baseURL + 'alertas/cita/resumenCod',
-            data: {codigo: codigo},
+            data: {codigoCITA: codigoCITA},
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1340,6 +1342,7 @@ $(document).ready(function(){
                     buttonCount: 5
         },
         columns: [ // Columnas a Listar
+            {selectable: true, width: "15px" },
             {field: "APPT_NBR",title: "NUMERO CITA",width: 90, filterable:false, resizable:false, height: 80},
             {field: "SHPMT_NBR",title: "ASN",width:70,filterable:false},
             {field: "CREATE_DATE_TIME",title: "FECHA CREACION",width:70,filterable: false},
@@ -1371,21 +1374,21 @@ $(document).ready(function(){
         var grid = $("#gridResCITA").data("kendoGrid");
         var column = grid.columns[0];
         var dataItem = grid.dataItem(cell.closest("tr"));
-        codigo = dataItem[column.field];
-        var popupresumenola = $("#POPUP_Resumen_codCITA");
-        popupresumenola.data("kendoWindow").open();
+        codigoCITA = dataItem[column.field];
+        var popupresumencodcita = $("#POPUP_Resumen_codCITA");
+        popupresumencodcita.data("kendoWindow").open();
         var grid = $("#gridCodCITA");
         grid.data("kendoGrid").dataSource.read();
     });
 
     $("#CITASBajadas").click(function(){
-        var popupresumenola = $("#POPUP_Resumen_CITA");
-        popupresumenola.data("kendoWindow").open();
+        var popupresumencita = $("#POPUP_Resumen_CITA");
+        popupresumencita.data("kendoWindow").open();
         var grid = $("#gridResCITA");
         grid.data("kendoGrid").dataSource.read();
     });
-    var ventana_resumen_ola = $("#POPUP_Resumen_CITA");
-    ventana_resumen_ola.kendoWindow({
+    var ventana_resumen_cita = $("#POPUP_Resumen_CITA");
+    ventana_resumen_cita.kendoWindow({
         width: "750px",
         height: "550px",
         title: "Resumen Citas Bajadas",
@@ -1399,13 +1402,13 @@ $(document).ready(function(){
 
     $("#CITADetalles").click(function(){
         actualizarAlertaCITA();
-        var popupresumenola = $("#POPUP_Detalle_CITA");
-        popupresumenola.data("kendoWindow").open();
+        var popupdetallecita = $("#POPUP_Detalle_CITA");
+        popupdetallecita.data("kendoWindow").open();
         var grid = $("#gridDetCITA");
         grid.data("kendoGrid").dataSource.read();
     });
-    var ventana_resumen_ola = $("#POPUP_Detalle_CITA");
-    ventana_resumen_ola.kendoWindow({
+    var ventana_detalle_cita = $("#POPUP_Detalle_CITA");
+    ventana_detalle_cita.kendoWindow({
         width: "750px",
         height: "550px",
         title: "Detalle Errores Cita",
@@ -1417,8 +1420,8 @@ $(document).ready(function(){
         ]
     }).data("kendoWindow").center();
 
-    var ventana_resumen_ola = $("#POPUP_Resumen_codCITA");
-    ventana_resumen_ola.kendoWindow({
+    var ventana_resumen_codCita = $("#POPUP_Resumen_codCITA");
+    ventana_resumen_codCita.kendoWindow({
         width: "750px",
         height: "550px",
         title: "Resumen Codigo Estado Cita",
@@ -1497,25 +1500,25 @@ $(document).ready(function(){
         ]
     });
     function ActualizarCITA(){
-        var data = JSON.stringify(pkts);
-        if(Array.isArray(pkts) && pkts.length != 0){
+        var data = JSON.stringify(citas);
+        if(Array.isArray(citas) && citas.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/pkt/actualizar',
-                data:{ pkts: data},
+                url: baseURL + 'alertas/cita/actualizar',
+                data:{ citas: data},
                 dataType: 'json',
                 success: function(result){
                     if(result == 0){                       
-                        var popupdetallepkt = $("#POPUP_Detalle_PKT");
-                        popupdetallepkt.data("kendoWindow").close();
-                        $("#success-modal").text("Pick Ticket Actualizado Correctamente");
+                        var popupdetallecita = $("#POPUP_Detalle_CITA");
+                        popupdetallecita.data("kendoWindow").close();
+                        $("#success-modal").text("Cita Actualizada Correctamente");
                         $("#modal-success").modal('show');
                         actualizarAlertaPKT();
                     }
                     else{
-                        var popupdetallepkt = $("#POPUP_Detalle_PKT");
-                        popupdetallepkt.data("kendoWindow").close();
-                        $("#error-modal").text("Error al actualizar Pick Ticket");
+                        var popupdetallecita = $("#POPUP_Detalle_CITA");
+                        popupdetallecita.data("kendoWindow").close();
+                        $("#error-modal").text("Error al actualizar Cita");
                         $("#modal-danger").modal('show');
                     }
                 },
@@ -1525,34 +1528,34 @@ $(document).ready(function(){
             });
         }
         else{;
-            var popupdetallepkt = $("#POPUP_Detalle_PKT");
-            popupdetallepkt.data("kendoWindow").close();
-            $("#error-modal").text("Debe seleccionar al menos un Pick Ticket para actualizar");
+            var popupdetallecita = $("#POPUP_Detalle_CITA");
+            popupdetallecita.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos una Cita para actualizar");
             $("#modal-danger").modal('show');
         }
     }
     function EliminarCITA(){
-        if(Array.isArray(pkts) && pkts.length != 0){
-            var data = JSON.stringify(pkts);
-            var ok = confirm("Esta seguro que desea eliminar estos Pick Ticket?");
+        if(Array.isArray(citas) && citas.length != 0){
+            var data = JSON.stringify(citas);
+            var ok = confirm("Esta seguro que desea eliminar estas Citas?");
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/pkt/eliminar',
-                    data:{ pkts: data},
+                    url: baseURL + 'alertas/cita/eliminar',
+                    data:{ citas: data},
                     dataType: 'json',
                     success: function(result){
                         if(result == 0){
-                            var popupdetallepkt = $("#POPUP_Detalle_PKT");
-                            popupdetallepkt.data("kendoWindow").close();
-                            $("#success-modal").text("Pick Ticket Eliminado Correctamente");
+                            var popupdetallecita = $("#POPUP_Detalle_CITA");
+                            popupdetallecita.data("kendoWindow").close();
+                            $("#success-modal").text("Citas Eliminadas Correctamente");
                             $("#modal-success").modal('show');
                             actualizarAlertaPKT();
                         }
                         else{
-                            var popupdetallepkt = $("#POPUP_Detalle_PKT");
-                            popupdetallepkt.data("kendoWindow").close();
-                            $("#error-modal").text("Error al eliminar Pick Ticket");
+                            var popupdetallecita = $("#POPUP_Detalle_CITA");
+                            popupdetallecita.data("kendoWindow").close();
+                            $("#error-modal").text("Error al eliminar Citas");
                             $("#modal-danger").modal('show');
                         }
                     },
@@ -1562,53 +1565,104 @@ $(document).ready(function(){
                 });
             }
             else{
-                var popupdetallepkt = $("#POPUP_Detalle_PKT");
-                popupdetallepkt.data("kendoWindow").close();
+                var popupdetallecita = $("#POPUP_Detalle_CITA");
+                popupdetallecita.data("kendoWindow").close();
                 $("#modal-info").modal('show');
             }
         }    
         else{
-            console.log(pkts);
-            var popupdetallepkt = $("#POPUP_Detalle_PKT");
-            popupdetallepkt.data("kendoWindow").close();
-            $("#error-modal").text("Debe seleccionar al menos un pick ticket para eliminar");
+            console.log(citas);
+            var popupdetallecita = $("#POPUP_Detalle_CITA");
+            popupdetallecita.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos una cita para eliminar");
             $("#modal-danger").modal('show');
         }  
     }
 
     //FUNCIONALIDADES ALERTA ASN
 
-    function intermitenciaCITA(){
-      $("#CITABox").toggleClass("bg-green");
-      $("#CITABox").toggleClass("bg-red");
-      $("#iconCITA").toggleClass("ion-clipboard");
-      $("#iconCITA").toggleClass("ion-android-alert");
-      if(stopedCITA == 0){
-         runningCITA = 1;
-         setTimeout(intermitenciaCITA, 500);
+
+    var dataSourceResASN = new kendo.data.DataSource({
+        transport: {
+            read: onReadResASN
+        },
+        schema: {
+            model: {
+                id: "STAT_CODE",
+                fields: {
+                        STAT_CODE: {type: "string"},
+                        CODE_DESC: {type: "string"}, // number - string - date
+                        ASNS: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    var dataSourceResCodASN = new kendo.data.DataSource({
+        transport: {
+            read: onReadResCodASN
+        },
+        schema: {
+            model: {
+                id: "SHPMT_NBR",
+                fields: {
+                        SHPMT_NBR: {type: "string"}, // number - string - date
+                        REF_FIELD_1: {type: "string"},
+                        STAT_CODE: {type: "string"},
+                        CODE_DESC: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    var dataSourceDetASN = new kendo.data.DataSource({
+        transport: {
+            read: onReadDetASN
+        },
+        schema: {
+            model: {
+                id: "SHPMT_NBR",
+                fields: {
+                        SHPMT_NBR: {type: "string"}, // number - string - date
+                        MSG_SHPMT: {type: "string"},
+                        SIZE_DESC: {type: "string"},
+                        MSG_SKU: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    function intermitenciaASN(){
+      $("#ASNBox").toggleClass("bg-green");
+      $("#ASNBox").toggleClass("bg-red");
+      $("#iconASN").toggleClass("ion-clipboard");
+      $("#iconASN").toggleClass("ion-android-alert");
+      if(stopedASN == 0){
+         runningASN = 1;
+         setTimeout(intermitenciaASN, 500);
       }
       else{
-        stopCITA();
+        stopASN();
       }
     }
-    function actualizarAlertaCITA(){
+    function actualizarAlertaASN(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantCITA',
+            url: baseURL + 'alertas/errores/cantASN',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
-                    if(runningCITA == 0){
-                        stopedCITA = 0;
-                        intermitenciaCITA();
+                    if(runningASN == 0){
+                        stopedASN = 0;
+                        intermitenciaASN();
                         
                     }
-                    setTimeout(actualizarAlertaCITA, 600000);
+                    setTimeout(actualizarAlertaASN, 600000);
                 }else{
-                    setTimeout(actualizarAlertaCITA, 600000);
-                    if(stopedCITA == 0 && runningCITA == 1){
-                        runningCITA = 0;
-                        stopedCITA = 1
+                    setTimeout(actualizarAlertaASN, 600000);
+                    if(stopedASN == 0 && runningASN == 1){
+                        runningASN = 0;
+                        stopedASN = 1
                     }
                 }
 
@@ -1619,11 +1673,11 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/cita/totCITA',
+            url: baseURL + 'alertas/asn/totASN',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
-                    $("#nCITA").html(element.TOT);  
+                    $("#nASN").html(element.TOT);  
                 });
             },
             error: function(result){
@@ -1631,12 +1685,269 @@ $(document).ready(function(){
             }
         });
     }
-    function stopCITA(){
-        $("#CITABox").removeClass("bg-green");
-        $("#CITABox").removeClass("bg-red");
-        $("#iconCITA").removeClass("ion-clipboard");
-        $("#iconCITA").removeClass("ion-android-alert"); 
-        $("#CITABox").addClass("bg-green");
-        $("#iconCITA").addClass("ion-clipboard");
+    function stopASN(){
+        $("#ASNBox").removeClass("bg-green");
+        $("#ASNBox").removeClass("bg-red");
+        $("#iconASN").removeClass("ion-clipboard");
+        $("#iconASN").removeClass("ion-android-alert"); 
+        $("#ASNBox").addClass("bg-green");
+        $("#iconASN").addClass("ion-clipboard");
+    }
+    $("#gridResASN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceResASN,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "STAT_CODE",title: "CODIGO ESTADO",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "CODE_DESC",title: "DESCRIPCION",width:70,filterable:false},
+            {field: "ASNS",title: "CANTIDAD",width:70,filterable:false}
+        ]
+    }).on("click", "tbody td", function(e) {
+        var cell = $(e.currentTarget);
+        var cellIndex = cell[0].cellIndex;
+        var grid = $("#gridResASN").data("kendoGrid");
+        var column = grid.columns[0];
+        var dataItem = grid.dataItem(cell.closest("tr"));
+        codigoASN = dataItem[column.field];
+        var popupresumencodasn = $("#POPUP_Resumen_codASN");
+        popupresumencodasn.data("kendoWindow").open();
+        var grid = $("#gridRescodASN");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    $("#gridRescodASN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceResCodASN,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "SHPMT_NBR",title: "ASN",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "REF_FIELD_1",title: "NRO CITA",width:70,filterable:false},
+            {field: "STAT_CODE",title: "CODIGO ESTADO",width:70,filterable:false},
+            {field: "CODE_DESC",title: "DESC ESTADO",width:70,filterable:false}
+        ]
+    });
+    $("#gridDetASN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetASN,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        change: function (e, args) {
+                    asns = [];
+                    var rows = e.sender.select();
+                    rows.each(function(e) {
+                        var grid = $("#gridDetASN").data("kendoGrid");
+                        var item = grid.dataItem(this);
+                        asns.push({SHPMT_NBR: item.SHPMT_NBR});
+                    }) 
+        },
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {selectable: true, width: "15px" },
+            {field: "SHPMT_NBR",title: "ASN",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "MSG_SHPMT",title: "MENSAJE ASN",width:70,filterable:false},
+            {field: "SIZE_DESC",title: "SKU",width:70,filterable: false},
+            {field: "MSG_SKU",title: "MENSAJE SKU",width:70,filterable: false}
+        ]
+    });
+    $("#ASNBajados").click(function(){
+        var popupresumenasn = $("#POPUP_Resumen_ASN");
+        popupresumenasn.data("kendoWindow").open();
+        var grid = $("#gridResASN");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_resumen_asn = $("#POPUP_Resumen_ASN");
+    ventana_resumen_asn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Resumen ASN Bajados",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    var ventana_resumen_CODasn = $("#POPUP_Resumen_codASN");
+    ventana_resumen_CODasn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Resumen Codigo Estado ASN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    $("#ASNDetalles").click(function(){
+        actualizarAlertaASN();
+        var popupdetalleasn = $("#POPUP_Detalle_ASN");
+        popupdetalleasn.data("kendoWindow").open();
+        var grid = $("#gridDetASN");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_resumen_CODasn = $("#POPUP_Detalle_ASN");
+    ventana_resumen_CODasn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Detalle Error ASN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    function onReadResASN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/asn/resumen',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function onReadResCodASN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/asn/resumencod',
+            data: {codigoASN: codigoASN},
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function onReadDetASN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/errores/ASN',
+            data: {codigoASN: codigoASN},
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    $("#toolbarASN").kendoToolBar({
+        items: [
+            { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarASN},
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarASN}
+        ]
+    });
+    function ActualizarASN(){
+        var data = JSON.stringify(asns);
+        if(Array.isArray(asns) && asns.length != 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + 'alertas/cita/actualizar',
+                data:{ asns: data},
+                dataType: 'json',
+                success: function(result){
+                    if(result == 0){                       
+                        var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                        popupdetalleasn.data("kendoWindow").close();
+                        $("#success-modal").text("ASN Actualizada Correctamente");
+                        $("#modal-success").modal('show');
+                        actualizarAlertaPKT();
+                    }
+                    else{
+                        var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                        popupdetalleasn.data("kendoWindow").close();
+                        $("#error-modal").text("Error al actualizar ASN");
+                        $("#modal-danger").modal('show');
+                    }
+                },
+                error: function(xhr){
+                    console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            });
+        }
+        else{;
+            var popupdetalleasn = $("#POPUP_Detalle_ASN");
+            popupdetalleasn.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un ASN para actualizar");
+            $("#modal-danger").modal('show');
+        }
+    }
+    function EliminarASN(){
+        if(Array.isArray(asns) && asns.length != 0){
+            var data = JSON.stringify(asns);
+            var ok = confirm("Esta seguro que desea eliminar estos ASN?");
+            if(ok){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + 'alertas/cita/eliminar',
+                    data:{ asns: data},
+                    dataType: 'json',
+                    success: function(result){
+                        if(result == 0){
+                            var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                            popupdetalleasn.data("kendoWindow").close();
+                            $("#success-modal").text("ASN Eliminadas Correctamente");
+                            $("#modal-success").modal('show');
+                            actualizarAlertaPKT();
+                        }
+                        else{
+                            var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                            popupdetalleasn.data("kendoWindow").close();
+                            $("#error-modal").text("Error al eliminar ASN");
+                            $("#modal-danger").modal('show');
+                        }
+                    },
+                    error: function(xhr){
+                        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                    }
+                });
+            }
+            else{
+                var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                popupdetalleasn.data("kendoWindow").close();
+                $("#modal-info").modal('show');
+            }
+        }    
+        else{
+            console.log(asns);
+            var popupdetalleasn = $("#POPUP_Detalle_ASN");
+            popupdetalleasn.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un ASN para eliminar");
+            $("#modal-danger").modal('show');
+        }  
     }
 });

@@ -109,7 +109,35 @@ class CentroAlertas extends CI_Controller{
 		echo $this->Centroalertas_model->resumenCITA();
 	}
 	public function detCodCITA(){
-		$codigo = $this->input->post('codigo');
+		$codigo = $this->input->post('codigoCITA');
 		echo $this->Centroalertas_model->detCodCITA($codigo);
+	}
+	public function reprocesarCITA(){
+		$citas = json_decode($this->input->post('citas'));
+		echo $this->Centroalertas_model->reprocesarCITA($citas);
+	}
+	public function eliminarCITA(){
+		$citas = json_decode($this->input->post('citas'));
+		echo $this->Centroalertas_model->eliminarCITA($citas);
+	}
+	public function erroresASN(){
+		echo $this->Centroalertas_model->erroresASN();
+	}
+	public function cantErroresASN(){
+		echo sizeof(json_decode($this->Centroalertas_model->erroresASN()));
+	}
+	public function totASNBajados(){
+		echo $this->Centroalertas_model->totASNBajados();
+	}
+	public function resumenASN(){
+		echo $this->Centroalertas_model->resumenASN();
+	}
+	public function detCodASN(){
+		$codigo = $this->input->post('codigoASN');
+		echo $this->Centroalertas_model->detCodASN($codigo);
+	}
+	public function eliminarASN(){
+		$asns = json_decode($this->input->post('asns'));
+		echo $this->Centroalertas_model->eliminarCITA($asns);
 	}
 }
