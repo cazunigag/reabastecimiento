@@ -13,6 +13,29 @@ class CentroAlertas extends CI_Controller{
 	public function index(){
 		$this->load->view('CentroAlertas/CentroAlertas');
 	}
+	public function JiraAPI(){
+		$base64_usrpsw = base64_encode("jasilva@ripley.com:tono1963");
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 'http://ripleycl.atlassian.net/rest/api/2/issue/createmeta');
+		//curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/rest/api/2/issue/');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		/*curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Basic '.$base64_usrpsw));
+
+		$arr['project'] = array('id' => '10210');
+		$arr['summary'] = "TEST";
+		$arr['description'] = "TEST TEST";
+		$arr['issuetype'] = array('name' => "Tarea");
+
+		$json_arr['fields'] = $arr;
+
+		$json_string = json_encode($json_arr);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_string);*/
+		$result = curl_exec($ch);
+		curl_close($ch);
+		var_dump($result);
+	}
 	public function erroresPKT(){
 		echo $this->Centroalertas_model->erroresPKT();
 	}
@@ -138,6 +161,10 @@ class CentroAlertas extends CI_Controller{
 	}
 	public function eliminarASN(){
 		$asns = json_decode($this->input->post('asns'));
-		echo $this->Centroalertas_model->eliminarCITA($asns);
+		echo $this->Centroalertas_model->eliminarASN($asns);
+	}
+	public function reprocesarASN(){
+		$asns = json_decode($this->input->post('asns'));
+		echo $this->Centroalertas_model->reprocesarASN($asns);
 	}
 }

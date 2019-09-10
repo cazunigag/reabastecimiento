@@ -466,7 +466,7 @@ class Centroalertas_model extends CI_Model{
 					 WHERE REF_FIELD_1 = '$key->APPT_NBR')";
 
 			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.''.$i);
+				$result = $this->db->query($sql.$i);
 
 				if(!$result){
 					break;
@@ -489,7 +489,7 @@ class Centroalertas_model extends CI_Model{
 			$sql6 = "DELETE INPT_APPT_SCHED WHERE  APPT_NBR = '$key->APPT_NBR'";
 
 			for ($i=1; $i <=6 ; $i++) { 
-				$result = $this->db->query($sql.''.$i);
+				$result = $this->db->query($sql.$i);
 
 				if(!$result){
 					break;
@@ -598,23 +598,20 @@ class Centroalertas_model extends CI_Model{
 			return $this->db->error();
 		}
 	}
-	/*public function reprocesarASN($asns){
+	public function reprocesarASN($asns){
 		foreach ($asns as $key) {
-			$sql1 = "UPDATE INPT_APPT_SCHED, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE APPT_NBR = '$key->APPT_NBR'";
-			$sql2 = "UPDATE INPT_ASN_HDR, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE REF_FIELD_1 = '$key->APPT_NBR'";
-			$sql3 = "UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR
-					 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql4 = "UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR
-					 INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql5 = "UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR
-					 FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
+			$sql1 = "UPDATE INPT_APPT_SCHED SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
+			$sql2 = "UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
+			$sql3 = "UPDATE INPT_ASN_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
+			$sql4 = "UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR'";
+			$sql5 = "UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')";
 			$sql6 = "UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
-					 WHERE ORIG_SHPMT_NBR IN(SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
-			$sql7 = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR
-					 WHERE REF_FIELD_1 = '$key->APPT_NBR')";
+					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')";
+			$sql7 = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
 
 			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.''.$i);
+				$result = $this->db->query($sql.$i);
 
 				if(!$result){
 					break;
@@ -623,7 +620,7 @@ class Centroalertas_model extends CI_Model{
 			}		 
 		}
 		return 0;
-	}*/
+	}
 	public function eliminarASN($asns){
 		foreach ($asns as $key) {
 			$sql1 = "DELETE FROM INPT_CASE_LOCK WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR'))";
@@ -635,7 +632,7 @@ class Centroalertas_model extends CI_Model{
 			$sql7 = "DELETE FROM INPT_STORE_DISTRO WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')";
 
 			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.''.$i);
+				$result = $this->db->query($sql.$i);
 
 				if(!$result){
 					break;

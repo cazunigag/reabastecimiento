@@ -124,4 +124,5 @@ $route['alertas/errores/cantASN'] =  "centroAlertas/centroAlertas/cantErroresASN
 $route['alertas/asn/totASN'] =  "centroAlertas/centroAlertas/totASNBajados";
 $route['alertas/asn/resumen'] =  "centroAlertas/centroAlertas/resumenASN";
 $route['alertas/asn/resumencod'] =  "centroAlertas/centroAlertas/detCodASN";
+$route['alertas/asn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarASN";
 $route['alertas/asn/eliminar'] =  "centroAlertas/centroAlertas/eliminarASN";

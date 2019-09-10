@@ -1876,7 +1876,7 @@ $(document).ready(function(){
         if(Array.isArray(asns) && asns.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/cita/actualizar',
+                url: baseURL + 'alertas/asn/actualizar',
                 data:{ asns: data},
                 dataType: 'json',
                 success: function(result){
@@ -1913,7 +1913,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/cita/eliminar',
+                    url: baseURL + 'alertas/asn/eliminar',
                     data:{ asns: data},
                     dataType: 'json',
                     success: function(result){
