@@ -451,45 +451,48 @@ class Centroalertas_model extends CI_Model{
 		}
 	}
 	public function reprocesarCITA($citas){
-		foreach ($citas as $key) {
-			$sql1 = "UPDATE INPT_APPT_SCHED, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE APPT_NBR = '$key->APPT_NBR'";
-			$sql2 = "UPDATE INPT_ASN_HDR, SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE REF_FIELD_1 = '$key->APPT_NBR'";
-			$sql3 = "UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR
-					 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql4 = "UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR
-					 INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql5 = "UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR
-					 FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
-			$sql6 = "UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
-					 WHERE ORIG_SHPMT_NBR IN(SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
-			$sql7 = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR
-					 WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-
-			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.$i);
+				 
+		foreach ($citas as $key) {	
+			$sql =  array(
+						"UPDATE INPT_APPT_SCHED SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE APPT_NBR = '$key->APPT_NBR'",
+						"UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE REF_FIELD_1 = '$key->APPT_NBR'",
+						"UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR
+						 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')",
+						"UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM
+						 INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')",
+						"UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR
+						 FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))",
+						"UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+						 WHERE ORIG_SHPMT_NBR IN(SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))",
+				 		"UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR
+						 WHERE REF_FIELD_1 = '$key->APPT_NBR')"
+			);		 	
+			foreach ($sql as $key2) {
+				$result = $this->db->query($key2);
 
 				if(!$result){
 					break;
 					return 1;
 				}	 	
-			}		 
- 
+			}
 		}
 		return 0;
 	}
 	public function eliminarCITA($citas){
 		foreach ($citas as $key) {
-			$sql1 = "DELETE INPT_CASE_LOCK WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ( SELECT SHPMT_NBR
-					 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
-			$sql2 = "DELETE INPT_CASE_DTL WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR
-					 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))";
-			$sql3 = "DELETE INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql4 = "DELETE INPT_ASN_DTL WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')";
-			$sql5 = "DELETE INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'";
-			$sql6 = "DELETE INPT_APPT_SCHED WHERE  APPT_NBR = '$key->APPT_NBR'";
-
-			for ($i=1; $i <=6 ; $i++) { 
-				$result = $this->db->query($sql.$i);
+			$sql =  array(
+						"DELETE INPT_CASE_LOCK WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ( SELECT SHPMT_NBR
+					 	 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))",
+						"DELETE INPT_CASE_DTL WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR
+					 	 FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'))",
+			 			"DELETE INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')",
+						"DELETE INPT_ASN_DTL WHERE SHPMT_NBR IN (SELECT SHPMT_NBR FROM INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR')",
+			 			"DELETE INPT_ASN_HDR WHERE REF_FIELD_1 = '$key->APPT_NBR'",
+			 			"DELETE INPT_APPT_SCHED WHERE  APPT_NBR = '$key->APPT_NBR'"
+			);
+			 				
+			foreach($sql as $key2){
+				$result = $this->db->query($key2);
 
 				if(!$result){
 					break;
@@ -600,18 +603,20 @@ class Centroalertas_model extends CI_Model{
 	}
 	public function reprocesarASN($asns){
 		foreach ($asns as $key) {
-			$sql1 = "UPDATE INPT_APPT_SCHED SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
-			$sql2 = "UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
-			$sql3 = "UPDATE INPT_ASN_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
-			$sql4 = "UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR'";
-			$sql5 = "UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
-					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')";
-			$sql6 = "UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
-					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')";
-			$sql7 = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'";
+			$sql = array(
+					"UPDATE INPT_APPT_SCHED SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'",
+					"UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'",
+					"UPDATE INPT_ASN_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'",
+					"UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR'",
+					"UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')",
+					"UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')",
+					"UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'"
+			);		
+			foreach ($variable as $key => $value) {
 
-			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.$i);
+				$result = $this->db->query($key2);
 
 				if(!$result){
 					break;
@@ -623,14 +628,15 @@ class Centroalertas_model extends CI_Model{
 	}
 	public function eliminarASN($asns){
 		foreach ($asns as $key) {
-			$sql1 = "DELETE FROM INPT_CASE_LOCK WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR'))";
-			$sql2 = "DELETE FROM INPT_CASE_DTL WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR'))";
-			$sql3 = "DELETE FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR')";
-			$sql4 = "DELETE FROM INPT_ASN_HDR WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')";
-			$sql5 = "DELETE FROM INPT_ASN_DTL WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')";
-			$sql6 = "DELETE FROM INPT_APPT_SCHED WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')";
-			$sql7 = "DELETE FROM INPT_STORE_DISTRO WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')";
-
+			$sql = array(
+					"DELETE FROM INPT_CASE_LOCK WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR'))",
+					"DELETE FROM INPT_CASE_DTL WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR'))",
+					"DELETE FROM INPT_CASE_HDR WHERE ORIG_SHPMT_NBR IN ('$key->SHPMT_NBR')",
+					"DELETE FROM INPT_ASN_HDR WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')",
+					"DELETE FROM INPT_ASN_DTL WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')",
+					"DELETE FROM INPT_APPT_SCHED WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')",
+					"DELETE FROM INPT_STORE_DISTRO WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')"
+			);
 			for ($i=1; $i <=7 ; $i++) { 
 				$result = $this->db->query($sql.$i);
 
@@ -639,6 +645,112 @@ class Centroalertas_model extends CI_Model{
 					return 1;
 				}	 	
 			}		 
+		}
+		return 0;
+	}
+	public function erroresLPN(){
+		$sql = "SELECT A.CASE_NBR, B.MSG AS MSG_LPN, C.SIZE_DESC, D.MSG AS MSG_SKU FROM INPT_CASE_HDR A, MSG_LOG B, INPT_CASE_DTL C, MSG_LOG D 
+		   		WHERE TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+) AND A.CASE_NBR = C.CASE_NBR(+) AND TO_CHAR(C.ERROR_SEQ_NBR) = D.REF_VALUE_1(+)
+		   		AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0)";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+		  return $this->db->error();
+		}
+	}
+	public function totLPNBajados(){
+		$sql = "SELECT COUNT(*) AS TOT FROM CASE_HDR WHERE TRUNC(CREATE_DATE_TIME) = TRUNC(SYSDATE)";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function resumenLPN(){
+		$sql = "SELECT
+					CH.STAT_CODE,
+					SC.CODE_DESC,
+					COUNT(*) AS CANTDAD_LPN
+				FROM
+					CASE_HDR CH,
+					SYS_CODE SC
+				WHERE 
+					TRUNC(CH.CREATE_DATE_TIME) = TRUNC(SYSDATE)
+					AND SC.REC_TYPE = 'S'
+					AND SC.CODE_TYPE = '509'
+					AND TO_CHAR(CH.STAT_CODE) = TO_CHAR(SC.CODE_ID)
+				GROUP BY
+					CH.STAT_CODE,
+					SC.CODE_DESC
+				ORDER BY
+					CH.STAT_CODE";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function reprocesarLPN($lpns){
+		foreach ($lpns as $key) {
+			$sql = array(
+					"UPDATE INPT_APPT_SCHED SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR
+					 WHERE CASE_NBR = '$key->CASE_NBR')",
+					"UPDATE INPT_ASN_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR
+					 WHERE CASE_NBR = '$key->CASE_NBR')",
+					"UPDATE INPT_ASN_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR
+					 WHERE CASE_NBR = '$key->CASE_NBR')",
+					"UPDATE INPT_CASE_HDR SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE ORIG_SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR
+					 WHERE CASE_NBR = '$key->CASE_NBR')",
+					"UPDATE INPT_CASE_DTL SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR WHERE CASE_NBR = '$key->CASE_NBR'))",
+					"UPDATE INPT_CASE_LOCK SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE CASE_NBR IN (SELECT CASE_NBR FROM INPT_CASE_HDR
+					 WHERE ORIG_SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR WHERE CASE_NBR = '$key->CASE_NBR'))",
+					"UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR IN (SELECT ORIG_SHPMT_NBR FROM INPT_CASE_HDR
+					 WHERE CASE_NBR = '$key->CASE_NBR')" 
+			);
+
+		
+			foreach ($sql as $key2) {
+				$result = $this->db->query($key2);
+				if(!$result){
+					break;
+					return 1;
+				}	 	
+			}
+		}
+		return 0;
+	}
+	public function eliminarLPN($lpns){
+		foreach ($lpns as $key) {
+			$sql = array(
+					"DELETE FROM INPT_CASE_HDR WHERE CASE_NBR = '$key->CASE_NBR'",
+					"DELETE FROM INPT_CASE_DTL WHERE CASE_NBR = '$key->CASE_NBR'",
+					"DELETE FROM INPT_CASE_LOCK WHERE CASE_NBR = '$key->CASE_NBR'",
+					"DELETE FROM INPT_STORE_DISTRO WHERE CASE_NBR = '$key->CASE_NBR'"
+			);
+
+			foreach ($sql as $key2) {
+				$result = $this->db->query($key2);
+				if(!$result){
+					break 2;
+					return 1;
+				}	 	
+			}
 		}
 		return 0;
 	}

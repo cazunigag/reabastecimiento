@@ -228,7 +228,21 @@
             </div>
             <a id="ASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
           </div>
-        </div>   
+        </div> 
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="LPNBox">
+            <div class="inner">
+              <a id="LPNBajados"><h3 id="nLPN">0</h3></a>
+
+              <p>LPN BAJADOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconLPN" class="ion ion-clipboard"></i>
+            </div>
+            <a id="LPNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>  
       </div>
       <!-- /.row -->
       <!-- Main row -->
@@ -301,6 +315,13 @@
 <div id="POPUP_Detalle_ASN" class="grid">
   <div id="toolbarASN"></div>
   <div id="gridDetASN"></div>
+</div>
+<div id="POPUP_Resumen_LPN" class="grid">
+  <div id="gridResLPN"></div>
+</div>
+<div id="POPUP_Detalle_LPN" class="grid">
+  <div id="toolbarLPN"></div>
+  <div id="gridDetLPN"></div>
 </div>
 
 <div class="modal modal-success fade" id="modal-success">
@@ -414,6 +435,8 @@
   var runningCITA = 0;
   var stopedASN = 0;
   var runningASN = 0;
+  var stopedLPN = 0;
+  var runningLPN = 0;
   var codigoASN = "";
   var codigoCITA = "";
 </script>

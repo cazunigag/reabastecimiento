@@ -167,4 +167,24 @@ class CentroAlertas extends CI_Controller{
 		$asns = json_decode($this->input->post('asns'));
 		echo $this->Centroalertas_model->reprocesarASN($asns);
 	}
+	public function erroresLPN(){
+		echo $this->Centroalertas_model->erroresLPN();
+	}
+	public function cantErroresLPN(){
+		echo sizeof(json_decode($this->Centroalertas_model->erroresLPN()));
+	}
+	public function totLPNBajados(){
+		echo $this->Centroalertas_model->totLPNBajados();
+	}
+	public function resumenLPN(){
+		echo $this->Centroalertas_model->resumenLPN();
+	}
+	public function reprocesarLPN(){
+		$lpns = json_decode($this->input->post('lpns'));
+		echo $this->Centroalertas_model->reprocesarLPN($lpns);
+	}
+	public function eliminarLPN(){
+		$lpns = json_decode($this->input->post('lpns'));
+		echo $this->Centroalertas_model->eliminarLPN($lpns);
+	}
 }

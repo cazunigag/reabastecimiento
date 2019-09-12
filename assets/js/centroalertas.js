@@ -6,6 +6,7 @@ $(document).ready(function(){
     actualizarAlertaOLA();
     actualizarAlertaCITA();
     actualizarAlertaASN();
+    actualizarAlertaLPN();
 
     var pkts = [];
     var pos = [];
@@ -13,6 +14,7 @@ $(document).ready(function(){
     var arts = [];
     var citas = [];
     var asns = [];
+    var lpns = [];
 
     //FUNCIONALIDADES ALERTA PKT
 
@@ -1513,7 +1515,7 @@ $(document).ready(function(){
                         popupdetallecita.data("kendoWindow").close();
                         $("#success-modal").text("Cita Actualizada Correctamente");
                         $("#modal-success").modal('show');
-                        actualizarAlertaPKT();
+                        actualizarAlertaCITA();
                     }
                     else{
                         var popupdetallecita = $("#POPUP_Detalle_CITA");
@@ -1550,7 +1552,7 @@ $(document).ready(function(){
                             popupdetallecita.data("kendoWindow").close();
                             $("#success-modal").text("Citas Eliminadas Correctamente");
                             $("#modal-success").modal('show');
-                            actualizarAlertaPKT();
+                            actualizarAlertaCITA();
                         }
                         else{
                             var popupdetallecita = $("#POPUP_Detalle_CITA");
@@ -1885,7 +1887,7 @@ $(document).ready(function(){
                         popupdetalleasn.data("kendoWindow").close();
                         $("#success-modal").text("ASN Actualizada Correctamente");
                         $("#modal-success").modal('show');
-                        actualizarAlertaPKT();
+                        actualizarAlertaASN();
                     }
                     else{
                         var popupdetalleasn = $("#POPUP_Detalle_ASN");
@@ -1922,7 +1924,7 @@ $(document).ready(function(){
                             popupdetalleasn.data("kendoWindow").close();
                             $("#success-modal").text("ASN Eliminadas Correctamente");
                             $("#modal-success").modal('show');
-                            actualizarAlertaPKT();
+                            actualizarAlertaASN();
                         }
                         else{
                             var popupdetalleasn = $("#POPUP_Detalle_ASN");
@@ -1947,6 +1949,300 @@ $(document).ready(function(){
             var popupdetalleasn = $("#POPUP_Detalle_ASN");
             popupdetalleasn.data("kendoWindow").close();
             $("#error-modal").text("Debe seleccionar al menos un ASN para eliminar");
+            $("#modal-danger").modal('show');
+        }  
+    }
+
+    //FUNCIONALIDADES ALERTA LPN
+
+    var dataSourceResLPN = new kendo.data.DataSource({
+        transport: {
+            read: onReadResLPN
+        },
+        schema: {
+            model: {
+                id: "STAT_CODE",
+                fields: {
+                        STAT_CODE: {type: "string"}, // number - string - date
+                        CODE_DESC: {type: "string"},
+                        CANTDAD_LPN: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    var dataSourceDetLPN = new kendo.data.DataSource({
+        transport: {
+            read: onReadDetLPN
+        },
+        schema: {
+            model: {
+                id: "CASE_NBR",
+                fields: {
+                        CASE_NBR: {type: "string"}, // number - string - date
+                        MSG_LPN: {type: "string"},
+                        SIZE_DESC: {type: "string"},
+                        MSG_SKU: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    function intermitenciaLPN(){
+      $("#LPNBox").toggleClass("bg-green");
+      $("#LPNBox").toggleClass("bg-red");
+      $("#iconLPN").toggleClass("ion-clipboard");
+      $("#iconLPN").toggleClass("ion-android-alert");
+      if(stopedLPN == 0){
+         runningLPN = 1;
+         setTimeout(intermitenciaLPN, 500);
+      }
+      else{
+        stopLPN();
+      }
+    }
+    function actualizarAlertaLPN(){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/errores/cantLPN',
+            dataType: 'json',
+            success: function(result){
+                if(result > 0){
+                    if(runningLPN == 0){
+                        stopedLPN = 0;
+                        intermitenciaLPN();
+                        
+                    }
+                    setTimeout(actualizarAlertaLPN, 600000);
+                }else{
+                    setTimeout(actualizarAlertaLPN, 600000);
+                    if(stopedLPN == 0 && runningLPN == 1){
+                        runningLPN = 0;
+                        stopedLPN = 1
+                    }
+                }
+
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/lpn/totLPN',
+            dataType: 'json',
+            success: function(result){
+                result.forEach(function(element){
+                    $("#nLPN").html(element.TOT);  
+                });
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function stopLPN(){
+        $("#LPNBox").removeClass("bg-green");
+        $("#LPNBox").removeClass("bg-red");
+        $("#iconLPN").removeClass("ion-clipboard");
+        $("#iconLPN").removeClass("ion-android-alert"); 
+        $("#LPNBox").addClass("bg-green");
+        $("#iconLPN").addClass("ion-clipboard");
+    }
+    $("#gridResLPN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceResLPN,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "STAT_CODE",title: "CODIGO ESTADO",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "CODE_DESC",title: "DESC ESTADO",width:70,filterable:false},
+            {field: "CANTDAD_LPN",title: "CANTIDAD LPN",width:70,filterable: false}
+        ]
+    });
+    $("#gridDetLPN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetLPN,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        change: function (e, args) {
+                    lpns = [];
+                    var rows = e.sender.select();
+                    rows.each(function(e) {
+                        var grid = $("#gridDetLPN").data("kendoGrid");
+                        var item = grid.dataItem(this);
+                        lpns.push({CASE_NBR: item.CASE_NBR});
+                    }) 
+        },
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {selectable: true, width: "15px" },
+            {field: "CASE_NBR",title: "LPN",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "MSG_LPN",title: "MENSAJE LPN",width:70,filterable:false},
+            {field: "SIZE_DESC",title: "SKU",width:70,filterable: false},
+            {field: "MSG_SKU",title: "MENSAJE SKU",width:70,filterable: false}
+        ]
+    });
+    $("#LPNBajados").click(function(){
+        var popupresumenlpn = $("#POPUP_Resumen_LPN");
+        popupresumenlpn.data("kendoWindow").open();
+        var grid = $("#gridResLPN");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_resumen_lpn = $("#POPUP_Resumen_LPN");
+    ventana_resumen_lpn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Resumen LPN Bajados",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    $("#LPNDetalles").click(function(){
+        var popupdetallelpn = $("#POPUP_Detalle_LPN");
+        popupdetallelpn.data("kendoWindow").open();
+        var grid = $("#gridDetLPN");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_detalle_lpn = $("#POPUP_Detalle_LPN");
+    ventana_detalle_lpn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Detalle Errores LPN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    function onReadResLPN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/lpn/resumen',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function onReadDetLPN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/errores/LPN',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    $("#toolbarLPN").kendoToolBar({
+        items: [
+            { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarLPN},
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarLPN}
+        ]
+    });
+    function ActualizarLPN(){
+        var data = JSON.stringify(lpns);
+        if(Array.isArray(lpns) && lpns.length != 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + 'alertas/lpn/actualizar',
+                data:{ lpns: data},
+                dataType: 'json',
+                success: function(result){
+                    if(result == 0){                       
+                        var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                        popupdetallelpn.data("kendoWindow").close();
+                        $("#success-modal").text("LPN Actualizado Correctamente");
+                        $("#modal-success").modal('show');
+                        actualizarAlertaLPN();
+                    }
+                    else{
+                        var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                        popupdetallelpn.data("kendoWindow").close();
+                        $("#error-modal").text("Error al actualizar LPN");
+                        $("#modal-danger").modal('show');
+                    }
+                },
+                error: function(xhr){
+                    console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                }
+            });
+        }
+        else{;
+            var popupdetallelpn = $("#POPUP_Detalle_LPN");
+            popupdetallelpn.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un LPN para actualizar");
+            $("#modal-danger").modal('show');
+        }
+    }
+    function EliminarLPN(){
+        if(Array.isArray(lpns) && lpns.length != 0){
+            var data = JSON.stringify(lpns);
+            var ok = confirm("Esta seguro que desea eliminar estos LPN?");
+            if(ok){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + 'alertas/lpn/eliminar',
+                    data:{ lpns: data},
+                    dataType: 'json',
+                    success: function(result){
+                        if(result == 0){
+                            var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                            popupdetallelpn.data("kendoWindow").close();
+                            $("#success-modal").text("LPN Eliminados Correctamente");
+                            $("#modal-success").modal('show');
+                            actualizarAlertaLPN();
+                        }
+                        else{
+                            var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                            popupdetallelpn.data("kendoWindow").close();
+                            $("#error-modal").text("Error al eliminar LPN");
+                            $("#modal-danger").modal('show');
+                        }
+                    },
+                    error: function(xhr){
+                        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                    }
+                });
+            }
+            else{
+                var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                popupdetallelpn.data("kendoWindow").close();
+                $("#modal-info").modal('show');
+            }
+        }    
+        else{
+            console.log(lpns);
+            var popupdetallelpn = $("#POPUP_Detalle_LPN");
+            popupdetallelpn.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un LPN para eliminar");
             $("#modal-danger").modal('show');
         }  
     }

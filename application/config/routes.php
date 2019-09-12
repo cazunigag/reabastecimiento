@@ -126,3 +126,10 @@ $route['alertas/asn/resumen'] =  "centroAlertas/centroAlertas/resumenASN";
 $route['alertas/asn/resumencod'] =  "centroAlertas/centroAlertas/detCodASN";
 $route['alertas/asn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarASN";
 $route['alertas/asn/eliminar'] =  "centroAlertas/centroAlertas/eliminarASN";
+
+$route['alertas/errores/LPN'] =  "centroAlertas/centroAlertas/erroresLPN";
+$route['alertas/errores/cantLPN'] =  "centroAlertas/centroAlertas/cantErroresLPN";
+$route['alertas/lpn/totLPN'] =  "centroAlertas/centroAlertas/totLPNBajados";
+$route['alertas/lpn/resumen'] =  "centroAlertas/centroAlertas/resumenLPN";
+$route['alertas/lpn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarLPN";
+$route['alertas/lpn/eliminar'] =  "centroAlertas/centroAlertas/eliminarLPN";
