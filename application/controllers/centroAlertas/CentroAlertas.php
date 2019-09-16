@@ -13,17 +13,19 @@ class CentroAlertas extends CI_Controller{
 	public function index(){
 		$this->load->view('CentroAlertas/CentroAlertas');
 	}
+	public function alertasWMS(){
+		$this->load->view('CentroAlertas/WMS/AlertasWMS');
+	}
 	public function JiraAPI(){
 		$base64_usrpsw = base64_encode("jasilva@ripley.com:tono1963");
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, 'http://ripleycl.atlassian.net/rest/api/2/issue/createmeta');
-		//curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/rest/api/2/issue/');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		/*curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_URL, 'http://ripleycl.atlassian.net/rest/api/2/issue/');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Basic '.$base64_usrpsw));
 
-		$arr['project'] = array('id' => '10210');
+		$arr['project'] = array('key' => 'PBW');
 		$arr['summary'] = "TEST";
 		$arr['description'] = "TEST TEST";
 		$arr['issuetype'] = array('name' => "Tarea");
@@ -31,7 +33,7 @@ class CentroAlertas extends CI_Controller{
 		$json_arr['fields'] = $arr;
 
 		$json_string = json_encode($json_arr);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_string);*/
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_string);
 		$result = curl_exec($ch);
 		curl_close($ch);
 		var_dump($result);
@@ -186,5 +188,66 @@ class CentroAlertas extends CI_Controller{
 	public function eliminarLPN(){
 		$lpns = json_decode($this->input->post('lpns'));
 		echo $this->Centroalertas_model->eliminarLPN($lpns);
+	}
+	public function erroresDISTRO(){
+		echo $this->Centroalertas_model->erroresDISTRO();
+	}
+	public function cantErroresDISTRO(){
+		echo sizeof(json_decode($this->Centroalertas_model->erroresDISTRO()));
+	}
+	public function reprocesarDISTRO(){
+		$distros = json_decode($this->input->post('distros'));
+		echo $this->Centroalertas_model->reprocesarDISTRO($distros);
+	}
+	public function eliminarDISTRO(){
+		$distros = json_decode($this->input->post('distros'));
+		echo $this->Centroalertas_model->eliminarDISTRO($distros);
+	}
+	public function erroresCARGA(){
+		echo $this->Centroalertas_model->erroresCARGA();
+	}
+	public function cantErroresCARGA(){
+		echo sizeof(json_decode($this->Centroalertas_model->erroresCARGA()));
+	}
+	public function totCARGASEnviadas(){
+		echo $this->Centroalertas_model->totCARGASEnviadas();
+	}
+	public function resumenCARGA(){
+		echo $this->Centroalertas_model->resumenCARGA();
+	}
+	public function reporcesarCARGA($cargas){
+		$proceso = 0;
+		$cargas = json_decode($this->input->post('cargas'));
+
+		foreach ($cargas as $key) {
+			switch ($key->LOAD_NBR) {
+				case '60':
+					$proceso = $this->Centroalertas_model->reporcesarCARGA60();
+					break;
+				case '79':
+					$proceso = $this->Centroalertas_model->reporcesarCARGA79();
+					break;
+				default:
+					$proceso = 1;
+					break;	
+			}
+
+			if($proceso > 0){
+				break;
+				return $proceso;
+			}
+
+		}
+		return $proceso;
+	}
+	public function erroresFASN(){
+		echo $this->Centroalertas_model->erroresFASN();
+	}
+	public function cantErroresFASN(){
+		echo sizeof(json_decode($this->Centroalertas_model->erroresFASN()));
+	}
+	public function reporcesarFASN(){
+		$fasns = json_decode($this->input->post('fasns'));
+		echo $this->Centroalertas_model->reporcesarFASN($fasns);
 	}
 }

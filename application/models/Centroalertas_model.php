@@ -5,7 +5,7 @@ class Centroalertas_model extends CI_Model{
 
 	public function __construct(){
 		$this->load->database('prodWMS');
-
+		$db2 = $this->load->database('LECLWMPROD');
 
 	}
 	public function erroresPKT(){
@@ -754,4 +754,199 @@ class Centroalertas_model extends CI_Model{
 		}
 		return 0;
 	}
-}
+	public function erroresDISTRO(){
+		$sql = "SELECT
+					A.DISTRO_NBR,
+					A.SIZE_DESC,
+					A.CREATE_DATE_TIME,
+					B.MSG
+				FROM
+					INPT_STORE_DISTRO A,
+					MSG_LOG B
+				WHERE
+					A.ERROR_SEQ_NBR > 0
+					AND TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+)";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function reprocesarDISTRO($distros){
+		foreach ($distros as $key) {
+			$sql = "UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE DISTRO_NBR = '$key->DISTRO_NBR'";
+
+			$result = $this->db->query($sql);
+
+			if(!$result){
+				break;
+				return 1;
+			}
+		}
+		return 0;
+	}
+	public function eliminarDISTRO($distros){
+		foreach ($distros as $key) {
+			$sql = "DELETE FROM INPT_STORE_DISTRO WHERE DISTRO_NBR = '$key->DISTRO_NBR'";
+
+			$result = $this->db->query($sql);
+
+			if(!$result){
+				break;
+				return 1;
+			}
+		}
+		return 0;
+	}
+	public function erroresCARGA(){
+		$sql = "SELECT
+					LOAD_NBR,
+					STAT_CODE,
+					SC.CODE_DESC,
+					TRLR_NBR
+				FROM
+					OUTBD_LOAD OL,
+					SYS_CODE SC
+				WHERE
+					STAT_CODE IN (60,79)
+					AND SC.REC_TYPE = 'S'
+					AND SC.CODE_TYPE = '843'
+					AND TO_CHAR(OL.STAT_CODE) = TO_CHAR(SC.CODE_ID)
+					AND TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE)
+					AND (TO_DATE(SYSDATE,'DD/MM/YYYY HH24:MI:SS') - TO_DATE(OL.MOD_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS')) > .013796296/2";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}			
+	}
+	public function resumenCARGA(){
+		$sql = "SELECT
+					OL.STAT_CODE,
+					SC.CODE_DESC,
+					COUNT(*) AS CANTIDAD_CARGAS
+				FROM
+					OUTBD_LOAD OL,
+					SYS_CODE SC
+				WHERE
+					TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE)
+					AND SC.REC_TYPE = 'S'
+					AND SC.CODE_TYPE = '843'
+					AND TO_cHAR(OL.STAT_CODE) = TO_CHAR(SC.CODE_ID)
+				GROUP BY
+					OL.STAT_CODE,
+					SC.CODE_DESC
+				ORDER BY
+					OL.STAT_CODE";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}			
+	}
+	public function totCARGASEnviadas(){
+		$sql = "SELECT COUNT(*) AS TOT FROM OUTBD_LOAD OL WHERE TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE) AND OL.STAT_CODE = 80";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function reporcesarCARGA60($carga){
+		$sql = "UPDATE OUTBD_LOAD SET STAT_CODE = 40 WHERE LOAD_NBR = '$carga'";
+
+		if(!$result){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	public function reporcesarCARGA79($carga, $patente){
+		$sql = array(
+			"UPDATE OUTBD_LOAD SET STAT_CODE = 40 WHERE LOAD_NBR = '$carga'",
+			"UPDATE CARTON_HDR SET STAT_CODE = 50 WHERE LOAD_NBR = '$carga' AND STAT_CODE > 20",
+			"UPDATE PKT_HDR_INTRNL SET STAT_CODE 70 WHERE PKT_CTRL_NBR IN (SELECT PKT_CTRL_NBR FROM CARTON_HDR WHERE LOAD_NBR = '$carga'
+			 AND PKT_CTRL_NBR NOT LIKE 'PER%'",
+			"UPDATE OUTBD_LOAD SET TRLR_NBR = '$patente', FIRST_LOAD_DATE_TIME = SYSDATE, LAST_LOAD_DATE_TIME = SYSDATE WHERE LOAD_NBR = '$carga'"
+		);
+
+		foreach ($sql as $key) {
+			$result = $this->db->query($key);
+				if(!$result){
+					break;
+					return 1;
+				}
+		}
+		return 0;
+	}
+	public function erroresFASN(){
+		$sql = "SELECT
+					AH.SHPMT_NBR,
+					AH.STAT_CODE,
+					TO_CHAR(AH.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') AS FECHA_CREACION,
+					TO_CHAR(AH.MOD_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') AS FECHA_MOD,
+					TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') AS FECHA_VERIFICACION,
+					AH.MANIF_NBR,
+					AH.REP_NAME,
+					AD.PO_NBR
+				FROM
+					ASN_HDR AH,
+					ASN_DTL AD
+				WHERE
+					AH.STAT_CODE = 70
+					AND AH.SHPMT_NBR = AD.SHPMT_NBR
+				GROUP BY
+					AH.SHPMT_NBR,
+					AH.STAT_CODE,
+					TO_CHAR(AH.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS'),
+					TO_CHAR(AH.MOD_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS'),
+					TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS'),
+					AH.MANIF_NBR,
+					AH.REP_NAME,
+					AD.PO_NBR";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function reporcesarFASN($fasns){
+		$db2 = $this->load->database('LECLWMPROD', TRUE);
+		foreach ($fasns as $key) {
+			$sql = "UPDATE ASN_HDR SET STAT_CODE = 90, MOD_DATE_TIME = SYSDATE, USER_ID = 'JASILVA' WHERE SHPMT_NBR = '$key->SHPMT_NBR' AND STAT_CODE = 70";
+
+			$result = $db2->query($sql);
+
+			if(!$result){
+				break;
+				return 1;
+			}
+		}
+		return 0;
+	}
+}	

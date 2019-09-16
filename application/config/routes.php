@@ -81,6 +81,8 @@ $route['locaciones/detalle/cabecera'] = "centrodistribucion/estanteria/getHeader
 $route['locaciones/detalle'] = "centrodistribucion/estanteria/getDetalleLocn";
 $route['locaciones/detalle/imagen'] = "centrodistribucion/estanteria/getImagenSku";
 //rutas Centro Alertas
+$route['alertas/wms'] = "centroAlertas/centroAlertas/alertasWMS";
+
 $route['alertas/errores/PKT'] = "centroAlertas/centroAlertas/erroresPKT";
 $route['alertas/errores/cantPKT'] = "centroAlertas/centroAlertas/cantErroresPKT";
 $route['alertas/pkt/totPKT'] = "centroAlertas/centroAlertas/totPKTBajados";
@@ -133,3 +135,18 @@ $route['alertas/lpn/totLPN'] =  "centroAlertas/centroAlertas/totLPNBajados";
 $route['alertas/lpn/resumen'] =  "centroAlertas/centroAlertas/resumenLPN";
 $route['alertas/lpn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarLPN";
 $route['alertas/lpn/eliminar'] =  "centroAlertas/centroAlertas/eliminarLPN";
+
+$route['alertas/errores/DISTRO'] =  "centroAlertas/centroAlertas/erroresDISTRO";
+$route['alertas/errores/cantDISTRO'] =  "centroAlertas/centroAlertas/cantErroresDISTRO";
+$route['alertas/distro/actualizar'] =  "centroAlertas/centroAlertas/reprocesarDISTRO";
+$route['alertas/distro/eliminar'] =  "centroAlertas/centroAlertas/eliminarDISTRO";
+
+$route['alertas/errores/CARGA'] =  "centroAlertas/centroAlertas/erroresCARGA";
+$route['alertas/errores/cantCARGA'] =  "centroAlertas/centroAlertas/cantErroresCARGA";
+$route['alertas/carga/totCARGA'] =  "centroAlertas/centroAlertas/totCARGASEnviadas";
+$route['alertas/carga/resumen'] =  "centroAlertas/centroAlertas/resumenCARGA";
+$route['alertas/carga/actualizar'] =  "centroAlertas/centroAlertas/reporcesarCARGA";
+
+$route['alertas/errores/FASN'] =  "centroAlertas/centroAlertas/erroresFASN";
+$route['alertas/errores/cantFASN'] =  "centroAlertas/centroAlertas/cantErroresFASN";
+$route['alertas/fasn/actualizar'] =  "centroAlertas/centroAlertas/reporcesarFASN";

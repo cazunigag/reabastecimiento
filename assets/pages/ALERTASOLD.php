@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Centro de Alertas</title>
+  <title>Alertas WMS</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -13,7 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
@@ -118,32 +118,183 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-  
+    <section class="content-header">
+      <h1>
+        <i class="fa fa-warning"/>  Alertas INPT</i>
+      </h1>
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <a href="<?php echo site_url('alertas/wms'); ?>">
-              <div class="widget-user-header bg-purple" id="boxWMS">
-                <div class="widget-user-image">
-                  <img class="img-circle" src="<?php echo base_url();?>assets/img/WMSLogo.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">WMS</h3>
-                <h5 class="widget-user-desc">Alertas</h5>
-              </div>
-            </a>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="pktBox">
+            <div class="inner">
+              <a id="PKTBajados"><h3 id="npkt">0</h3></a>
+
+              <p>PICK TICKET BAJADOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconPKT" class="ion ion-clipboard"></i>
+            </div>
+            <a id="pktDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
           </div>
-          <!-- /.widget-user -->
         </div>
-       
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="POBox">
+            <div class="inner">
+              <h3 id="nPO">0</h3>
+
+              <p>OC BAJADAS</p>
+            </div>
+            <div class="icon">
+              <i id="iconPO" class="ion ion-clipboard"></i>
+            </div>
+            <a id="PODetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="BRCDBox">
+            <div class="inner">
+              <h3 id="nBRCD">0</h3>
+
+              <p>CODIGOS DE BARRA (XREF)</p>
+            </div>
+            <div class="icon">
+              <i id="iconBRCD" class="ion ion-clipboard"></i>
+            </div>
+            <a id="BRCDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="ARTBox">
+            <div class="inner">
+              <h3 id="nART">0</h3>
+
+              <p>ERRORES ARTICULOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconART" class="ion ion-clipboard"></i>
+            </div>
+            <a id="ARTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
       </div>
-     
+
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="CITABox">
+            <div class="inner">
+              <a id="CITASBajadas"><h3 id="nCITA">0</h3></a>
+
+              <p>CITAS BAJADAS</p>
+            </div>
+            <div class="icon">
+              <i id="iconCITA" class="ion ion-clipboard"></i>
+            </div>
+            <a id="CITADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="ASNBox">
+            <div class="inner">
+              <a id="ASNBajados"><h3 id="nASN">0</h3></a>
+
+              <p>ASN BAJADOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconASN" class="ion ion-clipboard"></i>
+            </div>
+            <a id="ASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div> 
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="LPNBox">
+            <div class="inner">
+              <a id="LPNBajados"><h3 id="nLPN">0</h3></a>
+
+              <p>LPN BAJADOS</p>
+            </div>
+            <div class="icon">
+              <i id="iconLPN" class="ion ion-clipboard"></i>
+            </div>
+            <a id="LPNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="DISTROBox">
+            <div class="inner">
+              <h3 id="nDISTRO">0</h3>
+
+              <p>ERRORES DISTRO</p>
+            </div>
+            <div class="icon">
+              <i id="iconDISTRO" class="ion ion-clipboard"></i>
+            </div>
+            <a id="DISTROSDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>  
+      </div>
+       <div class="row">
+       <section class="content-header">
+        <h1>
+          <i class="fa fa-warning"/>  Alertas OUTPT</i>
+        </h1>
+      </section>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="CARGABox">
+            <div class="inner">
+              <a id="CARGASEjecutadas"><h3 id="nCARGA">0</h3></a>
+
+              <p>CARGAS ENVIADAS</p>
+            </div>
+            <div class="icon">
+              <i id="iconCARGA" class="ion ion-clipboard"></i>
+            </div>
+            <a id="CARGADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+       <section class="content-header">
+        <h1>
+          <i class="fa fa-warning"/>  Alertas OLA</i>
+        </h1>
+      </section>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green" id="OLABox">
+            <div class="inner">
+              <a id="OLASEjecutadas"><h3 id="nOLA">0</h3></a>
+
+              <p>OLAS EJECUTADAS</p>
+            </div>
+            <div class="icon">
+              <i id="iconOLA" class="ion ion-clipboard"></i>
+            </div>
+            <a id="OLADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+      <!-- Main row -->
           
           </div>
           <!-- /.box -->
@@ -169,6 +320,70 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
+<div id="POPUP_Detalle_PKT" class="grid">
+  <div id="toolbarPKT"></div>
+  <div id="gridDetPKT"></div>
+</div>
+<div id="POPUP_Resumen_PKT" class="grid">
+  <div id="gridResPKT"></div>
+</div>
+<div id="POPUP_Detalle_PO" class="grid">
+  <div id="toolbarPO"></div>
+  <div id="gridDetPO"></div>
+</div>
+<div id="POPUP_Detalle_BRCD" class="grid">
+  <div id="toolbarBRCD"></div>
+  <div id="gridDEtBRCD"></div>
+</div>
+<div id="POPUP_Detalle_ART" class="grid">
+  <div id="toolbarART"></div>
+  <div id="gridDEtART"></div>
+</div>
+<div id="POPUP_Detalle_OLA" class="grid">
+  <div id="gridDetOLA"></div>
+</div>
+<div id="POPUP_Resumen_OLA" class="grid">
+  <div id="gridResOLA"></div>
+</div>
+<div id="POPUP_Resumen_CITA" class="grid">
+  <div id="gridResCITA"></div>
+</div>
+<div id="POPUP_Resumen_codCITA" class="grid">
+  <div id="gridCodCITA"></div>
+</div>
+<div id="POPUP_Detalle_CITA" class="grid">
+  <div id="toolbarCITA"></div>
+  <div id="gridDetCITA"></div>
+</div>
+<div id="POPUP_Resumen_ASN" class="grid">
+  <div id="gridResASN"></div>
+</div>
+<div id="POPUP_Resumen_codASN" class="grid">
+  <div id="gridRescodASN"></div>
+</div>
+<div id="POPUP_Detalle_ASN" class="grid">
+  <div id="toolbarASN"></div>
+  <div id="gridDetASN"></div>
+</div>
+<div id="POPUP_Resumen_LPN" class="grid">
+  <div id="gridResLPN"></div>
+</div>
+<div id="POPUP_Detalle_LPN" class="grid">
+  <div id="toolbarLPN"></div>
+  <div id="gridDetLPN"></div>
+</div>
+<div id="POPUP_Detalle_DISTRO" class="grid">
+  <div id="toolbarDISTRO"></div>
+  <div id="gridDetDISTRO"></div>
+</div>
+<div id="POPUP_Resumen_CARGA" class="grid">
+  <div id="gridResCARGA"></div>
+</div>
+<div id="POPUP_Detalle_CARGA" class="grid">
+  <div id="toolbarCARGA"></div>
+  <div id="gridDetCARGA"></div>
+</div>
+
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
