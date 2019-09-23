@@ -118,7 +118,11 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-  
+     <section class="content-header">
+      <h1>
+        Sitemas Ripley Chile <i class=""></i>
+      </h1>
+    </section>  
 
     <!-- Main content -->
     <section class="content">
@@ -129,7 +133,7 @@
           <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <a href="<?php echo site_url('alertas/wms'); ?>">
-              <div class="widget-user-header bg-purple" id="boxWMS">
+              <div class="widget-user-header bg-black" id="boxWMS">
                 <div class="widget-user-image">
                   <img class="img-circle" src="<?php echo base_url();?>assets/img/WMSLogo.jpg" alt="User Avatar">
                 </div>
@@ -141,8 +145,43 @@
           </div>
           <!-- /.widget-user -->
         </div>
-       
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <a href="<?php echo site_url('alertas/bt'); ?>">
+              <div class="widget-user-header bg-yellow" id="boxBT">
+                <div class="widget-user-image">
+                  <img class="img-circle" src="<?php echo base_url();?>assets/img/bigticket3.jpg" alt="User Avatar">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">BigTicket</h3>
+                <h5 class="widget-user-desc">Alertas</h5>
+              </div>
+            </a>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <a href="<?php echo site_url('alertas/bt'); ?>">
+              <div class="widget-user-header bg-blue" id="boxPMM">
+                <div class="widget-user-image">
+                  <img class="img-circle" src="<?php echo base_url();?>assets/img/pmm.jpg" alt="User Avatar">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">PMM</h3>
+                <h5 class="widget-user-desc">Alertas</h5>
+              </div>
+            </a>
+          </div>
+          <!-- /.widget-user -->
+        </div>
       </div>
+      </div>
+      
      
           
           </div>

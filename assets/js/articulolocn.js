@@ -1,7 +1,7 @@
 var count = 0;    
 var Header =[{DSP_LOCN:"",SKU_ID:"",MIN_INVN_QTY: "",MAX_INVN_QTY: "",PROCESS_DATE_TIME:"",MESSAGE:""}];
+var data = [];
 $(function() {
-
     var Cabecera = true;
     var funcion = '';
     var dataSource = new kendo.data.DataSource({
@@ -87,6 +87,13 @@ $(function() {
                     icon: "k-icon k-i-save",
                     click: Guardar
                 },
+                {
+                    type: "button",
+                    text: "Importar",
+                    showText: "both",
+                    icon: "k-icon k-i-file-excel",
+                    click: Importar  
+                }
                 ],
                 insert: false,
                 data: false
@@ -146,7 +153,7 @@ $(function() {
             if(count == 1){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'index.php/articulolocacion/articulo_locacion/readArtLocacion',
+                    url: baseURL + 'articulolocacion/articulo_locacion/readArtLocacion',
                     dataType: 'json',
                     success: function(result){
                         e.success(result);
@@ -165,7 +172,7 @@ $(function() {
                 var fecFin = kendo.toString(dateObjFin, "dd/MM/yy");
                 $.ajax({
                         type: "POST",
-                        url: baseURL + 'index.php/articulolocacion/articulo_locacion/filtrarDatos',
+                        url: baseURL + 'articulolocacion/articulo_locacion/filtrarDatos',
                         data:{ fecIni: fecIni, fecFin: fecFin},
                         dataType: 'json',
                         success: function(result){
@@ -178,6 +185,11 @@ $(function() {
                             alert(JSON.stringify(result));
                         }
                 });
+            }
+            else if(count == 3){
+                e.success(data);
+                var popupfactor = $("#POPUP_importar");
+                popupfactor.data("kendoWindow").close();
             }
         }
     }
@@ -206,6 +218,10 @@ $(function() {
     function Filtrar(){
         var POPUPFiltrar = $("#POPUP_filtrar");
         POPUPFiltrar.data("kendoWindow").open();
+    }
+    function Importar(){
+        var POPUPImportar = $("#POPUP_importar");
+        POPUPImportar.data("kendoWindow").open();
     }
     function onSubmit(e){
         var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
@@ -245,9 +261,7 @@ $(function() {
         }
         
         if(ok == 0){
-            $.post(baseURL + 'index.php/articulolocacion/articulo_locacion/insertarArtLocacion',{models: kendo.stringify(arregloGuardado)},function(data){
-                
-                console.log(JSON.stringify(data));
+            $.post(baseURL + 'articulolocacion/articulo_locacion/insertarArtLocacion',{models: kendo.stringify(arregloGuardado)},function(data){
                 if(data == 0){
                     var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
                     var sheet = spreadsheet.activeSheet();
@@ -273,6 +287,15 @@ $(function() {
             "Close"
         ]
     }).data("kendoWindow").center();
+    var ventana_importar = $("#POPUP_importar");
+    ventana_importar.kendoWindow({
+        width: "300px",
+        title: "Importar Archivo Excel",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow").center();
     $("#DPFechaIni").kendoDatePicker({format: "dd/MM/yyyy"});
 
     var fechaIni = $("#DPFechaIni").data("kendoDatePicker");
@@ -287,6 +310,27 @@ $(function() {
         var sheet = spreadsheet.activeSheet();
         sheet.dataSource.read();
 
+    });
+    $("#files").kendoUpload();
+    $("#import_form").on('submit' ,function(e){
+        e.preventDefault();
+        $.ajax({
+          url: baseURL + 'articulolocacion/articulo_locacion/importarEXCEL',
+          type: 'POST',
+          data: new FormData(this),
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(result){
+            $("#files").val('');
+            data = result;
+            count = 3;
+            var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
+            var sheet = spreadsheet.activeSheet();
+            sheet.dataSource.read();
+          }
+        });
     });
    
 

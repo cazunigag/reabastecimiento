@@ -82,71 +82,78 @@ $route['locaciones/detalle'] = "centrodistribucion/estanteria/getDetalleLocn";
 $route['locaciones/detalle/imagen'] = "centrodistribucion/estanteria/getImagenSku";
 //rutas Centro Alertas
 $route['alertas/wms'] = "centroAlertas/centroAlertas/alertasWMS";
+$route['alertas/bt'] = "centroAlertas/centroAlertas/alertasBT";
 
-$route['alertas/errores/PKT'] = "centroAlertas/centroAlertas/erroresPKT";
-$route['alertas/errores/cantPKT'] = "centroAlertas/centroAlertas/cantErroresPKT";
-$route['alertas/pkt/totPKT'] = "centroAlertas/centroAlertas/totPKTBajados";
-$route['alertas/pkt/resumen'] = "centroAlertas/centroAlertas/resumenPKT";
-$route['alertas/pkt/actualizar'] = "centroAlertas/centroAlertas/reprocesarPKT";
-$route['alertas/pkt/eliminar'] = "centroAlertas/centroAlertas/eliminarPKT";
+//rutas alertas WMS
+$route['alertas/wms/errores/PKT'] = "centroAlertas/WMS/alertasWMS/erroresPKT";
+$route['alertas/wms/errores/cantPKT'] = "centroAlertas/WMS/alertasWMS/cantErroresPKT";
+$route['alertas/wms/pkt/totPKT'] = "centroAlertas/WMS/alertasWMS/totPKTBajados";
+$route['alertas/wms/pkt/resumen'] = "centroAlertas/WMS/alertasWMS/resumenPKT";
+$route['alertas/wms/pkt/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarPKT";
+$route['alertas/wms/pkt/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarPKT";
 
-$route['alertas/errores/PO'] = "centroAlertas/centroAlertas/erroresPO";
-$route['alertas/errores/cantPO'] = "centroAlertas/centroAlertas/cantErroresPO";
-$route['alertas/PO/totPO'] = "centroAlertas/centroAlertas/totPOBajados";
-$route['alertas/PO/actualizar'] = "centroAlertas/centroAlertas/reprocesarPO";
-$route['alertas/PO/eliminar'] = "centroAlertas/centroAlertas/eliminarPO";
+$route['alertas/wms/errores/PO'] = "centroAlertas/WMS/alertasWMS/erroresPO";
+$route['alertas/wms/errores/cantPO'] = "centroAlertas/WMS/alertasWMS/cantErroresPO";
+$route['alertas/wms/PO/totPO'] = "centroAlertas/WMS/alertasWMS/totPOBajados";
+$route['alertas/wms/PO/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarPO";
+$route['alertas/wms/PO/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarPO";
 
-$route['alertas/errores/BRCD'] = "centroAlertas/centroAlertas/erroresBRCD";
-$route['alertas/errores/cantBRCD'] = "centroAlertas/centroAlertas/cantErroresBRCD";
-$route['alertas/brcd/totBRCD'] = "centroAlertas/centroAlertas/totBRCDBajados";
-$route['alertas/brcd/actualizar'] = "centroAlertas/centroAlertas/reprocesarBRCD";
-$route['alertas/brcd/eliminar'] = "centroAlertas/centroAlertas/eliminarBRCD";
+$route['alertas/wms/errores/BRCD'] = "centroAlertas/WMS/alertasWMS/erroresBRCD";
+$route['alertas/wms/errores/cantBRCD'] = "centroAlertas/WMS/alertasWMS/cantErroresBRCD";
+$route['alertas/wms/brcd/totBRCD'] = "centroAlertas/WMS/alertasWMS/totBRCDBajados";
+$route['alertas/wms/brcd/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarBRCD";
+$route['alertas/wms/brcd/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarBRCD";
 
-$route['alertas/errores/ART'] = "centroAlertas/centroAlertas/erroresART";
-$route['alertas/errores/cantART'] = "centroAlertas/centroAlertas/cantErroresART";
-$route['alertas/art/totART'] = "centroAlertas/centroAlertas/totoARTMod";
-$route['alertas/art/actualizar'] = "centroAlertas/centroAlertas/reprocesarART";
-$route['alertas/art/eliminar'] = "centroAlertas/centroAlertas/eliminarART";
+$route['alertas/wms/errores/ART'] = "centroAlertas/WMS/alertasWMS/erroresART";
+$route['alertas/wms/errores/cantART'] = "centroAlertas/WMS/alertasWMS/cantErroresART";
+$route['alertas/wms/art/totART'] = "centroAlertas/WMS/alertasWMS/totoARTMod";
+$route['alertas/wms/art/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarART";
+$route['alertas/wms/art/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarART";
 
-$route['alertas/errores/OLA'] = "centroAlertas/centroAlertas/erroresOLA";
-$route['alertas/errores/cantOLA'] = "centroAlertas/centroAlertas/cantErroresOLA";
-$route['alertas/ola/resumen'] = "centroAlertas/centroAlertas/resumenOLA";
-$route['alertas/ola/totOLA'] = "centroAlertas/centroAlertas/totOLA";
+$route['alertas/wms/errores/OLA'] = "centroAlertas/WMS/alertasWMS/erroresOLA";
+$route['alertas/wms/errores/cantOLA'] = "centroAlertas/WMS/alertasWMS/cantErroresOLA";
+$route['alertas/wms/ola/resumen'] = "centroAlertas/WMS/alertasWMS/resumenOLA";
+$route['alertas/wms/ola/totOLA'] = "centroAlertas/WMS/alertasWMS/totOLA";
 
-$route['alertas/errores/CITA'] = "centroAlertas/centroAlertas/erroresCITA";
-$route['alertas/errores/cantCITA'] = "centroAlertas/centroAlertas/cantErroresCITA";
-$route['alertas/cita/totCITA'] = "centroAlertas/centroAlertas/totCITASBajadas";
-$route['alertas/cita/resumen'] = "centroAlertas/centroAlertas/resumenCITA";
-$route['alertas/cita/resumenCod'] = "centroAlertas/centroAlertas/detCodCITA";
-$route['alertas/cita/actualizar'] = "centroAlertas/centroAlertas/reprocesarCITA";
-$route['alertas/cita/eliminar'] = "centroAlertas/centroAlertas/eliminarCITA";
+$route['alertas/wms/errores/CITA'] = "centroAlertas/WMS/alertasWMS/erroresCITA";
+$route['alertas/wms/errores/cantCITA'] = "centroAlertas/WMS/alertasWMS/cantErroresCITA";
+$route['alertas/wms/cita/totCITA'] = "centroAlertas/WMS/alertasWMS/totCITASBajadas";
+$route['alertas/wms/cita/resumen'] = "centroAlertas/WMS/alertasWMS/resumenCITA";
+$route['alertas/wms/cita/resumenCod'] = "centroAlertas/WMS/alertasWMS/detCodCITA";
+$route['alertas/wms/cita/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarCITA";
+$route['alertas/wms/cita/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarCITA";
 
-$route['alertas/errores/ASN'] =  "centroAlertas/centroAlertas/erroresASN";
-$route['alertas/errores/cantASN'] =  "centroAlertas/centroAlertas/cantErroresASN";
-$route['alertas/asn/totASN'] =  "centroAlertas/centroAlertas/totASNBajados";
-$route['alertas/asn/resumen'] =  "centroAlertas/centroAlertas/resumenASN";
-$route['alertas/asn/resumencod'] =  "centroAlertas/centroAlertas/detCodASN";
-$route['alertas/asn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarASN";
-$route['alertas/asn/eliminar'] =  "centroAlertas/centroAlertas/eliminarASN";
+$route['alertas/wms/errores/ASN'] =  "centroAlertas/WMS/alertasWMS/erroresASN";
+$route['alertas/wms/errores/cantASN'] =  "centroAlertas/WMS/alertasWMS/cantErroresASN";
+$route['alertas/wms/asn/totASN'] =  "centroAlertas/WMS/alertasWMS/totASNBajados";
+$route['alertas/wms/asn/resumen'] =  "centroAlertas/WMS/alertasWMS/resumenASN";
+$route['alertas/wms/asn/resumencod'] =  "centroAlertas/WMS/alertasWMS/detCodASN";
+$route['alertas/wms/asn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reprocesarASN";
+$route['alertas/wms/asn/eliminar'] =  "centroAlertas/WMS/alertasWMS/eliminarASN";
 
-$route['alertas/errores/LPN'] =  "centroAlertas/centroAlertas/erroresLPN";
-$route['alertas/errores/cantLPN'] =  "centroAlertas/centroAlertas/cantErroresLPN";
-$route['alertas/lpn/totLPN'] =  "centroAlertas/centroAlertas/totLPNBajados";
-$route['alertas/lpn/resumen'] =  "centroAlertas/centroAlertas/resumenLPN";
-$route['alertas/lpn/actualizar'] =  "centroAlertas/centroAlertas/reprocesarLPN";
-$route['alertas/lpn/eliminar'] =  "centroAlertas/centroAlertas/eliminarLPN";
+$route['alertas/wms/errores/LPN'] =  "centroAlertas/WMS/alertasWMS/erroresLPN";
+$route['alertas/wms/errores/cantLPN'] =  "centroAlertas/WMS/alertasWMS/cantErroresLPN";
+$route['alertas/wms/lpn/totLPN'] =  "centroAlertas/WMS/alertasWMS/totLPNBajados";
+$route['alertas/wms/lpn/resumen'] =  "centroAlertas/WMS/alertasWMS/resumenLPN";
+$route['alertas/wms/lpn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reprocesarLPN";
+$route['alertas/wms/lpn/eliminar'] =  "centroAlertas/WMS/alertasWMS/eliminarLPN";
 
-$route['alertas/errores/DISTRO'] =  "centroAlertas/centroAlertas/erroresDISTRO";
-$route['alertas/errores/cantDISTRO'] =  "centroAlertas/centroAlertas/cantErroresDISTRO";
-$route['alertas/distro/actualizar'] =  "centroAlertas/centroAlertas/reprocesarDISTRO";
-$route['alertas/distro/eliminar'] =  "centroAlertas/centroAlertas/eliminarDISTRO";
+$route['alertas/wms/errores/DISTRO'] =  "centroAlertas/WMS/alertasWMS/erroresDISTRO";
+$route['alertas/wms/errores/cantDISTRO'] =  "centroAlertas/WMS/alertasWMS/cantErroresDISTRO";
+$route['alertas/wms/distro/actualizar'] =  "centroAlertas/WMS/alertasWMS/reprocesarDISTRO";
+$route['alertas/wms/distro/eliminar'] =  "centroAlertas/WMS/alertasWMS/eliminarDISTRO";
 
-$route['alertas/errores/CARGA'] =  "centroAlertas/centroAlertas/erroresCARGA";
-$route['alertas/errores/cantCARGA'] =  "centroAlertas/centroAlertas/cantErroresCARGA";
-$route['alertas/carga/totCARGA'] =  "centroAlertas/centroAlertas/totCARGASEnviadas";
-$route['alertas/carga/resumen'] =  "centroAlertas/centroAlertas/resumenCARGA";
-$route['alertas/carga/actualizar'] =  "centroAlertas/centroAlertas/reporcesarCARGA";
+$route['alertas/wms/errores/CARGA'] =  "centroAlertas/WMS/alertasWMS/erroresCARGA";
+$route['alertas/wms/errores/cantCARGA'] =  "centroAlertas/WMS/alertasWMS/cantErroresCARGA";
+$route['alertas/wms/carga/totCARGA'] =  "centroAlertas/WMS/alertasWMS/totCARGASEnviadas";
+$route['alertas/wms/carga/resumen'] =  "centroAlertas/WMS/alertasWMS/resumenCARGA";
+$route['alertas/wms/carga/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesarCARGA";
 
-$route['alertas/errores/FASN'] =  "centroAlertas/centroAlertas/erroresFASN";
-$route['alertas/errores/cantFASN'] =  "centroAlertas/centroAlertas/cantErroresFASN";
-$route['alertas/fasn/actualizar'] =  "centroAlertas/centroAlertas/reporcesarFASN";
+$route['alertas/wms/errores/FASN'] =  "centroAlertas/WMS/alertasWMS/erroresFASN";
+$route['alertas/wms/errores/cantFASN'] =  "centroAlertas/WMS/alertasWMS/cantErroresFASN";
+$route['alertas/wms/fasn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesarFASN";
+
+//rutas alertas BT
+
+$route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
+$route['alertas/bt/errores/cantSinProcSDI'] = "centroAlertas/BT/alertasBT/cantSinProcesarSDI";

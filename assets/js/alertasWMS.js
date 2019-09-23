@@ -103,7 +103,7 @@ $(document).ready(function(){
     function actualizarAlertaPKT(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantPKT',
+            url: baseURL + 'alertas/wms/errores/cantPKT',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -128,7 +128,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/pkt/totPKT',
+            url: baseURL + 'alertas/wms/pkt/totPKT',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -151,7 +151,7 @@ $(document).ready(function(){
     $("#gridDetPKT").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetPKT,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -240,7 +240,7 @@ $(document).ready(function(){
     function onReadErrPKT(e){
          $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/PKT',
+            url: baseURL + 'alertas/wms/errores/PKT',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -253,7 +253,7 @@ $(document).ready(function(){
     function onReadResPKT(e){
          $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/pkt/resumen',
+            url: baseURL + 'alertas/wms/pkt/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -274,7 +274,7 @@ $(document).ready(function(){
         if(Array.isArray(pkts) && pkts.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/pkt/actualizar',
+                url: baseURL + 'alertas/wms/pkt/actualizar',
                 data:{ pkts: data},
                 dataType: 'json',
                 success: function(result){
@@ -313,7 +313,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/pkt/eliminar',
+                    url: baseURL + 'alertas/wms/pkt/eliminar',
                     data:{ pkts: data},
                     dataType: 'json',
                     success: function(result){
@@ -388,7 +388,7 @@ $(document).ready(function(){
     function actualizarAlertaPO(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantPO',
+            url: baseURL + 'alertas/wms/errores/cantPO',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -413,7 +413,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/PO/totPO',
+            url: baseURL + 'alertas/wms/PO/totPO',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -437,7 +437,7 @@ $(document).ready(function(){
      $("#gridDetPO").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetPO,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -488,7 +488,7 @@ $(document).ready(function(){
     function onReadErrPO(e){
          $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/PO',
+            url: baseURL + 'alertas/wms/errores/PO',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -509,7 +509,7 @@ $(document).ready(function(){
         if(Array.isArray(pos) && pos.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/PO/actualizar',
+                url: baseURL + 'alertas/wms/PO/actualizar',
                 data:{ pos: data},
                 dataType: 'json',
                 success: function(result){
@@ -547,7 +547,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/PO/eliminar',
+                    url: baseURL + 'alertas/wms/PO/eliminar',
                     data:{ pos: data},
                     dataType: 'json',
                     success: function(result){
@@ -621,7 +621,7 @@ $(document).ready(function(){
 	function actualizarAlertaBRCD(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantBRCD',
+            url: baseURL + 'alertas/wms/errores/cantBRCD',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -646,7 +646,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/brcd/totBRCD',
+            url: baseURL + 'alertas/wms/brcd/totBRCD',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -669,7 +669,7 @@ $(document).ready(function(){
     $("#gridDEtBRCD").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetBRCD,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -718,7 +718,7 @@ $(document).ready(function(){
     function onReadErrBRCD(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/BRCD',
+            url: baseURL + 'alertas/wms/errores/BRCD',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -739,7 +739,7 @@ $(document).ready(function(){
         if(Array.isArray(brcds) && brcds.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/brcd/actualizar',
+                url: baseURL + 'alertas/wms/brcd/actualizar',
                 data:{ brcds: data},
                 dataType: 'json',
                 success: function(result){
@@ -778,7 +778,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/brcd/eliminar',
+                    url: baseURL + 'alertas/wms/brcd/eliminar',
                     data:{ brcds: data},
                     dataType: 'json',
                     success: function(result){
@@ -839,7 +839,7 @@ $(document).ready(function(){
     $("#gridDEtART").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetART,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -901,7 +901,7 @@ $(document).ready(function(){
     function actualizarAlertaART(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantART',
+            url: baseURL + 'alertas/wms/errores/cantART',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -926,7 +926,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantART',
+            url: baseURL + 'alertas/wms/errores/cantART',
             dataType: 'json',
             success: function(result){
                 $("#nART").html(result);
@@ -947,7 +947,7 @@ $(document).ready(function(){
     function onReadErrART(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/ART',
+            url: baseURL + 'alertas/wms/errores/ART',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -968,7 +968,7 @@ $(document).ready(function(){
         if(Array.isArray(arts) && arts.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/art/actualizar',
+                url: baseURL + 'alertas/wms/art/actualizar',
                 data:{ arts: data},
                 dataType: 'json',
                 success: function(result){
@@ -1007,7 +1007,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/art/eliminar',
+                    url: baseURL + 'alertas/wms/art/eliminar',
                     data:{ arts: data},
                     dataType: 'json',
                     success: function(result){
@@ -1114,7 +1114,7 @@ $(document).ready(function(){
     $("#gridDetOLA").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetOLA,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -1137,7 +1137,7 @@ $(document).ready(function(){
     function onReadResOLA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/ola/resumen',
+            url: baseURL + 'alertas/wms/ola/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1150,7 +1150,7 @@ $(document).ready(function(){
     function onReadDetOLA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/OLA',
+            url: baseURL + 'alertas/wms/errores/OLA',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1216,7 +1216,7 @@ $(document).ready(function(){
     function actualizarAlertaOLA(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantOLA',
+            url: baseURL + 'alertas/wms/errores/cantOLA',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -1241,7 +1241,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/ola/totOLA',
+            url: baseURL + 'alertas/wms/ola/totOLA',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -1319,7 +1319,7 @@ $(document).ready(function(){
     function onReadResCITA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/cita/resumen',
+            url: baseURL + 'alertas/wms/cita/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1332,7 +1332,7 @@ $(document).ready(function(){
     function onReadDetCITA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/CITA',
+            url: baseURL + 'alertas/wms/errores/CITA',
             data: {codigoCITA: codigoCITA},
             dataType: 'json',
             success: function(result){
@@ -1346,7 +1346,7 @@ $(document).ready(function(){
     function onReadCodCITA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/cita/resumenCod',
+            url: baseURL + 'alertas/wms/cita/resumenCod',
             data: {codigoCITA: codigoCITA},
             dataType: 'json',
             success: function(result){
@@ -1381,7 +1381,7 @@ $(document).ready(function(){
     $("#gridDetCITA").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetCITA,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -1510,7 +1510,7 @@ $(document).ready(function(){
     function actualizarAlertaCITA(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantCITA',
+            url: baseURL + 'alertas/wms/errores/cantCITA',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -1535,7 +1535,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/cita/totCITA',
+            url: baseURL + 'alertas/wms/cita/totCITA',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -1566,7 +1566,7 @@ $(document).ready(function(){
         if(Array.isArray(citas) && citas.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/cita/actualizar',
+                url: baseURL + 'alertas/wms/cita/actualizar',
                 data:{ citas: data},
                 dataType: 'json',
                 success: function(result){
@@ -1605,7 +1605,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/cita/eliminar',
+                    url: baseURL + 'alertas/wms/cita/eliminar',
                     data:{ citas: data},
                     dataType: 'json',
                     success: function(result){
@@ -1714,7 +1714,7 @@ $(document).ready(function(){
     function actualizarAlertaASN(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantASN',
+            url: baseURL + 'alertas/wms/errores/cantASN',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -1739,7 +1739,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/asn/totASN',
+            url: baseURL + 'alertas/wms/asn/totASN',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -1814,7 +1814,7 @@ $(document).ready(function(){
     $("#gridDetASN").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetASN,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -1896,7 +1896,7 @@ $(document).ready(function(){
     function onReadResASN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/asn/resumen',
+            url: baseURL + 'alertas/wms/asn/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -1909,7 +1909,7 @@ $(document).ready(function(){
     function onReadResCodASN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/asn/resumencod',
+            url: baseURL + 'alertas/wms/asn/resumencod',
             data: {codigoASN: codigoASN},
             dataType: 'json',
             success: function(result){
@@ -1923,7 +1923,7 @@ $(document).ready(function(){
     function onReadDetASN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/ASN',
+            url: baseURL + 'alertas/wms/errores/ASN',
             data: {codigoASN: codigoASN},
             dataType: 'json',
             success: function(result){
@@ -1945,7 +1945,7 @@ $(document).ready(function(){
         if(Array.isArray(asns) && asns.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/asn/actualizar',
+                url: baseURL + 'alertas/wms/asn/actualizar',
                 data:{ asns: data},
                 dataType: 'json',
                 success: function(result){
@@ -1984,7 +1984,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/asn/eliminar',
+                    url: baseURL + 'alertas/wms/asn/eliminar',
                     data:{ asns: data},
                     dataType: 'json',
                     success: function(result){
@@ -2075,7 +2075,7 @@ $(document).ready(function(){
     function actualizarAlertaLPN(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantLPN',
+            url: baseURL + 'alertas/wms/errores/cantLPN',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -2100,7 +2100,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/lpn/totLPN',
+            url: baseURL + 'alertas/wms/lpn/totLPN',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -2143,7 +2143,7 @@ $(document).ready(function(){
     $("#gridDetLPN").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetLPN,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -2213,7 +2213,7 @@ $(document).ready(function(){
     function onReadResLPN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/lpn/resumen',
+            url: baseURL + 'alertas/wms/lpn/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2226,7 +2226,7 @@ $(document).ready(function(){
     function onReadDetLPN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/LPN',
+            url: baseURL + 'alertas/wms/errores/LPN',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2247,7 +2247,7 @@ $(document).ready(function(){
         if(Array.isArray(lpns) && lpns.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/lpn/actualizar',
+                url: baseURL + 'alertas/wms/lpn/actualizar',
                 data:{ lpns: data},
                 dataType: 'json',
                 success: function(result){
@@ -2286,7 +2286,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/lpn/eliminar',
+                    url: baseURL + 'alertas/wms/lpn/eliminar',
                     data:{ lpns: data},
                     dataType: 'json',
                     success: function(result){
@@ -2361,7 +2361,7 @@ $(document).ready(function(){
     function actualizarAlertaDISTRO(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantDISTRO',
+            url: baseURL + 'alertas/wms/errores/cantDISTRO',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -2386,7 +2386,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantDISTRO',
+            url: baseURL + 'alertas/wms/errores/cantDISTRO',
             dataType: 'json',
             success: function(result){
                         $("#nDISTRO").html(result);  
@@ -2408,7 +2408,7 @@ $(document).ready(function(){
     $("#gridDetDISTRO").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetDISTRO,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -2457,7 +2457,7 @@ $(document).ready(function(){
     function onReadErrDISTRO(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/DISTRO',
+            url: baseURL + 'alertas/wms/errores/DISTRO',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2478,7 +2478,7 @@ $(document).ready(function(){
         if(Array.isArray(distros) && distros.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/distro/actualizar',
+                url: baseURL + 'alertas/wms/distro/actualizar',
                 data:{ distros: data},
                 dataType: 'json',
                 success: function(result){
@@ -2517,7 +2517,7 @@ $(document).ready(function(){
             if(ok){
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'alertas/distro/eliminar',
+                    url: baseURL + 'alertas/wms/distro/eliminar',
                     data:{ distros: data},
                     dataType: 'json',
                     success: function(result){
@@ -2608,7 +2608,7 @@ $(document).ready(function(){
     function actualizarAlertaCARGA(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantCARGA',
+            url: baseURL + 'alertas/wms/errores/cantCARGA',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -2633,7 +2633,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/carga/totCARGA',
+            url: baseURL + 'alertas/wms/carga/totCARGA',
             dataType: 'json',
             success: function(result){
                 result.forEach(function(element){
@@ -2675,7 +2675,7 @@ $(document).ready(function(){
     $("#gridDetCARGA").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetCARGA,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -2745,7 +2745,7 @@ $(document).ready(function(){
     function onReadErrCARGA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/CARGA',
+            url: baseURL + 'alertas/wms/errores/CARGA',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2758,7 +2758,7 @@ $(document).ready(function(){
     function onReadResCARGA(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/carga/resumen',
+            url: baseURL + 'alertas/wms/carga/resumen',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2778,7 +2778,7 @@ $(document).ready(function(){
         if(Array.isArray(cargas) && cargas.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/carga/actualizar',
+                url: baseURL + 'alertas/wms/carga/actualizar',
                 data:{ cargas: data},
                 dataType: 'json',
                 success: function(result){
@@ -2850,7 +2850,7 @@ $(document).ready(function(){
     function actualizarAlertaFASN(){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantFASN',
+            url: baseURL + 'alertas/wms/errores/cantFASN',
             dataType: 'json',
             success: function(result){
                 if(result > 0){
@@ -2875,7 +2875,7 @@ $(document).ready(function(){
         });
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/cantFASN',
+            url: baseURL + 'alertas/wms/errores/cantFASN',
             dataType: 'json',
             success: function(result){
                 $("#nFASN").html(result);  
@@ -2896,7 +2896,7 @@ $(document).ready(function(){
     function onReadErrFASN(e){
         $.ajax({
             type: "POST",
-            url: baseURL + 'alertas/errores/FASN',
+            url: baseURL + 'alertas/wms/errores/FASN',
             dataType: 'json',
             success: function(result){
                 e.success(result);
@@ -2909,7 +2909,7 @@ $(document).ready(function(){
     $("#gridDetFASN").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetFASN,
-        height: "100%", 
+        height: "90%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -2969,7 +2969,7 @@ $(document).ready(function(){
         if(Array.isArray(fasns) && fasns.length != 0){
             $.ajax({
                 type: "POST",
-                url: baseURL + 'alertas/fasn/actualizar',
+                url: baseURL + 'alertas/wms/fasn/actualizar',
                 data:{ fasns: data},
                 dataType: 'json',
                 success: function(result){

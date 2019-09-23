@@ -530,8 +530,27 @@ class Estanteria_model extends CI_Model{
 		$area = substr($pasillo, 0, 1);
 		$zone = substr($pasillo, 1, 1);
 		$aisle = substr($pasillo, 2, 2);
-		$sql = "CALL PMMWMS.RDX_ACTUALIZA_CARTON_TYPE('$area', '$zone', '$aisle', '$cartonType')";
-		/*$result = $this->db->query($sql);
+		$sql = "Begin
+			       For C0 In (Select Lh.Locn_Id, Lh.Area, Lh.Zone, Lh.Aisle, Pld.Sku_Id, Im.Carton_Type
+			            From Pick_Locn_Dtl Pld, Item_Master Im, Locn_Hdr Lh
+			           Where Lh.Area = '$area'
+			             And Lh.Zone = '$zone'
+			             And Lh.Aisle = '$aisle'
+			             And Lh.Locn_Id = Pld.Locn_Id
+			             And Pld.Sku_Id = Im.Sku_Id)
+			       Loop
+			          Update Item_Master Im
+			             Set Im.Carton_Type = '$cartonType'
+			           Where Im.Sku_Id = C0.Sku_Id;
+			       End Loop;
+			       Commit;
+			       
+			    Exception
+			       When Others Then
+			          Rollback;
+			          
+			    End;";
+		$result = $this->db->query($sql);
 		if($result || $result != null){
 			$this->db->close();
 			return $result;
@@ -539,8 +558,7 @@ class Estanteria_model extends CI_Model{
 		else{
 			$this->db->close();
 			return $this->db->error();
-		}*/
-		var_dump($sql);
+		}
 	}
 	public function downloadExcelAntiguedadSku($pasillo, $dias){
 		$area = substr($pasillo, 0, 1);

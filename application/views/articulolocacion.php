@@ -30,6 +30,14 @@
             <button class="k-button k-primary" id="btn_filtrar" name="btn_filtrar" >Filtrar</button>
         </div>
     </div>
+    <div id="POPUP_importar">
+        <form method="post" id="import_form" enctype="multipart/form-data">
+            <input name="files" id="files" type="file" aria-label="files" accept=".xls, .xlsx"/>
+            <p style="padding-top: 1em; text-align: right">
+                <button type="submit" id="importar" name="importar" class="k-button k-primary">Importar</button>
+            </p>
+        </form>    
+    </div>
    
 </div>
 <span id="popupNotification"></span>
