@@ -18,7 +18,7 @@ $(document).ready(function(){
 					            url: baseURL + 'alertas/wms/errores/cant'+alertasWMS[i],
 					            dataType: 'json',
 					            success: function(result){
-
+					            	err = result;
 					            },
 					            error: function(result){
 					                console.log(JSON.stringify(result));
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		
 	});
 	function intermitenciaWMS(){
-		$("#boxWMS").toggleClass("bg-black");
+		$("#boxWMS").toggleClass("bg-purple");
 		$("#boxWMS").toggleClass("bg-red");
 		if(stopedWMS == 0){
 			runningWMS = 1;
@@ -68,7 +68,7 @@ $(document).ready(function(){
 					            url: baseURL + 'alertas/bt/errores/cant'+alertasBT[i],
 					            dataType: 'json',
 					            success: function(result){
-
+					            	err = result;
 					            },
 					            error: function(result){
 					                console.log(JSON.stringify(result));
@@ -80,6 +80,7 @@ $(document).ready(function(){
 
 	$.when.apply(null, promisesBT).done(function(){
 		for (var i = 0; i < promisesBT.length -1; i++) {
+			console.log(promisesBT[i].responseText);
 			if(promisesBT[i].responseText > 0){
 		 		if(runningBT == 0){
 			 		stopedBT = 0;

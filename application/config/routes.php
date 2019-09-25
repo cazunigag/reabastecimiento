@@ -68,6 +68,7 @@ $route['sku/pasillo'] = "centrodistribucion/estanteria/getPasilloSKU";
 $route['pasillo/(:any)'] = "centrodistribucion/estanteria/loadLocacionesEstanteria/$1";
 $route['pasillos/tipoCarton'] = "centrodistribucion/estanteria/getCartonTypePasillos";
 $route['pasillos/tipoCartones'] = "centrodistribucion/estanteria/getCartonTypePasillo";
+$route['pasillos/tipoCartones/todos'] = "centrodistribucion/estanteria/getCartonTypes";
 $route['pasillos/utilizacion'] = "centrodistribucion/estanteria/getUtilizacionPasillo";
 $route['pasillos/actClase'] = "centrodistribucion/estanteria/actualizarClassTabla";
 $route['pasillos/actTipoCarton'] = "centrodistribucion/estanteria/actualizarCartonType";

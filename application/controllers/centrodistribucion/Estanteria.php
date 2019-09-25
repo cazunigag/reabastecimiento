@@ -231,4 +231,7 @@ class Estanteria extends CI_Controller{
         
         $writer->save('php://output'); // download file 
      }
+    public function getCartonTypes(){
+        echo $this->Estanteria_model->getCartonTypes();
+    }
 }

@@ -147,6 +147,7 @@ $(function() {
         ]
     });
     function onRead(e){
+        console.log('read');
         if (count == 0) {
             e.success(Header);
         }else{
@@ -187,9 +188,31 @@ $(function() {
                 });
             }
             else if(count == 3){
-                e.success(data);
-                var popupfactor = $("#POPUP_importar");
-                popupfactor.data("kendoWindow").close();
+                if(data == 0){
+                    e.success(data);
+                    var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                    var popupfactor = $("#POPUP_importar");
+                    popupfactor.data("kendoWindow").close();
+                    popupNotification.getNotifications().parent().remove();
+                    popupNotification.show(" El archivo debe tener una extencion excel valida (.xls, .xlsx)", "error");
+                    data = [];
+                }else if(data == 1){
+                    e.success(data);
+                    var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                    var popupfactor = $("#POPUP_importar");
+                    popupfactor.data("kendoWindow").close();
+                    popupNotification.getNotifications().parent().remove();
+                    popupNotification.show(" Debe seleccionar un archivo para importar", "error");
+                    data = [];
+                }else{
+                    var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                    var popupfactor = $("#POPUP_importar");
+                    popupfactor.data("kendoWindow").close();
+                    e.success(data);
+                    popupNotification.getNotifications().parent().remove();
+                    popupNotification.show(" Archivo Importado Correctamente", "success");
+                    data = [];
+                } 
             }
         }
     }
@@ -313,7 +336,10 @@ $(function() {
     });
     $("#files").kendoUpload();
     $("#import_form").on('submit' ,function(e){
+        var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
+        var sheet = spreadsheet.activeSheet();
         e.preventDefault();
+        count = 3; 
         $.ajax({
           url: baseURL + 'articulolocacion/articulo_locacion/importarEXCEL',
           type: 'POST',
@@ -325,13 +351,16 @@ $(function() {
           success: function(result){
             $("#files").val('');
             data = result;
-            count = 3;
-            var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
-            var sheet = spreadsheet.activeSheet();
+            console.log(count);
+            console.log(data);
             sheet.dataSource.read();
+            var upload = $("#files").data("kendoUpload");
+            upload.removeAllFiles();
+          },
+          error: function(result){
+            console.log('fuck this shit')
           }
         });
+        
     });
-   
-
 });

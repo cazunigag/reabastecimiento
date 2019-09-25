@@ -25,7 +25,7 @@ $(document).ready(function(){
 		dataSource: dataSource,
 		dataTextField: "CARTON_TYPE",
 		dataValueField: "CARTON_TYPE",
-		autoBind: false
+    autoBind: false
 	});
 	var ventana_classPasillo= $("#POPUP_ClassPasillo");
 	ventana_classPasillo.kendoWindow({

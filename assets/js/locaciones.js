@@ -40,7 +40,7 @@ $(document).ready(function(){
                 $('td').css('background-color', '#b8b894');
                 result.forEach(function(element){
                   busquedaAnterior.push(element.LOCN_ID)
-                  $('#'+element.LOCN_ID).css("background-color", "#ff9999");
+                  $('#'+element.LOCN_ID).css("background-color", "#33cccc");
                  });
               },
               error: function(xhr){

@@ -32,7 +32,7 @@
     <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
       
 </head>
-<body class="hold-transition skin-green sidebar-mini fixed"> 
+<body class="hold-transition skin-purple sidebar-mini fixed"> 
    <header class="main-header">
     <!-- Logo -->
     <a href="#" class="logo">
@@ -225,7 +225,7 @@
       <i class="fa fa-square text-brown"></i> CONSULTA ANTIGUEDAD SKU
     </li>
     <li>
-      <i class="fa fa-square text-pink"></i> CONSULTA ANTIGUEDAD CONTEO CICLICO
+      <i class="fa fa-square text-cclic"></i> CONSULTA ANTIGUEDAD CONTEO CICLICO
     </li>
   </ul>
 </div>

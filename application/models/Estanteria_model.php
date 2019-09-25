@@ -437,7 +437,7 @@ class Estanteria_model extends CI_Model{
 				SUBSTR(LH.LOCN_BRCD, 1, 4) AS PASILLO, IM.CARTON_TYPE TIPO_CARTON FROM LOCN_HDR LH, PICK_LOCN_DTL PLD, ITEM_MASTER IM
 				WHERE SUBSTR(LH.LOCN_BRCD, 1, 4) IN ('$pasillos') AND LH.WHSE = '095' AND LH.LOCN_ID = PLD.LOCN_ID AND PLD.SKU_ID = IM.SKU_ID
 				GROUP BY IM.CARTON_TYPE, SUBSTR(LH.LOCN_BRCD, 1, 4))PISO_PASILLO GROUP BY PISO_PASILLO.PASILLO ORDER BY PASILLO";
-			$result = $this->db->query($sql);
+		$result = $this->db->query($sql);
 		if($result || $result != null){
 			$resultado = json_encode($result->result());
 			$this->db->close();
@@ -447,7 +447,19 @@ class Estanteria_model extends CI_Model{
 			return $this->db->error();
 		}		
 	}
-
+	public function getCartonTypes(){
+		$sql ="SELECT DISTINCT /*+ INDEX(PK_ITEM_MASTER) */ CARTON_TYPE FROM ITEM_MASTER WHERE CARTON_TYPE IS NOT NULL";
+		
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$resultado = json_encode($result->result());
+			$this->db->close();
+			return $resultado;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
 	public function getCartonTypePasillo($pasillo){
 
 		$area = substr($pasillo, 0, 1);

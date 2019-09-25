@@ -40,25 +40,35 @@ class Articulo_locacion extends CI_Controller{
     }
     public function importarEXCEL(){
         if (isset($_FILES['files']['name'])) {
-           $path = $_FILES['files']['tmp_name'];
-           $object = IOFactory::load($path);
-           foreach ($object->getWorksheetIterator() as $worksheet) {
-               $lastRow = $worksheet->getHighestRow();
-               for ($row=1; $row <= $lastRow; $row++) { 
-                   $locacion = $worksheet->getCellByColumnAndRow(1,$row)->getValue();
-                   $articulo = $worksheet->getCellByColumnAndRow(2,$row)->getValue();
-                   $minimo = $worksheet->getCellByColumnAndRow(3,$row)->getValue();
-                   $maximo = $worksheet->getCellByColumnAndRow(4,$row)->getValue();
+          $file_name = $_FILES['files']['name'];
+          $tmp = explode('.', $file_name);
+          $extension = end($tmp);
+          if($extension == 'xlsx' || $extension == 'xls'){
+             $path = $_FILES['files']['tmp_name'];
+             $object = IOFactory::load($path);
+             foreach ($object->getWorksheetIterator() as $worksheet) {
+                 $lastRow = $worksheet->getHighestRow();
+                 for ($row=2; $row <= $lastRow; $row++) { 
+                     $locacion = $worksheet->getCellByColumnAndRow(1,$row)->getValue();
+                     $articulo = $worksheet->getCellByColumnAndRow(2,$row)->getValue();
+                     $minimo = $worksheet->getCellByColumnAndRow(3,$row)->getValue();
+                     $maximo = $worksheet->getCellByColumnAndRow(4,$row)->getValue();
 
-                   $data[] = array(
-                    'DSP_LOCN' =>  $locacion,
-                    'SKU_ID' =>  $articulo,
-                    'MIN_INVN_QTY' =>  $minimo,
-                    'MAX_INVN_QTY' =>  $maximo,
-                   );
-               }
-           }
+                     $data[] = array(
+                      'DSP_LOCN' =>  $locacion,
+                      'SKU_ID' =>  $articulo,
+                      'MIN_INVN_QTY' =>  $minimo,
+                      'MAX_INVN_QTY' =>  $maximo,
+                     );
+                 }
+             }
+             echo json_encode($data);
+          }else{
+            echo 0;
+          }
         }
-        echo json_encode($data);
+        else{
+          echo 1;
+        }
     }
 }

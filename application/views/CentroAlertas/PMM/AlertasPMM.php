@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Centro de Alertas</title>
+  <title>Alertas PMM</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -13,10 +13,10 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
   <!-- jvectormap -->
@@ -52,7 +52,7 @@
     <a href="<?php echo site_url('home/home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>R</b>eabastecimiento</span>
+      <span class="logo-lg"><b>PMM</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -118,71 +118,37 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-     <section class="content-header">
+    <section class="content-header">
       <h1>
-        Sitemas Ripley Chile <i class=""></i>
       </h1>
-    </section>  
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <a href="<?php echo site_url('alertas/wms'); ?>">
-              <div class="widget-user-header bg-purple" id="boxWMS">
-                <div class="widget-user-image">
-                  <img class="img-circle" src="<?php echo base_url();?>assets/img/WMSLogo.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">WMS</h3>
-                <h5 class="widget-user-desc">Alertas</h5>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="info-box bg-green" id="SDIBTBox">
+           <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">MSG SIN PROCESAR</span>
+              <span class="info-box-number" id="nSDIBT">0</span>
+              <div class="progress">
+                <div class="progress-bar" style="width: 100%"></div>
               </div>
-            </a>
+                  <span class="progress-description">
+                    <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
           </div>
-          <!-- /.widget-user -->
-        </div>
-        <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <a href="<?php echo site_url('alertas/bt'); ?>">
-              <div class="widget-user-header bg-yellow" id="boxBT">
-                <div class="widget-user-image">
-                  <img class="img-circle" src="<?php echo base_url();?>assets/img/bigticket3.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">BigTicket</h3>
-                <h5 class="widget-user-desc">Alertas</h5>
-              </div>
-            </a>
-          </div>
-          <!-- /.widget-user -->
-        </div>
-        <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <a href="<?php echo site_url('alertas/bt'); ?>">
-              <div class="widget-user-header bg-aqua" id="boxPMM">
-                <div class="widget-user-image">
-                  <img class="img-circle" src="<?php echo base_url();?>assets/img/pmm.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">PMM</h3>
-                <h5 class="widget-user-desc">Alertas</h5>
-              </div>
-            </a>
-          </div>
-          <!-- /.widget-user -->
         </div>
       </div>
+        <!-- ./col -->
       </div>
-      
-     
+      <!-- /.row -->
+      <!-- Main row -->
           
           </div>
           <!-- /.box -->
@@ -208,6 +174,8 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
+
+
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -306,7 +274,7 @@
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/centroalertas.js" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/alertasBT.js" async>
 </script>
 <style type="text/css">
   a{
@@ -332,3 +300,4 @@
 </style>
 </body>
 </html>
+s

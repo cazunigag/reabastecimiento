@@ -32,7 +32,7 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>    
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed" oncontextmenu="return false"> 
+<body class="hold-transition skin-purple sidebar-mini fixed" oncontextmenu="return false"> 
   <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo site_url('home/home');?>" class="logo">

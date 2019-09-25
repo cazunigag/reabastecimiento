@@ -24,6 +24,7 @@ $(document).ready(function(){
       }
     }
     function actualizarAlertaSDI(){
+    	var numero = 1;
         $.ajax({
             type: "POST",
             url: baseURL + 'alertas/bt/errores/sinProcSDI',
@@ -44,21 +45,7 @@ $(document).ready(function(){
 	                        stopedSDI = 1
 	                    }
 	                }
-            	});
-
-            },
-            error: function(result){
-                console.log(JSON.stringify(result));
-            }
-        });
-        var numero = 1;
-        $.ajax({
-            type: "POST",
-            url: baseURL + 'alertas/bt/errores/sinProcSDI',
-            dataType: 'json',
-            success: function(result){
-            	result.forEach(function(element){
-            		setInterval(function(){ if(numero <= element.CANTIDAD){$("#nSDIBT").html(numero);numero++;} }, 3);
+	                setInterval(function(){ if(numero <= element.CANTIDAD){$("#nSDIBT").html(numero);numero++;} }, 3);
             	});
 
             },

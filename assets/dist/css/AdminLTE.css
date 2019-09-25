@@ -4519,7 +4519,7 @@ table.text-center th {
   background-color: #f012be !important;
 }
 .bg-purple {
-  background-color: #605ca8 !important;
+  background-color: #000066 !important;
 }
 .bg-maroon {
   background-color: #d81b60 !important;
@@ -4592,6 +4592,9 @@ table.text-center th {
 }
 .text-yellow {
   color: #ffff00 !important;
+}
+.text-cclic {
+  color: #33cccc !important;
 }
 .text-brown {
   color: #cca300 !important;
