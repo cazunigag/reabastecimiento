@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+  console.log(flagAnt);
   $("#btnExportarAntiguedad").hide();
   $("#menuAdminLocn").hide();
   console.log(localStorage.getItem("persistencialocn"));
@@ -60,6 +61,7 @@ $(document).ready(function(){
     emptyLocn();
   }
   $("#btnExportarAntiguedad").click(function(){
+    console.log(flagAnt);
     if(flagAnt == 'antSku'){
       window.location.href = baseURL + 'locaciones/antiguedad/descSku/'+dias+'/'+idpasillo;
     }else if(flagAnt == 'contCicl'){
@@ -76,12 +78,19 @@ $(document).ready(function(){
     emptyLocn();
   });
   $("#btnAdministrarLocn").click(function(){
-      $("#menuGeneral").hide();
-      $("#menuAdminLocn").show();  
-      $("td").each(function(){
-        var id  = $(this).attr("id");
-        $(this).attr("onclick", "selectLocn(id)");
-      });
+    $("#btnExportarAntiguedad").hide();
+    $('td').css('background-color', '#66ff66');
+    $('#grid').data('kendoGrid').dataSource.sort({});
+    $('#grid').data('kendoGrid').dataSource.filter({});
+    localStorage.clear();
+    persistenciasku = [];
+    emptyLocn();
+    $("#menuGeneral").hide();
+    $("#menuAdminLocn").show();  
+    $("td").each(function(){
+      var id  = $(this).attr("id");
+      $(this).attr("onclick", "selectLocn(id)");
+    });
   });
   $("#btnVolverMG").click(function(){
     $("#btnExportarAntiguedad").hide();

@@ -166,7 +166,7 @@
           <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
-            <a href="<?php echo site_url('alertas/bt'); ?>">
+            <a href="<?php echo site_url('alertas/pmm'); ?>">
               <div class="widget-user-header bg-aqua" id="boxPMM">
                 <div class="widget-user-image">
                   <img class="img-circle" src="<?php echo base_url();?>assets/img/pmm.jpg" alt="User Avatar">

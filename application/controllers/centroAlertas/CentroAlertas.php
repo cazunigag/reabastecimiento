@@ -18,5 +18,8 @@ class CentroAlertas extends CI_Controller{
 	public function alertasBT(){
 		$this->load->view('CentroAlertas/BT/AlertasBT');
 	}
+	public function alertasPMM(){
+		$this->load->view('CentroAlertas/PMM/AlertasPMM');
+	}
 	
 }

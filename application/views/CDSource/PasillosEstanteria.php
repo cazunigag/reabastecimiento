@@ -213,7 +213,11 @@
 </script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/centrodistribucion.js">
 </script>
-
+<div class="modalloading" style="display: none">
+    <div class="center">
+        <img alt="" style="opacity: 1;" src="<?php echo base_url();?>assets/img/loader.gif"/>
+    </div>
+</div>
 </body>
 <script type="text/javascript">
   var idpasillorc = '';
@@ -262,6 +266,37 @@
   text-align: center;
   left: 47%;
   display: none;
+}
+.modalloading
+{
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: Black;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+    -moz-opacity: 0.6;
+}
+.center
+{
+    z-index: 1000;
+    margin: 300px auto;
+    padding: 10px;
+    width: 130px;
+    background-color: White;
+    border-radius: 10px;
+    filter: alpha(opacity=100);
+    opacity: 1;
+    -moz-opacity: 1;
+}
+.center img
+{
+    opacity: 1;
+    height: 120px;
+    width: 120px;
 }
 </style>
 </html>

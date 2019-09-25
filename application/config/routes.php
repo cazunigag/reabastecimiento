@@ -75,7 +75,7 @@ $route['pasillos/actTipoCarton'] = "centrodistribucion/estanteria/actualizarCart
 $route['locaciones/vacias'] = "centrodistribucion/estanteria/getEmptyLocn";
 $route['locaciones/detalle/cabecera'] = "centrodistribucion/estanteria/getHeader";
 $route['locaciones/antiguedad/descConteoCilcico/(:num)/(:any)'] = "centrodistribucion/estanteria/downloadAntiguedadContCiclico/$1/$2";
-$route['locaciones/antiguedad/descSku/(:num)/(:any)'] = "centrodistribucion/estanteria/downloadAntiguedadContCiclico/$1/$2";
+$route['locaciones/antiguedad/descSku/(:num)/(:any)'] = "centrodistribucion/estanteria/downloadExcelAntiguedadSku/$1/$2";
 $route['locaciones/antiguedad/ConteoCilcico'] = "centrodistribucion/estanteria/getAntiguedadContCiclico";
 $route['locaciones/antiguedad/Sku'] = "centrodistribucion/estanteria/getAntiguedadSku";
 $route['locaciones/detalle/cabecera'] = "centrodistribucion/estanteria/getHeader";
@@ -84,7 +84,7 @@ $route['locaciones/detalle/imagen'] = "centrodistribucion/estanteria/getImagenSk
 //rutas Centro Alertas
 $route['alertas/wms'] = "centroAlertas/centroAlertas/alertasWMS";
 $route['alertas/bt'] = "centroAlertas/centroAlertas/alertasBT";
-
+$route['alertas/pmm'] = "centroAlertas/centroAlertas/alertasPMM";
 //rutas alertas WMS
 $route['alertas/wms/errores/PKT'] = "centroAlertas/WMS/alertasWMS/erroresPKT";
 $route['alertas/wms/errores/cantPKT'] = "centroAlertas/WMS/alertasWMS/cantErroresPKT";

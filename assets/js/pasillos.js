@@ -76,12 +76,13 @@ $(document).ready(function(){
       }
   	});
   	$("#btnCartonType").click(function(){
-	    $(document).ajaxStart(function () {
-	          Pace.restart();
-	      }).ajaxStop(function () {
-	          $("#overlay").hide();
-	      });
 	     $.ajax({
+            beforeSend: function () {
+                $(".modalloading").show();
+            },
+            complete: function () {
+                $(".modalloading").hide();
+            },
 	          type: "POST",
 	          url: baseURL + 'pasillos/tipoCarton',
 	          data:{ pasillos: pasillospiso},
