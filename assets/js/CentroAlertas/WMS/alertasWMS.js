@@ -372,6 +372,23 @@ $(document).ready(function(){
         },
         pageSize: 15
     });
+     var dataSourceVerPO = new kendo.data.DataSource({
+        transport: {
+            read: onReadVerPO
+        },
+        schema: {
+            model: {
+                id: "PO_NBR",
+                fields: {
+                        PO_NBR: {type: "string"}, // number - string - date
+                        MOD_DATE_TIME: {type: "string"},
+                        STAT_CODE: {type: "string"}, // number - string - date
+                        CODE_DESC: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
 	function intermitenciaPO(){
       $("#POBox").toggleClass("bg-green");
       $("#POBox").toggleClass("bg-red");
@@ -464,6 +481,26 @@ $(document).ready(function(){
             {field: "MSG_DTL",title: "MENSAJE SKU",width: 70,filterable: false}
         ]
     });
+    $("#gridVerPO").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceVerPO,
+        height: "90%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "PO_NBR",title: "ORDEN DE COMPRA",width: 70, filterable:false, resizable:false, height: 80},
+            {field: "MOD_DATE_TIME",title: "ULTIMA MODIFICACION",width:70,filterable:false},
+            {field: "STAT_CODE",title: "ESTADO",width:70,filterable: false},
+            {field: "CODE_DESC",title: "DESCRIPCION",width: 70,filterable: false}
+        ]
+    });
      $("#PODetalles").click(function(){
         actualizarAlertaPO();
         var popupdetallepo = $("#POPUP_Detalle_PO");
@@ -477,6 +514,19 @@ $(document).ready(function(){
         width: "750px",
         height: "550px",
         title: "Detalle Errores PO",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+
+    var ventana_verificar_po = $("#POPUP_Verificar_PO");
+    ventana_verificar_po.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Verificacion Tablas Finales OC",
         visible: false,
         actions: [
             "Minimize",
@@ -498,12 +548,50 @@ $(document).ready(function(){
             }
         });
     }
+     function onReadVerPO(e){
+         $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/PO/verificar',
+            dataType: 'json',
+            data:{ pos: JSON.stringify(pos)},
+            success: function(result){
+                if(result.length != 0){
+                    e.success(result);
+                    console.log(result.length);
+                }else{
+                    var popupverificarpo = $("#POPUP_Verificar_PO");
+                    popupverificarpo.data("kendoWindow").close();
+                    $("#warning-modal").text("La OC seleccionada no se encuentra en las tablas finales");
+                    $("#modal-warning").modal('show');
+                }
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    }
     $("#toolbarPO").kendoToolBar({
         items: [
             { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarPO},
-            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarPO}
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarPO},
+            { type: "button", text: "Verificar OC", icon: "k-icon k-i-check-circle" ,click: VerificarPO}
         ]
     });
+    function VerificarPO(){
+        var data = JSON.stringify(pos);
+        if(Array.isArray(pos) && pos.length != 0){
+            var popupverificarpo = $("#POPUP_Verificar_PO");
+            popupverificarpo.data("kendoWindow").open();
+            var grid = $("#gridVerPO");
+            grid.data("kendoGrid").dataSource.read();
+        }
+        else{;
+            var popupdetallepo = $("#POPUP_Detalle_PO");
+            popupdetallepo.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos una Orden de Compra para verificar");
+            $("#modal-danger").modal('show');
+        }
+    }
     function ActualizarPO(){
         var data = JSON.stringify(pos);
         if(Array.isArray(pos) && pos.length != 0){
@@ -526,7 +614,8 @@ $(document).ready(function(){
                         popupdetallepo.data("kendoWindow").close();
                         $("#error-modal").text("Error al actualizar Orden de Compra");
                         $("#modal-danger").modal('show');
-                        pos = [];                    }
+                        pos = [];                    
+                    }
                 },
                 error: function(xhr){
                     console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
@@ -1405,7 +1494,7 @@ $(document).ready(function(){
             {field: "APPT_NBR",title: "NUMERO CITA",width: 90, filterable:false, resizable:false, height: 80},
             {field: "SHPMT_NBR",title: "ASN",width:70,filterable:false},
             {field: "CREATE_DATE_TIME",title: "FECHA CREACION",width:70,filterable: false},
-            {field: "MSG",title: "MENSAJE",width:70,filterable: false}
+            {field: "MSG",title: "MENSAJE",width:80,filterable: false}
         ]
     });
     $("#gridResCITA").kendoGrid({
@@ -1689,9 +1778,11 @@ $(document).ready(function(){
             model: {
                 id: "SHPMT_NBR",
                 fields: {
-                        SHPMT_NBR: {type: "string"}, // number - string - date
-                        MSG_SHPMT: {type: "string"},
+                        SHPMT_NBR: {type: "string"},
+                        REF_FIELD_1: {type: "string"}, // number - string - date
+                        PO_NBR: {type: "string"},
                         SIZE_DESC: {type: "string"},
+                        MSG_SHPMT: {type: "string"},  
                         MSG_SKU: {type: "string"}
                     }
             }
@@ -1835,10 +1926,12 @@ $(document).ready(function(){
         },
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
-            {field: "SHPMT_NBR",title: "ASN",width: 90, filterable:false, resizable:false, height: 80},
-            {field: "MSG_SHPMT",title: "MENSAJE ASN",width:70,filterable:false},
-            {field: "SIZE_DESC",title: "SKU",width:70,filterable: false},
-            {field: "MSG_SKU",title: "MENSAJE SKU",width:70,filterable: false}
+            {field: "SHPMT_NBR",title: "ASN",width: 60, filterable:false, resizable:false, height: 80},
+            {field: "REF_FIELD_1",title: "CITA",width:60,filterable:false},
+            {field: "PO_NBR",title: "OC",width:60,filterable:false},
+            {field: "SIZE_DESC",title: "SKU",width:60,filterable: false},
+            {field: "MSG_SHPMT",title: "MENSAJE CABECERA",width:90,filterable: false},
+            {field: "MSG_SKU",title: "MENSAJE DETALLE",width:90,filterable: false}
         ]
     });
     $("#ASNBajados").click(function(){
@@ -2050,9 +2143,10 @@ $(document).ready(function(){
             model: {
                 id: "CASE_NBR",
                 fields: {
-                        CASE_NBR: {type: "string"}, // number - string - date
+                        CASE_NBR: {type: "string"},
+                        ORIG_SHPMT_NBR: {type: "string"},
+                        SIZE_DESC: {type: "string"}, // number - string - date
                         MSG_LPN: {type: "string"},
-                        SIZE_DESC: {type: "string"},
                         MSG_SKU: {type: "string"}
                     }
             }
@@ -2165,9 +2259,10 @@ $(document).ready(function(){
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
             {field: "CASE_NBR",title: "LPN",width: 90, filterable:false, resizable:false, height: 80},
-            {field: "MSG_LPN",title: "MENSAJE LPN",width:70,filterable:false},
+            {field: "ORIG_SHPMT_NBR",title: "ASN",width:70,filterable:false},
             {field: "SIZE_DESC",title: "SKU",width:70,filterable: false},
-            {field: "MSG_SKU",title: "MENSAJE SKU",width:70,filterable: false}
+            {field: "MSG_LPN",title: "MENSAJE CABECERA",width:70,filterable:false},
+            {field: "MSG_SKU",title: "MENSAJE DETALLE",width:70,filterable: false}
         ]
     });
     $("#LPNBajados").click(function(){

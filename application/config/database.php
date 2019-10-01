@@ -205,3 +205,25 @@ $db['BTPROD'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+$db['PMMPRODCONT'] = array(
+	'dsn'	=> '',
+	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (COMMUNITY = tcp.world)(PROTOCOL = TCP)(Host = 10.0.150.12)(Port = 1521)))
+    (CONNECT_DATA = (SID = pollc1)))',
+	'username' => 'CONTINGENCIA_JCAMACHOT',
+	'password' => 'JCAMACHOT',
+	'database' => '',
+	'dbdriver' => 'oci8',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

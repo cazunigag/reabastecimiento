@@ -306,7 +306,7 @@
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/centroalertas.js" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/centroalertas.js" async>
 </script>
 <style type="text/css">
   a{

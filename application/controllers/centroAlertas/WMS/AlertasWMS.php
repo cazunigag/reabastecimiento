@@ -243,4 +243,8 @@ class AlertasWMS extends CI_Controller{
 		$fasns = json_decode($this->input->post('fasns'));
 		echo $this->alertasWMS_model->reporcesarFASN($fasns);
 	}
+	public function verificarOC(){
+		$pos = json_decode($this->input->post('pos'));
+		echo $this->alertasWMS_model->verificarOC($pos);
+	}
 }

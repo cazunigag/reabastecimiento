@@ -98,6 +98,7 @@ $route['alertas/wms/errores/cantPO'] = "centroAlertas/WMS/alertasWMS/cantErrores
 $route['alertas/wms/PO/totPO'] = "centroAlertas/WMS/alertasWMS/totPOBajados";
 $route['alertas/wms/PO/actualizar'] = "centroAlertas/WMS/alertasWMS/reprocesarPO";
 $route['alertas/wms/PO/eliminar'] = "centroAlertas/WMS/alertasWMS/eliminarPO";
+$route['alertas/wms/PO/verificar'] = "centroAlertas/WMS/alertasWMS/verificarOC";
 
 $route['alertas/wms/errores/BRCD'] = "centroAlertas/WMS/alertasWMS/erroresBRCD";
 $route['alertas/wms/errores/cantBRCD'] = "centroAlertas/WMS/alertasWMS/cantErroresBRCD";
@@ -158,3 +159,8 @@ $route['alertas/wms/fasn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesa
 
 $route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
 $route['alertas/bt/errores/cantSinProcSDI'] = "centroAlertas/BT/alertasBT/cantSinProcesarSDI";
+
+//rutas alertas PMM
+
+$route['alertas/pmm/errores/difPMMWMS'] = "centroAlertas/PMM/alertasPMM/diferenciasPMMWMS";
+$route['alertas/pmm/errores/cantDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifPMMWMS";

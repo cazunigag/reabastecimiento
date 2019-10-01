@@ -130,8 +130,8 @@
       <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="info-box bg-green">
-           <a id="PKTBajados"><span class="info-box-icon" id="pktBox"><i id="iconPKT" class="glyphicon glyphicon-ok"></i></span></a>
+          <div class="info-box bg-green" id="pktBox">
+           <a id="PKTBajados"><span class="info-box-icon" ><i id="iconPKT" class="glyphicon glyphicon-ok"></i></span></a>
             <div class="info-box-content">
               <span class="info-box-text">PICK TICKET BAJADOS</span>
               <span class="info-box-number" id="npkt">0</span>
@@ -368,6 +368,9 @@
   <div id="toolbarPO"></div>
   <div id="gridDetPO"></div>
 </div>
+<div id="POPUP_Verificar_PO" class="grid">
+  <div id="gridVerPO"></div>
+</div>
 <div id="POPUP_Detalle_BRCD" class="grid">
   <div id="toolbarBRCD"></div>
   <div id="gridDEtBRCD"></div>
@@ -464,6 +467,25 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<div class="modal modal-warning fade" id="modal-warning">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><i class="fa fa-warning"></i>  Alerta</h4>
+      </div>
+      <div class="modal-body">
+        <p id="warning-modal"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">CERRAR</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 <div class="modal modal-info fade" id="modal-info">
   <div class="modal-dialog">
@@ -523,7 +545,7 @@
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/alertasWMS.js" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/WMS/alertasWMS.js" async>
 </script>
 <style type="text/css">
   a{

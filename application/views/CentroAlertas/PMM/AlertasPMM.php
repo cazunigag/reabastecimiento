@@ -129,16 +129,16 @@
       <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="info-box bg-green" id="SDIBTBox">
-           <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
+          <div class="info-box bg-green" id="DPWBox">
+           <span class="info-box-icon" ><i id="iconDPW" class="glyphicon glyphicon-ok"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">MSG SIN PROCESAR</span>
-              <span class="info-box-number" id="nSDIBT">0</span>
+              <span class="info-box-text">DOC NO RECIBIDOS</span>
+              <span class="info-box-number" id="nDPW">0</span>
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
               </div>
                   <span class="progress-description">
-                    <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                    <a id="DPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
                   </span>
             </div>
             <!-- /.info-box-content -->
@@ -236,7 +236,9 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- ./wrapper -->
-
+<div id="POPUP_Detalle_DPW" class="grid">
+  <div id="gridDetDPW"></div>
+</div>
 <!-- jQuery 3 -->
 
 <!-- jQuery UI 1.11.4 -->
@@ -271,6 +273,9 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/PMM/alertasPMM.js" async>
+</script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>

@@ -7,7 +7,6 @@ $(document).ready(function(){
 					var popupcartontype = $("#POPUP_CartonType");
 					popupcartontype.data("kendoWindow").title("Actualizar Carton Type Pasillo: "+ idpasillorc);
 	        		popupcartontype.data("kendoWindow").open();
-	        		$("#selectCartonType").data("kendoComboBox").dataSource.read();
         		}
                 break; 
             default: 
@@ -24,8 +23,7 @@ $(document).ready(function(){
 	$("#selectCartonType").kendoComboBox({
 		dataSource: dataSource,
 		dataTextField: "CARTON_TYPE",
-		dataValueField: "CARTON_TYPE",
-    autoBind: false
+		dataValueField: "CARTON_TYPE"
 	});
 	var ventana_classPasillo= $("#POPUP_ClassPasillo");
 	ventana_classPasillo.kendoWindow({
@@ -217,7 +215,7 @@ $(document).ready(function(){
     });
     function onReadCB(e){
         $.ajax({
-            url: baseURL + 'pasillos/tipoCartones',
+            url: baseURL + 'pasillos/tipoCartones/todos',
 			type:"POST",
 			dataType: "json",
 			data:{ pasillo: idpasillorc},

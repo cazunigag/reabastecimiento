@@ -507,8 +507,10 @@ class alertasWMS_model extends CI_Model{
 	public function erroresASN(){
 		$sql = "SELECT
 					A.SHPMT_NBR,
+					A.REF_FIELD_1,
 					B.MSG AS MSG_SHPMT,
 					C.SIZE_DESC,
+					C.PO_NBR,
 					D.MSG AS MSG_SKU
 				FROM 
 					INPT_ASN_HDR A,
@@ -614,7 +616,7 @@ class alertasWMS_model extends CI_Model{
 					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')",
 					"UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'"
 			);		
-			foreach ($variable as $key => $value) {
+			foreach ($variable as $key2) {
 
 				$result = $this->db->query($key2);
 
@@ -637,8 +639,8 @@ class alertasWMS_model extends CI_Model{
 					"DELETE FROM INPT_APPT_SCHED WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')",
 					"DELETE FROM INPT_STORE_DISTRO WHERE SHPMT_NBR IN ('$key->SHPMT_NBR')"
 			);
-			for ($i=1; $i <=7 ; $i++) { 
-				$result = $this->db->query($sql.$i);
+			foreach ($sql as $key2) {
+				$result = $this->db->query($key2);
 
 				if(!$result){
 					break;
@@ -649,7 +651,8 @@ class alertasWMS_model extends CI_Model{
 		return 0;
 	}
 	public function erroresLPN(){
-		$sql = "SELECT A.CASE_NBR, B.MSG AS MSG_LPN, C.SIZE_DESC, D.MSG AS MSG_SKU FROM INPT_CASE_HDR A, MSG_LOG B, INPT_CASE_DTL C, MSG_LOG D 
+		$sql = "SELECT A.CASE_NBR, A.ORIG_SHPMT_NBR, B.MSG AS MSG_LPN, C.SIZE_DESC, D.MSG AS MSG_SKU 
+				FROM INPT_CASE_HDR A, MSG_LOG B, INPT_CASE_DTL C, MSG_LOG D 
 		   		WHERE TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+) AND A.CASE_NBR = C.CASE_NBR(+) AND TO_CHAR(C.ERROR_SEQ_NBR) = D.REF_VALUE_1(+)
 		   		AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0)";
 
@@ -948,5 +951,38 @@ class alertasWMS_model extends CI_Model{
 			}
 		}
 		return 0;
+	}
+	public function verificarOC($pos){
+		$ocs = "";
+		foreach ($pos as $key) {
+			if(next($pos) == false){
+				$ocs = $ocs.$key->PO_NBR;
+			}else{
+				$ocs = $ocs.$key->PO_NBR."','";
+			}
+		}
+		$sql = "SELECT
+					A.PO_NBR,
+					A.MOD_DATE_TIME,
+					A.STAT_CODE,
+					B.CODE_DESC
+				FROM
+					PO_HDR A,
+					SYS_CODE B
+				WHERE 
+					A.PO_NBR IN ('$ocs')
+					AND A.STAT_CODE = B.CODE_ID
+					AND B.REC_TYPE = 'S'
+					AND B.CODE_TYPE = '123'";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
 	}
 }	

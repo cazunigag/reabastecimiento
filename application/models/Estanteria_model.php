@@ -7,6 +7,7 @@ class Estanteria_model extends CI_Model{
      {
         $this->load->database('reportWMS');
         $DB2 = $this->load->database('PMMWMS', TRUE);
+        $DB3 = $this->load->database('PMMPRODCONT', TRUE);
      }
 
 	public function loadPasillosEstanteria($piso){
@@ -448,9 +449,23 @@ class Estanteria_model extends CI_Model{
 		}		
 	}
 	public function getCartonTypes(){
-		$sql ="SELECT DISTINCT /*+ INDEX(PK_ITEM_MASTER) */ CARTON_TYPE FROM ITEM_MASTER WHERE CARTON_TYPE IS NOT NULL";
+		$DB3 = $this->load->database('PMMPRODCONT', TRUE);
+		$sql ="SELECT 
+					C.ATR_CODE AS CARTON_TYPE,
+					C.ATR_CODE_DESC
+				FROM
+					BASACDEE C,
+					BASAHREE D,
+					BASATYEE E
+				WHERE
+					D.ATR_TYP_TECH_KEY = E.ATR_TYP_TECH_KEY
+					AND C.ATR_HDR_TECH_KEY = D.ATR_HDR_TECH_KEY
+					AND E.ATR_TYP_TECH_KEY = 10
+					AND C.ATR_HDR_TECH_KEY = 232
+				ORDER BY
+					C.ATR_CODE";
 		
-		$result = $this->db->query($sql);
+		$result = $DB3->query($sql);
 		if($result || $result != null){
 			$resultado = json_encode($result->result());
 			$this->db->close();
