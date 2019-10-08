@@ -144,6 +144,24 @@
             <!-- /.info-box-content -->
           </div>
         </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="info-box bg-green" id="DCPWBox">
+           <span class="info-box-icon" ><i id="iconDCPW" class="glyphicon glyphicon-ok"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">CARGAS NO RECIBIDAS</span>
+              <span class="info-box-number" id="nDCPW">0</span>
+              <div class="progress">
+                <div class="progress-bar" style="width: 100%"></div>
+              </div>
+                  <span class="progress-description">
+                    <a id="DCPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                  </span>
+            </div>
+           
+            <!-- /.info-box-content -->
+          </div>
+        </div>
       </div>
         <!-- ./col -->
       </div>
@@ -238,6 +256,9 @@
 <!-- ./wrapper -->
 <div id="POPUP_Detalle_DPW" class="grid">
   <div id="gridDetDPW"></div>
+</div>
+<div id="POPUP_Detalle_DCPW" class="grid">
+  <div id="gridDetDCPW"></div>
 </div>
 <!-- jQuery 3 -->
 

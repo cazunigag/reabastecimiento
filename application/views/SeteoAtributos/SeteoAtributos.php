@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Alertas BT</title>
+  <title>Seteo Atributos</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -13,10 +13,10 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
   <!-- jvectormap -->
@@ -44,28 +44,31 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-purple sidebar-collapse sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<?php echo site_url('home/home');?>" class="logo">
+    <a href="../../index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>RDX</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>BigTicket</b></span>
+      <span class="logo-lg"><b>REDEX</b></span>
     </a>
-   
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
       </a>
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          
+        
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -74,20 +77,14 @@
       </div>
     </nav>
   </header>
-  <!-- Left side column. contains the logo and sidebar -->
+
+  <!-- =============================================== -->
+
+  <!-- Left side column. contains the sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li>
-          <div style="margin-top: 20px; margin-bottom: 20px"></div>
-          <center>
-            <img src="<?php echo base_url();?>assets/img/logo.png" height="60" width="170"/>
-          </center>
-        </li>
         <div style="margin-top: 20px; margin-bottom: 20px"></div>
         <li class="header"><b>MENU</b></li>
         <li>
@@ -110,96 +107,79 @@
             <i class="fa fa-warning"></i></i><span>Centro de Alertas</span>
           </a>
         </li>
+        <li>
+          <a href="<?php echo site_url('seteoAttr');?>">
+            <i class="fa fa-check-square-o"></i></i><span>Seteo Atributos Logisticos</span>
+          </a>
+        </li>
       </ul>
     </section>
+      <!-- Sidebar user panel -->
+      
     <!-- /.sidebar -->
   </aside>
+
+  <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
+        <i class="fa fa-check-square-o"></i> Seteo Atributos
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="SDIBTBox">
-           <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">MSG SIN PROCESAR</span>
-              <span class="info-box-number" id="nSDIBT">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Buscar Sku</h3>
+
+              <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="txtsku" id="txtsku" class="form-control pull-right" placeholder="Sku">
+
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-primary" id="btnBuscarSku"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
               </div>
-                  <span class="progress-description">
-                    <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
             </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="VBTBox">
-           <span class="info-box-icon" ><i id="iconVBT" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">MSG MAL ENVIADOS</span>
-              <span class="info-box-number" id="nVBT">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="VBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover" id="skuinfo">
+                <tr>
+                  <th>Sku</th>
+                  <th>Desc Sku</th>
+                  <th>Estilo</th>
+                  <th>Depto</th>
+                  <th>Desc Depto</th>
+                  <th>Linea</th>
+                  <th>Desc Linea</th>
+                  <th>Sublinea</th>
+                  <th>Desc Sublinea</th>
+                </tr>
+              </table>
             </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="CUDDBox">
-           <span class="info-box-icon" ><i id="iconCUDD" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">CUD DUPLICADOS</span>
-              <span class="info-box-number" id="nCUDD">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="CUDDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-      </div>
-        <!-- ./col -->
-      </div>
-      <!-- /.row -->
-      <!-- Main row -->
-          
+            <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
-        </section>
-        <!-- right col -->
+        </div>
       </div>
-      <!-- /.row (main row) -->
-
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="gridAtributos"></div>
+        </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
-
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark" style="display: none;">
+  <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     
   </aside>
@@ -208,8 +188,6 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-
-
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -269,12 +247,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<div id="POPUP_Detalle_VBT" class="grid">
-  <div id="gridDetVBT"></div>
-</div>
-<div id="POPUP_Detalle_CUDD" class="grid">
-  <div id="gridDetCUDD"></div>
-</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
@@ -314,8 +286,7 @@
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/BT/alertasBT.js" async>
-</script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/SeteoAtributos/seteoAtributos.js"></script>
 <style type="text/css">
   a{
     color: white;
@@ -337,7 +308,20 @@
   .k-toolbar .k-button{
     color: black;
   }
+  .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+  }
+      
+  .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+  }
+  .k-grid tbody tr {
+    line-height: 14px;
+  }
+  .k-grid {
+    font-size: 12px;
+  }
 </style>
+
 </body>
 </html>
-s

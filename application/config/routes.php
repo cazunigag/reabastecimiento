@@ -60,6 +60,7 @@ $route['articuloLocacion'] = "articulolocacion/articulo_locacion";
 $route['asignacionPedido'] = "asignacionpedido/asignacion_pedido";
 $route['redex'] = "centrodistribucion/estanteria/loadCDLayout";
 $route['centroAlertas'] = "centroAlertas/centroAlertas";
+$route['seteoAttr'] = "seteoAtributos/SeteoAtributos";
 //rutas Estanteria
 $route['estanteria']  = "centrodistribucion/estanteria/loadPisosEstanteria";
 $route['piso/(:num)'] = "centrodistribucion/estanteria/loadPasillosEstanteria/$1";
@@ -160,7 +161,22 @@ $route['alertas/wms/fasn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesa
 $route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
 $route['alertas/bt/errores/cantSinProcSDI'] = "centroAlertas/BT/alertasBT/cantSinProcesarSDI";
 
+$route['alertas/bt/errores/malEnviadosBT'] = "centroAlertas/BT/alertasBT/malEnviadosBT";
+$route['alertas/bt/errores/cantMalEnviadosBT'] = "centroAlertas/BT/alertasBT/cantMalEnviadosBT";
+
+$route['alertas/bt/errores/pickTicketDuplicados'] = "centroAlertas/BT/alertasBT/pickTicketDuplicados";
+$route['alertas/bt/errores/cantPickTicketDuplicados'] = "centroAlertas/BT/alertasBT/cantPickTicketDuplicados";
+
 //rutas alertas PMM
 
 $route['alertas/pmm/errores/difPMMWMS'] = "centroAlertas/PMM/alertasPMM/diferenciasPMMWMS";
 $route['alertas/pmm/errores/cantDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifPMMWMS";
+
+$route['alertas/pmm/errores/difCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/difCargaPMMWMS";
+$route['alertas/pmm/errores/cantDifCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifCargaPMMWMS";
+
+//rutas seteo atributos
+
+$route['SeteoAttr/infoSku'] = "seteoAtributos/SeteoAtributos/infoSku";
+$route['SeteoAttr/cboCartonType'] = "seteoAtributos/SeteoAtributos/cboCartonType";
+

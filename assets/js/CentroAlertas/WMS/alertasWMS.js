@@ -102,6 +102,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaPKT(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconPKT").toggleClass("fa");
+                $("#iconPKT").toggleClass("fa-refresh");
+                $("#iconPKT").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPKT").toggleClass("fa");
+                $("#iconPKT").toggleClass("fa-refresh");
+                $("#iconPKT").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantPKT',
             dataType: 'json',
@@ -127,6 +137,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconPKT").toggleClass("fa");
+                $("#iconPKT").toggleClass("fa-refresh");
+                $("#iconPKT").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPKT").toggleClass("fa");
+                $("#iconPKT").toggleClass("fa-refresh");
+                $("#iconPKT").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/pkt/totPKT',
             dataType: 'json',
@@ -404,6 +424,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaPO(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconPO").toggleClass("fa");
+                $("#iconPO").toggleClass("fa-refresh");
+                $("#iconPO").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPO").toggleClass("fa");
+                $("#iconPO").toggleClass("fa-refresh");
+                $("#iconPO").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantPO',
             dataType: 'json',
@@ -429,6 +459,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconPO").toggleClass("fa");
+                $("#iconPO").toggleClass("fa-refresh");
+                $("#iconPO").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPO").toggleClass("fa");
+                $("#iconPO").toggleClass("fa-refresh");
+                $("#iconPO").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/PO/totPO',
             dataType: 'json',
@@ -709,6 +749,16 @@ $(document).ready(function(){
     }
 	function actualizarAlertaBRCD(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconBRCD").toggleClass("fa");
+                $("#iconBRCD").toggleClass("fa-refresh");
+                $("#iconBRCD").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconBRCD").toggleClass("fa");
+                $("#iconBRCD").toggleClass("fa-refresh");
+                $("#iconBRCD").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantBRCD',
             dataType: 'json',
@@ -734,6 +784,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconBRCD").toggleClass("fa");
+                $("#iconBRCD").toggleClass("fa-refresh");
+                $("#iconBRCD").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconBRCD").toggleClass("fa");
+                $("#iconBRCD").toggleClass("fa-refresh");
+                $("#iconBRCD").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/brcd/totBRCD',
             dataType: 'json',
@@ -989,6 +1049,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaART(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconART").toggleClass("fa");
+                $("#iconART").toggleClass("fa-refresh");
+                $("#iconART").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconART").toggleClass("fa");
+                $("#iconART").toggleClass("fa-refresh");
+                $("#iconART").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantART',
             dataType: 'json',
@@ -1014,6 +1084,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconART").toggleClass("fa");
+                $("#iconART").toggleClass("fa-refresh");
+                $("#iconART").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconART").toggleClass("fa");
+                $("#iconART").toggleClass("fa-refresh");
+                $("#iconART").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantART',
             dataType: 'json',
@@ -1304,6 +1384,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaOLA(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconOLA").toggleClass("fa");
+                $("#iconOLA").toggleClass("fa-refresh");
+                $("#iconOLA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconOLA").toggleClass("fa");
+                $("#iconOLA").toggleClass("fa-refresh");
+                $("#iconOLA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantOLA',
             dataType: 'json',
@@ -1329,6 +1419,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconOLA").toggleClass("fa");
+                $("#iconOLA").toggleClass("fa-refresh");
+                $("#iconOLA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconOLA").toggleClass("fa");
+                $("#iconOLA").toggleClass("fa-refresh");
+                $("#iconOLA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/ola/totOLA',
             dataType: 'json',
@@ -1598,6 +1698,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaCITA(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconCITA").toggleClass("fa");
+                $("#iconCITA").toggleClass("fa-refresh");
+                $("#iconCITA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconCITA").toggleClass("fa");
+                $("#iconCITA").toggleClass("fa-refresh");
+                $("#iconCITA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantCITA',
             dataType: 'json',
@@ -1623,6 +1733,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconCITA").toggleClass("fa");
+                $("#iconCITA").toggleClass("fa-refresh");
+                $("#iconCITA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconCITA").toggleClass("fa");
+                $("#iconCITA").toggleClass("fa-refresh");
+                $("#iconCITA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/cita/totCITA',
             dataType: 'json',
@@ -1804,6 +1924,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaASN(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconASN").toggleClass("fa");
+                $("#iconASN").toggleClass("fa-refresh");
+                $("#iconASN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconASN").toggleClass("fa");
+                $("#iconASN").toggleClass("fa-refresh");
+                $("#iconASN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantASN',
             dataType: 'json',
@@ -1829,6 +1959,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconASN").toggleClass("fa");
+                $("#iconASN").toggleClass("fa-refresh");
+                $("#iconASN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconASN").toggleClass("fa");
+                $("#iconASN").toggleClass("fa-refresh");
+                $("#iconASN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/asn/totASN',
             dataType: 'json',
@@ -2168,6 +2308,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaLPN(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconLPN").toggleClass("fa");
+                $("#iconLPN").toggleClass("fa-refresh");
+                $("#iconLPN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconLPN").toggleClass("fa");
+                $("#iconLPN").toggleClass("fa-refresh");
+                $("#iconLPN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantLPN',
             dataType: 'json',
@@ -2193,6 +2343,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconLPN").toggleClass("fa");
+                $("#iconLPN").toggleClass("fa-refresh");
+                $("#iconLPN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconLPN").toggleClass("fa");
+                $("#iconLPN").toggleClass("fa-refresh");
+                $("#iconLPN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/lpn/totLPN',
             dataType: 'json',
@@ -2455,6 +2615,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaDISTRO(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconDISTRO").toggleClass("fa");
+                $("#iconDISTRO").toggleClass("fa-refresh");
+                $("#iconDISTRO").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconDISTRO").toggleClass("fa");
+                $("#iconDISTRO").toggleClass("fa-refresh");
+                $("#iconDISTRO").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantDISTRO',
             dataType: 'json',
@@ -2480,6 +2650,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconDISTRO").toggleClass("fa");
+                $("#iconDISTRO").toggleClass("fa-refresh");
+                $("#iconDISTRO").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconDISTRO").toggleClass("fa");
+                $("#iconDISTRO").toggleClass("fa-refresh");
+                $("#iconDISTRO").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantDISTRO',
             dataType: 'json',
@@ -2702,6 +2882,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaCARGA(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconCARGA").toggleClass("fa");
+                $("#iconCARGA").toggleClass("fa-refresh");
+                $("#iconCARGA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconCARGA").toggleClass("fa");
+                $("#iconCARGA").toggleClass("fa-refresh");
+                $("#iconCARGA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantCARGA',
             dataType: 'json',
@@ -2727,6 +2917,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconCARGA").toggleClass("fa");
+                $("#iconCARGA").toggleClass("fa-refresh");
+                $("#iconCARGA").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconCARGA").toggleClass("fa");
+                $("#iconCARGA").toggleClass("fa-refresh");
+                $("#iconCARGA").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/carga/totCARGA',
             dataType: 'json',
@@ -2944,6 +3144,16 @@ $(document).ready(function(){
     }
     function actualizarAlertaFASN(){
         $.ajax({
+            beforeSend: function () {
+                $("#iconFASN").toggleClass("fa");
+                $("#iconFASN").toggleClass("fa-refresh");
+                $("#iconFASN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconFASN").toggleClass("fa");
+                $("#iconFASN").toggleClass("fa-refresh");
+                $("#iconFASN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantFASN',
             dataType: 'json',
@@ -2969,6 +3179,16 @@ $(document).ready(function(){
             }
         });
         $.ajax({
+            beforeSend: function () {
+                $("#iconFASN").toggleClass("fa");
+                $("#iconFASN").toggleClass("fa-refresh");
+                $("#iconFASN").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconFASN").toggleClass("fa");
+                $("#iconFASN").toggleClass("fa-refresh");
+                $("#iconFASN").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/cantFASN',
             dataType: 'json',

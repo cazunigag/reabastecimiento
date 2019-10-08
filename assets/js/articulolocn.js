@@ -29,8 +29,8 @@ $(function() {
                             sheet.range("B1").enable(false);
                             sheet.range("C1").enable(false);
                             sheet.range("D1").enable(false);
-                            sheet.range("E1").enable(false);
-                            sheet.range("F1").enable(false);
+                            sheet.range("E1:E10000").enable(false);
+                            sheet.range("F1:F10000").enable(false);
 
                         }, {recalc: true});
                 }

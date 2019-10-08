@@ -24,4 +24,16 @@ class AlertasBT extends CI_Controller{
 		}
 		echo $value;
 	}
+	public function malEnviadosBT(){
+		echo $this->alertasBT_model->malEnviadosBT();
+	}
+	public function cantMalEnviadosBT(){
+		echo sizeof(json_decode($this->alertasBT_model->malEnviadosBT()));
+	}
+	public function pickTicketDuplicados(){
+		echo $this->alertasBT_model->pickTicketDuplicados();
+	}
+	public function cantPickTicketDuplicados(){
+		echo $this->alertasBT_model->cantPickTicketDuplicados();
+	}
 }

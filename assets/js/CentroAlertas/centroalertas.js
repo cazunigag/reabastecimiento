@@ -67,7 +67,7 @@ $(document).ready(function(){
 		$("#boxWMS").addClass("bg-red");
 	}
 	function comprobarAlertasBT(){
-		var alertasBT = ["SinProcSDI"];
+		var alertasBT = ["SinProcSDI","MalEnviadosBT","PickTicketDuplicados"];
 		for (var i = 0; i <= alertasBT.length -1; i++) {
 			var request = 	$.ajax({
 					            type: "POST",
@@ -121,7 +121,7 @@ $(document).ready(function(){
 		$("#boxBT").addClass("bg-yellow");
 	}
 	function comprobarAlertasPMM(){
-		var alertasPMM = ["DifPMMWMS"];
+		var alertasPMM = ["DifPMMWMS", "DifCargaPMMWMS"];
 		for (var i = 0; i <= alertasPMM.length -1; i++) {
 			var request = 	$.ajax({
 					            type: "POST",
