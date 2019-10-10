@@ -45,5 +45,11 @@
 <script type="text/javascript">
     var baseURL= "<?php echo base_url();?>";
 </script>
+<style type="text/css">
+    .k-spreadsheet-cell.k-state-disabled div {
+      color: black;
+      font-weight: bold;
+    }
+</style>
 </body>
 </html>

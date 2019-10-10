@@ -4405,6 +4405,7 @@ table.text-center th {
 .bg-orange,
 .bg-fuchsia,
 .bg-purple,
+.bg-plomo,
 .bg-maroon,
 .bg-black,
 .bg-red-active,
@@ -4455,10 +4456,10 @@ table.text-center th {
 }
 .bg-gray {
   color: #000;
-  background-color: #d2d6de !important;
+  background-color: #a3a375 !important;
 }
 .bg-gray-light {
-  background-color: #f7f7f7;
+  background-color: #a3a375;
 }
 .bg-black {
   background-color: #111111 !important;
@@ -4521,12 +4522,15 @@ table.text-center th {
 .bg-purple {
   background-color: #000066 !important;
 }
+.bg-plomo {
+  background-color: #a3a375 !important;
+}
 .bg-maroon {
   background-color: #d81b60 !important;
 }
 .bg-gray-active {
   color: #000;
-  background-color: #b5bbc8 !important;
+  background-color: #a3a375 !important;
 }
 .bg-black-active {
   background-color: #000000 !important;

@@ -2408,7 +2408,7 @@ $(document).ready(function(){
                     rows.each(function(e) {
                         var grid = $("#gridDetLPN").data("kendoGrid");
                         var item = grid.dataItem(this);
-                        lpns.push({CASE_NBR: item.CASE_NBR});
+                        lpns.push({CASE_NBR: item.CASE_NBR, ORIG_SHPMT_NBR: item.ORIG_SHPMT_NBR});
                     }) 
         },
         pageable: {

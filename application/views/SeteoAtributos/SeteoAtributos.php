@@ -28,8 +28,8 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.common.min.css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.material.min.css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.material.mobile.min.css" />
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.default.min.css" />
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.default.mobile.min.css" />
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>

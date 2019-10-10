@@ -34,6 +34,11 @@ class AlertasBT extends CI_Controller{
 		echo $this->alertasBT_model->pickTicketDuplicados();
 	}
 	public function cantPickTicketDuplicados(){
-		echo $this->alertasBT_model->cantPickTicketDuplicados();
+		$cant = 0;
+		$total = json_decode($this->alertasBT_model->cantPickTicketDuplicados());
+		foreach ($total as $key) {
+			$count = $key->CANTIDAD;
+		}
+		echo $count;
 	}
 }

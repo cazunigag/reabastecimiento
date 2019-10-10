@@ -86,6 +86,8 @@ $route['locaciones/detalle/imagen'] = "centrodistribucion/estanteria/getImagenSk
 $route['alertas/wms'] = "centroAlertas/centroAlertas/alertasWMS";
 $route['alertas/bt'] = "centroAlertas/centroAlertas/alertasBT";
 $route['alertas/pmm'] = "centroAlertas/centroAlertas/alertasPMM";
+$route['alertas/eis'] = "centroAlertas/centroAlertas/alertasEIS";
+
 //rutas alertas WMS
 $route['alertas/wms/errores/PKT'] = "centroAlertas/WMS/alertasWMS/erroresPKT";
 $route['alertas/wms/errores/cantPKT'] = "centroAlertas/WMS/alertasWMS/cantErroresPKT";
@@ -175,8 +177,15 @@ $route['alertas/pmm/errores/cantDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/cant
 $route['alertas/pmm/errores/difCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/difCargaPMMWMS";
 $route['alertas/pmm/errores/cantDifCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifCargaPMMWMS";
 
+//rutas alertas EIS
+
+$route['alertas/EIS/errores/msgEIS'] = "centroAlertas/EIS/alertasEIS/msgEIS";
+$route['alertas/EIS/errores/cantErrEIS'] = "centroAlertas/EIS/alertasEIS/cantErrEIS";
+$route['alertas/EIS/errores/resumenEIS'] = "centroAlertas/EIS/alertasEIS/resumenEIS";
+
 //rutas seteo atributos
 
 $route['SeteoAttr/infoSku'] = "seteoAtributos/SeteoAtributos/infoSku";
 $route['SeteoAttr/cboCartonType'] = "seteoAtributos/SeteoAtributos/cboCartonType";
+$route['SeteoAttr/attrSKU'] = "seteoAtributos/SeteoAtributos/attrSKU";
 

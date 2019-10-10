@@ -65,4 +65,42 @@ class Seteoatributos_model extends CI_Model{
 			return $this->db->error();
 		}			
 	}
+	public function attrSKU($sku){
+		$sql = "SELECT
+				    IM.SKU_ID,
+				    IM.STORE_DEPT,
+				    IM.PKT_CONSOL_ATTR,
+				    IM.MERCH_GROUP,
+				    IM.PROMPT_PACK_QTY,
+				    IM.CARTON_TYPE,
+				    IM.CONVEY_FLAG,
+				    IWM.MAX_UNITS_IN_DYNAMIC_CASE_PICK,
+				    IWM.MAX_CASES_IN_DYNAMIC_CASE_PICK,
+				    IWM.CARTON_BREAK_ATTR,
+				    IWM.ASSIGN_DYNAMIC_ACTV_PICK_SITE,
+				    IWM.ASSIGN_DYNAMIC_CASE_PICK_SITE,
+				    IWM.PUTWY_TYPE,
+				    IWM.QUAL_INSPCT_ITEM_GRP,
+				    IM.PROD_GROUP,
+				    IWM.NBR_OF_DYN_ACTV_PICK_PER_SKU,
+				    IWM.NBR_OF_DYN_CASE_PICK_PER_SKU,
+				    IWM.PICK_LOCN_ASSIGN_TYPE,
+				    IM.STORE_DEPT,
+				    IM.SPL_INSTR_CODE_2
+				FROM
+				    ITEM_MASTER IM,
+				    ITEM_WHSE_MASTER IWM
+				WHERE
+				    IM.SKU_ID = '$sku'
+				    AND IM.SKU_ID = IWM.SKU_ID";
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
 }

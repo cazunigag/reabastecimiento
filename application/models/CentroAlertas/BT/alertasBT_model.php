@@ -62,11 +62,14 @@ class alertasBT_model extends CI_Model{
 						PH.MARK_FOR CUD,
 						COUNT(*)
 					  FROM
-					  	PKT_HDR PH
+					  	PKT_HDR PH,
+					  	PKT_HDR_INTRNL PHI
 					  WHERE 
-					  	--TRUNC(PH.CREATE_DATE_TIME) = TRUNC(SYSDATE)
-					  	 SUBSTR(PH.PKT_CTRL_NBR,1,3) = 'BTC'
+					  	TRUNC(PH.CREATE_DATE_TIME) = TRUNC(SYSDATE)
+					  	AND SUBSTR(PH.PKT_CTRL_NBR,1,3) = 'BTC'
 					  	AND PH.MARK_FOR IS NOT NULL
+					  	AND PH.PKT_CTRL_NBR = PHI.PKT_CTRL_NBR
+					  	AND PHI.STAT_CODE <> 99
 					  GROUP BY
 					  	PH.MARK_FOR
 					  HAVING
@@ -101,11 +104,14 @@ class alertasBT_model extends CI_Model{
 						PH.MARK_FOR CUD,
 						COUNT(*)
 					  FROM
-					  	PKT_HDR PH
+					  	PKT_HDR PH,
+					  	PKT_HDR_INTRNL PHI
 					  WHERE 
-					  	--TRUNC(PH.CREATE_DATE_TIME) = TRUNC(SYSDATE)
-					  	 SUBSTR(PH.PKT_CTRL_NBR,1,3) = 'BTC'
+					  	TRUNC(PH.CREATE_DATE_TIME) = TRUNC(SYSDATE)
+					  	AND SUBSTR(PH.PKT_CTRL_NBR,1,3) = 'BTC'
 					  	AND PH.MARK_FOR IS NOT NULL
+					  	AND PH.PKT_CTRL_NBR = PHI.PKT_CTRL_NBR
+					  	AND PHI.STAT_CODE <> 99
 					  GROUP BY
 					  	PH.MARK_FOR
 					  HAVING

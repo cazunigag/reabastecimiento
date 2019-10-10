@@ -741,9 +741,11 @@ class alertasWMS_model extends CI_Model{
 	public function eliminarLPN($lpns){
 		foreach ($lpns as $key) {
 			$sql = array(
-					"DELETE FROM INPT_CASE_HDR WHERE CASE_NBR = '$key->CASE_NBR'",
 					"DELETE FROM INPT_CASE_DTL WHERE CASE_NBR = '$key->CASE_NBR'",
 					"DELETE FROM INPT_CASE_LOCK WHERE CASE_NBR = '$key->CASE_NBR'",
+					"DELETE FROM INPT_CASE_HDR WHERE CASE_NBR = '$key->CASE_NBR'",
+					"DELETE FROM INPT_ASN_DTL WHERE SHPMT_NBR = '$key->ORIG_SHPMT_NBR'",
+					"DELETE FROM INPT_ASN_HDR WHERE SHPMT_NBR = '$key->ORIG_SHPMT_NBR'",
 					"DELETE FROM INPT_STORE_DISTRO WHERE CASE_NBR = '$key->CASE_NBR'"
 			);
 

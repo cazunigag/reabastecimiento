@@ -9,10 +9,14 @@ $(document).ready(function(){
 	var runningPMM = 0;
 	var stopedPMM = 0;
 	var promisesPMM = [];
+	var stopedEIS = 0;
+	var runningEIS = [];
+	var promisesEIS = [];
 	var err = "";
 	comprobarAlertasWMS();
 	comprobarAlertasBT();
 	comprobarAlertasPMM();
+	comprobarAlertasEIS();
 
 	function comprobarAlertasWMS(){
 		var alertasWMS = ["PKT", "PO", "BRCD", "ART", "OLA", "CITA", "ASN", "LPN", "DISTRO", "CARGA"];
@@ -173,8 +177,65 @@ $(document).ready(function(){
 		}
 	}
 	function stopPMM(){
-		$("#boxPMM").removeClass("bg-aqua");
-		$("#boxPMM").removeClass("bg-red");
-		$("#boxPMM").addClass("bg-aqua");
+		$("#boxEIS").removeClass("bg-olive");
+		$("#boxEIS").removeClass("bg-red");
+		$("#boxEIS").addClass("bg-olive");
+	}
+	function comprobarAlertasEIS(){
+		var alertasEIS = ["ErrEIS"];
+		for (var i = 0; i <= alertasEIS.length -1; i++) {
+			var request = 	$.ajax({
+					            type: "POST",
+					            url: baseURL + 'alertas/EIS/errores/cant'+alertasEIS[i],
+					            dataType: 'json',
+					            success: function(result){
+					            	err = result;
+					            },
+					            error: function(result){
+					                console.log(JSON.stringify(result));
+					            }
+					        });
+			promisesEIS.push(request);
+			console.log(promisesEIS);
+		}	 
+	}
+
+	$.when.apply(null, promisesEIS).done(function(){
+		console.log(promisesEIS.length);
+		for (var i = 0; i <= promisesEIS.length -1; i++) {
+			console.log(promisesEIS[i].responseText);
+			if(promisesEIS[i].responseText > 0){
+				console.log('hola');
+		 		if(runningEIS == 0){
+			 		stopedEIS = 0;
+			 		intermitenciaEIS();
+			 		break;
+			 	}
+			 	setTimeout(comprobarAlertasEIS, 600000);
+			}
+			else{
+			 	setTimeout(comprobarAlertasEIS, 600000);
+			 	if(stopedEIS == 0 && runningEIS == 1){
+			 		runningEIS = 0;
+			 		stopedEIS = 1;
+			 	}
+			}
+		}
+	});
+	function intermitenciaEIS(){
+		$("#boxEIS").toggleClass("bg-olive");
+		$("#boxEIS").toggleClass("bg-red");
+		if(stopedEIS == 0){
+			runningEIS = 1;
+			setTimeout(intermitenciaEIS, 500);
+		}
+		else{
+			stopEIS();
+		}
+	}
+	function stopEIS(){
+		$("#boxEIS").removeClass("bg-olive");
+		$("#boxEIS").removeClass("bg-red");
+		$("#boxEIS").addClass("bg-olive");
 	}
 });

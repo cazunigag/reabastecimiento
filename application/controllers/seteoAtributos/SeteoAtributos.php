@@ -19,4 +19,8 @@ class SeteoAtributos extends CI_Controller{
 	public function cboCartonType(){
 		echo $this->Seteoatributos_model->cboCartonType();
 	}
+	public function attrSKU(){
+		$sku = $this->input->post('sku');
+		echo $this->Seteoatributos_model->attrSKU($sku);
+	}
 }

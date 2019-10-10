@@ -180,6 +180,25 @@
           <!-- /.widget-user -->
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <a href="<?php echo site_url('alertas/eis'); ?>">
+              <div class="widget-user-header bg-olive" id="boxEIS">
+                <div class="widget-user-image">
+                  <img class="img-circle" src="<?php echo base_url();?>assets/img/sdi.png" alt="User Avatar">
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">EIS</h3>
+                <h5 class="widget-user-desc">Alertas</h5>
+              </div>
+            </a>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+      </div>
       </div>
       
      

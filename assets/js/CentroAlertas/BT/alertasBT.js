@@ -268,23 +268,23 @@ $(document).ready(function(){
             url: baseURL + 'alertas/bt/errores/cantPickTicketDuplicados',
             dataType: 'json',
             success: function(result){
-                result.forEach(function(element){
-                    if(element.CANTIDAD > 0){
-                        if(runningCUDD == 0){
-                            stopedCUDD = 0;
-                            intermiteciaCUDD();
-                            
-                        }
-                        setTimeout(actualizarAlertaCUDD, 600000);
-                    }else{
-                        setTimeout(actualizarAlertaCUDD, 600000);
-                        if(stopedCUDD == 0 && runningCUDD == 1){
-                            runningCUDD = 0;
-                            stopedCUDD = 1
-                        }
+                if(result > 0){
+                    if(runningCUDD == 0){
+                        stopedCUDD = 0;
+                        intermiteciaCUDD();
+                        
                     }
-                    setInterval(function(){ if(numero <= element.CANTIDAD){$("#nCUDD").html(numero);numero++;} }, 3);
-                });
+                    setTimeout(actualizarAlertaCUDD, 600000);
+                }else{
+                    setTimeout(actualizarAlertaCUDD, 600000);
+                    if(stopedCUDD == 0 && runningCUDD == 1){
+                        runningCUDD = 0;
+                        stopedCUDD = 1
+                    }
+                    $("#nCUDD").html(result);
+                }
+                setInterval(function(){ if(numero <= result){$("#nCUDD").html(numero);numero++;} }, 3);
+               
             },
             error: function(result){
                 console.log(JSON.stringify(result));

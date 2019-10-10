@@ -32,6 +32,11 @@ $(function() {
                             sheet.range("E1:E10000").enable(false);
                             sheet.range("F1:F10000").enable(false);
 
+                            sheet.range("E1:E10000").bold(true);
+                            sheet.range("F1:F10000").bold(true);
+                            sheet.range("A1:A10000").bold(true).format('@');
+                            sheet.range("B1:B10000").bold(true).format('@');
+
                         }, {recalc: true});
                 }
             }, 0);
@@ -144,7 +149,52 @@ $(function() {
                     {width: 490}
                 ]
             }
-        ]
+        ],
+        paste: function(e) {
+            e.preventDefault();
+
+            var currentRange = e.range;
+            var fullData = e.clipboardContent.data;
+            var mergedCells = e.clipboardContent.mergedCells;
+            var topLeft = currentRange.topLeft();
+            var initialRow = topLeft.row;
+            var initialCol = topLeft.col;
+            var origRef = e.clipboardContent.origRef;
+            var numberOfRows = origRef.bottomRight.row - origRef.topLeft.row + 1;
+            var numberOfCols = origRef.bottomRight.col - origRef.topLeft.col + 1;
+            var spread = e.sender;
+            var sheet = spread.activeSheet();
+            var rangeToPaste =  sheet.range(initialRow, initialCol, numberOfRows, numberOfCols);
+
+            sheet.batch(function() {
+                for(var i = 0; i < fullData.length; i += 1) {
+                    var currentFullData = fullData[i];
+
+                    for(var j = 0; j < currentFullData.length; j += 1 ) {
+                        var range = sheet.range(initialRow + i, initialCol + j);
+                        var value = currentFullData[j].value;
+
+                        if (value !== null) {
+                            range.input(value);
+                            range.format(null);
+                        }
+                    }
+                }
+            });
+
+            sheet.select(rangeToPaste);
+
+            for(var i = 0; i < mergedCells.length; i += 1) {
+                var initialMergedRange = sheet.range(mergedCells[i]);
+                var mergeTopLeft = initialMergedRange.topLeft();
+                var mergeInitialRow = mergeTopLeft.row + initialRow;
+                var mergedInitialCol = mergeTopLeft.col + initialCol;
+                var mergedNumberOfRows = initialMergedRange.values.length;
+                var mergedNumberOfCols = initialMergedRange.values()[0].length;
+
+                sheet.range(mergeInitialRow, mergedInitialCol, mergedNumberOfRows, mergedNumberOfCols).merge();
+            }
+        }
     });
     function onRead(e){
         console.log('read');
@@ -254,35 +304,21 @@ $(function() {
         
     
         for (i; i < e.data.created.length; i++) {
-            if(e.data.created[i]["DSP_LOCN"] == ""){
-                popupNotification.show(" Debe ingresar una Locacion en la linea "+(i+2)+".", "error");
-                ok = 1;
-            }
-            if(e.data.created[i]["SKU_ID"] == ""){
-                popupNotification.show(" Debe ingresar un Articulo en la linea "+(i+2)+".", "error");
-                ok = 1;
-            }
-            if(e.data.created[i]["MIN_INVN_QTY"] == null){
-                popupNotification.show(" Debe ingresar un valor Minimo valido en la linea "+(i+2)+".", "error");
-                ok = 1;
-            }
-            if(e.data.created[i]["MAX_INVN_QTY"] == null){
-                popupNotification.show(" Debe ingresar un valor Maximo valido en la linea "+(i+2)+".", "error");
-                ok = 1;
-            }
             if(e.data.created[i]["MAX_INVN_QTY"]<e.data.created[i]["MIN_INVN_QTY"]){
                 popupNotification.show(" El valor Maximo no puede ser menor que el valor Minimo en la linea "+(i+2)+".", "error");
                 ok = 1;
             }
-            arregloGuardado.push({
+            if(e.data.created[i]["DSP_LOCN"] != "" && e.data.created[i]["SKU_ID"] != "" && e.data.created[i]["MIN_INVN_QTY"] != null && e.data.created[i]["MAX_INVN_QTY"] != null){
+                arregloGuardado.push({
 
-                "Locacion":String(e.data.created[i]["DSP_LOCN"]),
-                "Articulo":String(e.data.created[i]["SKU_ID"]),
-                "Minimo":kendo.parseInt(e.data.created[i]["MIN_INVN_QTY"]),
-                "Maximo":kendo.parseInt(e.data.created[i]["MAX_INVN_QTY"])
-            });
+                    "Locacion":String(e.data.created[i]["DSP_LOCN"]),
+                    "Articulo":String(e.data.created[i]["SKU_ID"]),
+                    "Minimo":kendo.parseInt(e.data.created[i]["MIN_INVN_QTY"]),
+                    "Maximo":kendo.parseInt(e.data.created[i]["MAX_INVN_QTY"])
+                });
+            }
         }
-        
+        console.log(arregloGuardado);
         if(ok == 0){
             $.post(baseURL + 'articulolocacion/articulo_locacion/insertarArtLocacion',{models: kendo.stringify(arregloGuardado)},function(data){
                 if(data == 0){
@@ -298,7 +334,7 @@ $(function() {
                 }
             });
         
-        }  
+        } 
        
     }
     var ventana_filtrar = $("#POPUP_filtrar");

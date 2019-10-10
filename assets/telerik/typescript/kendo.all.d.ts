@@ -1,4 +1,4 @@
-// Type definitions for Kendo UI Professional v2019.2.514
+// Type definitions for Kendo UI Professional v2019.3.917
 // Project: http://www.telerik.com/kendo-ui
 // Definitions by: Telerik <https://github.com/telerik>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -216,6 +216,10 @@ declare namespace kendo {
     function template(template: string, options?: TemplateOptions): (data: any) => string;
 
     function guid(): string;
+
+    function notify(widget: typeof kendo.ui.Widget, namespace?: typeof kendo.ui): void;
+    function notify(widget: typeof kendo.ui.Widget, namespace?: typeof kendo.mobile.ui): void;
+    function notify(widget: typeof kendo.ui.Widget, namespace?: typeof kendo.dataviz.ui): void;
 
     function widgetInstance(element: JQuery, suite?: typeof kendo.ui): kendo.ui.Widget;
     function widgetInstance(element: JQuery, suite?: typeof kendo.mobile.ui): kendo.ui.Widget;
@@ -1186,6 +1190,13 @@ declare namespace kendo.data {
         field?: string;
         dir?: string;
         aggregates?: DataSourceGroupItemAggregate[];
+        compare?: (a: DataSourceGroupCompareItem, b: DataSourceGroupCompareItem) => number;
+    }
+
+    interface DataSourceGroupCompareItem {
+        field: string;
+        value: any;
+        items: any[];
     }
 
     interface DataSourceSchema {
@@ -1642,6 +1653,7 @@ declare namespace kendo.ui {
         dataSource: kendo.data.DataSource;
         list: JQuery;
         ul: JQuery;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -1711,7 +1723,7 @@ declare namespace kendo.ui {
         highlightFirst?: boolean;
         ignoreCase?: boolean;
         minLength?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         placeholder?: string;
         popup?: any;
         separator?: string|any;
@@ -2151,6 +2163,7 @@ declare namespace kendo.ui {
         input: JQuery;
         list: JQuery;
         ul: JQuery;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -2234,7 +2247,7 @@ declare namespace kendo.ui {
         ignoreCase?: boolean;
         index?: number;
         minLength?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         placeholder?: string;
         popup?: ComboBoxPopup;
         suggest?: boolean;
@@ -2299,8 +2312,7 @@ declare namespace kendo.ui {
 
         constructor(element: Element, options?: ConfirmOptions);
 
-
-
+        open(): kendo.ui.Confirm;
     }
 
     interface ConfirmMessages {
@@ -2310,7 +2322,11 @@ declare namespace kendo.ui {
 
     interface ConfirmOptions {
         name?: string;
+        content?: string;
         messages?: ConfirmMessages;
+        title?: string | boolean;
+        initOpen?(e: DialogEvent): void;
+        open?(e: DialogEvent): void;
     }
     interface ConfirmEvent {
         sender: Confirm;
@@ -2925,6 +2941,7 @@ declare namespace kendo.ui {
         filterInput: JQuery;
         list: JQuery;
         ul: JQuery;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -3006,7 +3023,7 @@ declare namespace kendo.ui {
         ignoreCase?: boolean;
         index?: number;
         minLength?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         popup?: DropDownListPopup;
         optionLabel?: string|any;
         optionLabelTemplate?: string|Function;
@@ -3066,6 +3083,7 @@ declare namespace kendo.ui {
         tagList: JQuery;
         tree: JQuery;
         treeview: kendo.ui.TreeView;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -3151,7 +3169,7 @@ declare namespace kendo.ui {
         loadOnDemand?: boolean;
         messages?: DropDownTreeMessages;
         minLength?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         placeholder?: string;
         popup?: DropDownTreePopup;
         headerTemplate?: string|Function;
@@ -3586,7 +3604,7 @@ declare namespace kendo.ui {
         resizable?: boolean | EditorResizable;
         serialization?: EditorSerialization;
         stylesheets?: any;
-        tools?: EditorTool[];
+        tools?: EditorTool[]|string[];
         imageBrowser?: EditorImageBrowser;
         fileBrowser?: EditorFileBrowser;
         change?(e: EditorEvent): void;
@@ -3614,6 +3632,112 @@ declare namespace kendo.ui {
 
     interface EditorPdfExportEvent extends EditorEvent {
         promise?: JQueryPromise<any>;
+    }
+
+
+    class Filter extends kendo.ui.Widget {
+
+        static fn: Filter;
+
+        options: FilterOptions;
+
+        dataSource: kendo.data.DataSource;
+
+        element: JQuery;
+        wrapper: JQuery;
+
+        static extend(proto: Object): Filter;
+
+        constructor(element: Element, options?: FilterOptions);
+
+
+        applyFilter(): void;
+
+    }
+
+    interface FilterField {
+        defaultValue?: any;
+        editorTemplate?: string|Function;
+        label?: string;
+        name?: string;
+        type?: string;
+    }
+
+    interface FilterMessages {
+        and?: string;
+        apply?: string;
+        or?: string;
+    }
+
+    interface FilterOperatorsBoolean {
+        eq?: string;
+        neq?: string;
+    }
+
+    interface FilterOperatorsDate {
+        eq?: string;
+        neq?: string;
+        isnull?: string;
+        isnotnull?: string;
+        gte?: string;
+        gt?: string;
+        lte?: string;
+        lt?: string;
+    }
+
+    interface FilterOperatorsNumber {
+        eq?: string;
+        neq?: string;
+        isnull?: string;
+        isnotnull?: string;
+        gte?: string;
+        gt?: string;
+        lte?: string;
+        lt?: string;
+    }
+
+    interface FilterOperatorsString {
+        eq?: string;
+        neq?: string;
+        isnull?: string;
+        isnotnull?: string;
+        isempty?: string;
+        isnotempty?: string;
+        startswith?: string;
+        contains?: string;
+        doesnotcontain?: string;
+        endswith?: string;
+        isnullorempty?: string;
+        isnotnullorempty?: string;
+    }
+
+    interface FilterOperators {
+        string?: FilterOperatorsString;
+        number?: FilterOperatorsNumber;
+        date?: FilterOperatorsDate;
+        boolean?: FilterOperatorsBoolean;
+    }
+
+    interface FilterOptions {
+        name?: string;
+        applyButton?: boolean;
+        dataSource?: kendo.data.DataSource;
+        expression?: any;
+        expressionPreview?: boolean;
+        fields?: FilterField[];
+        mainLogic?: string;
+        messages?: FilterMessages;
+        operators?: FilterOperators;
+        change?(e: FilterChangeEvent): void;
+    }
+    interface FilterEvent {
+        sender: Filter;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+    interface FilterChangeEvent extends FilterEvent {
+        expression?: any;
     }
 
 
@@ -5175,6 +5299,7 @@ declare namespace kendo.ui {
         input: JQuery;
         list: JQuery;
         ul: JQuery;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -5269,7 +5394,7 @@ declare namespace kendo.ui {
         ignoreCase?: boolean;
         index?: number;
         minLength?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         placeholder?: string;
         popup?: MultiColumnComboBoxPopup;
         suggest?: boolean;
@@ -5329,6 +5454,7 @@ declare namespace kendo.ui {
         list: JQuery;
         ul: JQuery;
         tagList: JQuery;
+        popup: kendo.ui.Popup;
 
         element: JQuery;
         wrapper: JQuery;
@@ -5405,7 +5531,7 @@ declare namespace kendo.ui {
         ignoreCase?: boolean;
         minLength?: number;
         maxSelectedItems?: number;
-        noDataTemplate?: string|Function;
+        noDataTemplate?: string|Function|boolean;
         placeholder?: string;
         popup?: MultiSelectPopup;
         headerTemplate?: string|Function;
@@ -5738,24 +5864,82 @@ declare namespace kendo.ui {
         loadOnDemand?: boolean;
     }
 
+    interface PDFViewerMessagesDialogsExportAsDialogLabels {
+        fileName?: string;
+        saveAsType?: string;
+        page?: string;
+    }
+
+    interface PDFViewerMessagesDialogsExportAsDialog {
+        title?: string;
+        defaultFileName?: string;
+        pdf?: string;
+        png?: string;
+        svg?: string;
+        labels?: PDFViewerMessagesDialogsExportAsDialogLabels;
+    }
+
+    interface PDFViewerMessagesDialogs {
+        exportAsDialog?: PDFViewerMessagesDialogsExportAsDialog;
+        okText?: string;
+        save?: string;
+        cancel?: string;
+    }
+
+    interface PDFViewerMessagesErrorMessages {
+        notSupported?: string;
+        parseError?: string;
+        notFound?: string;
+    }
+
+    interface PDFViewerMessagesToolbarPager {
+        first?: string;
+        previous?: string;
+        next?: string;
+        last?: string;
+        of?: string;
+        page?: string;
+        pages?: string;
+    }
+
     interface PDFViewerMessagesToolbar {
         open?: string;
+        exportAs?: string;
+        download?: string;
+        pager?: PDFViewerMessagesToolbarPager;
     }
 
     interface PDFViewerMessages {
         defaultFileName?: string;
         toolbar?: PDFViewerMessagesToolbar;
+        errorMessages?: PDFViewerMessagesErrorMessages;
+        dialogs?: PDFViewerMessagesDialogs;
     }
 
     interface PDFViewerPdfjsProcessing {
-        file?: string;
+        file?: any|string;
     }
 
     interface PDFViewerToolbarItem {
         type?: string;
         overflow?: string;
         command?: string;
+        name?: string;
         click?: Function;
+        toggle?: Function;
+        togglable?: boolean;
+        text?: string;
+        template?: string|Function;
+        showText?: string;
+        primary?: boolean;
+        attributes?: any;
+        enable?: boolean;
+        hidden?: boolean;
+        spriteCssClass?: string;
+        imageUrl?: string;
+        showIcon?: string;
+        icon?: string;
+        id?: string;
     }
 
     interface PDFViewerToolbar {
@@ -5768,8 +5952,8 @@ declare namespace kendo.ui {
 
     interface PDFViewerOptions {
         name?: string;
-        dplProcessing?: PDFViewerDplProcessing;
         pdfjsProcessing?: PDFViewerPdfjsProcessing;
+        dplProcessing?: PDFViewerDplProcessing;
         width?: number|string;
         height?: number|string;
         defaultPageSize?: PDFViewerDefaultPageSize;
@@ -5897,6 +6081,9 @@ declare namespace kendo.ui {
         collapse(element: string, useAnimation: boolean): kendo.ui.PanelBar;
         collapse(element: Element, useAnimation: boolean): kendo.ui.PanelBar;
         collapse(element: JQuery, useAnimation: boolean): kendo.ui.PanelBar;
+        dataItem(node: JQuery): kendo.data.Node;
+        dataItem(node: Element): kendo.data.Node;
+        dataItem(node: string): kendo.data.Node;
         destroy(): void;
         enable(element: string, enable: boolean): void;
         enable(element: Element, enable: boolean): void;
@@ -6248,6 +6435,7 @@ declare namespace kendo.ui {
     class Popup extends kendo.ui.Widget {
 
         static fn: Popup;
+        static TabKeyTrap: any;
 
         options: PopupOptions;
 
@@ -7661,6 +7849,7 @@ declare namespace kendo.ui {
         enabled?: boolean;
         readonly?: boolean;
         width?: number|string;
+        messages?: SwitchMessages;
         change?(e: SwitchChangeEvent): void;
     }
 
@@ -7678,6 +7867,68 @@ declare namespace kendo.ui {
     interface SwitchChangeEvent extends SwitchEvent {
         checked?: any;
     }
+
+    class Rating extends kendo.ui.Widget {
+
+        static fn: Rating;
+
+        options: RatingOptions;
+
+
+        element: JQuery;
+        wrapper: JQuery;
+        container: JQuery;
+
+        static extend(proto: Object): Rating;
+
+        constructor(element: Element, options?: RatingOptions);
+
+        value(value: number): void;
+        reset(): void;
+        enable(enable: boolean): void;
+        readonly(enable: boolean): void;
+        setOptions(options: any): void;
+        destroy(): void;
+    }
+
+    interface RatingOptions {
+        name?: string;
+        min?: number;
+        max?: number;
+        selection: string | "continuous" | "single";
+        precision: string | "item" | "half";
+        label?: boolean | RatingLabel;
+        tooltip?: boolean;
+        itemTemplate?: string|Function;
+        selectedTemplate?: string|Function;
+        hoveredTemplate?: string|Function;
+        selectValueOnFocus?: number;
+        enabled?: boolean;
+        readonly?: boolean;
+        change?(e: RatingChangeEvent): void;
+        select?(e: RatingSelectEvent): void;
+    }
+
+    interface RatingLabel {
+        template: string|Function;
+    }
+
+    interface RatingEvent {
+        sender: Rating;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+    interface RatingChangeEvent extends RatingEvent {
+        target?: Element;
+        oldValue?: number;
+        newValue?: number;
+    }
+
+    interface RatingSelectEvent extends RatingEvent {
+        target?: Element;
+    }
+
 
     class TabStrip extends kendo.ui.Widget {
 
@@ -7901,6 +8152,93 @@ declare namespace kendo.ui {
     interface TimePickerOpenEvent extends TimePickerEvent {
     }
 
+    class Timeline extends kendo.ui.Widget {
+
+        static fn: Timeline;
+
+        options: TimelineOptions;
+
+        dataSource: kendo.data.DataSource;
+
+        element: JQuery;
+        wrapper: JQuery;
+
+        static extend(proto: Object): Timeline;
+
+        constructor(element: Element, options?: TimelineOptions);
+
+
+        expand(event: string): void;
+        expand(event: Element): void;
+        expand(event: JQuery): void;
+        collapse(event: string): void;
+        collapse(event: Element): void;
+        collapse(event: JQuery): void;
+        open(event: string): void;
+        open(event: Element): void;
+        open(event: JQuery): void;
+        destroy(): void;
+        next(): void;
+        previous(): void;
+        redraw(): void;
+        setDataSource(dataSource: kendo.data.DataSource): void;
+
+    }
+
+    interface TimelineOptions {
+        name?: string;
+        alternatingMode?: boolean;
+        orientation?: string;
+        collapsibleEvents?: boolean;
+        dataActionsField?: string;
+        dataDescriptionField?: string;
+        dataDateField?: string;
+        dataImagesField?: string;
+        dataSubTitleField?: string;
+        dataTitleField?: string;
+        dataSource?: kendo.data.DataSource|any;
+        eventTemplate?: string|Function;
+        dateformat?: string;
+        eventHeight?: number;
+        eventWidth?: number;
+        showDateLabels?: boolean;
+        change?(e: TimelineChangeEvent): void;
+        dataBound?(e: TimelineDataBoundEvent): void;
+        expand?(e: TimelineExpandEvent): void;
+        collapse?(e: TimelineCollapseEvent): void;
+        actionClick?(e: TimelineActionClickEvent): void;
+        navigate?(e: TimelineNavigateEvent): void;
+    }
+    interface TimelineEvent {
+        sender: Timeline;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+    interface TimelineChangeEvent extends TimelineEvent {
+        dataItem?: kendo.data.Model;
+        eventContainer?: JQuery;
+    }
+
+    interface TimelineDataBoundEvent extends TimelineEvent {
+    }
+
+    interface TimelineExpandEvent extends TimelineEvent {
+        dataItem?: kendo.data.Model;
+    }
+
+    interface TimelineCollapseEvent extends TimelineEvent {
+        dataItem?: kendo.data.Model;
+    }
+
+    interface TimelineActionClickEvent extends TimelineEvent {
+        dataItem?: kendo.data.Model;
+        element?: JQuery;
+    }
+
+    interface TimelineNavigateEvent extends TimelineEvent {
+        action?: string;
+    }
 
     class ToolBar extends kendo.ui.Widget {
 
@@ -10415,6 +10753,7 @@ declare namespace kendo.dataviz.ui {
 
     interface ArcGaugeOptions {
         name?: string;
+        centerTemplate?: string|Function;
         color?: string;
         colors?: ArcGaugeColor[];
         gaugeArea?: ArcGaugeGaugeArea;
@@ -21556,6 +21895,10 @@ interface JQuery {
     kendoEditor(options: kendo.ui.EditorOptions): JQuery;
     data(key: "kendoEditor"): kendo.ui.Editor;
 
+    kendoFilter(): JQuery;
+    kendoFilter(options: kendo.ui.FilterOptions): JQuery;
+    data(key: "kendoFilter"): kendo.ui.Filter;
+
     kendoFilterMenu(): JQuery;
     kendoFilterMenu(options: kendo.ui.FilterMenuOptions): JQuery;
     data(key: "kendoFilterMenu"): kendo.ui.FilterMenu;
@@ -21784,6 +22127,10 @@ interface JQuery {
     kendoSwitch(options: kendo.ui.SwitchOptions): JQuery;
     data(key: "kendoSwitch"): kendo.ui.Switch;
 
+    kendoRating(): JQuery;
+    kendoRating(options: kendo.ui.RatingOptions): JQuery;
+    data(key: "kendoRating"): kendo.ui.Rating;
+
     kendoTabStrip(): JQuery;
     kendoTabStrip(options: kendo.ui.TabStripOptions): JQuery;
     data(key: "kendoTabStrip"): kendo.ui.TabStrip;
@@ -21791,6 +22138,10 @@ interface JQuery {
     kendoTimePicker(): JQuery;
     kendoTimePicker(options: kendo.ui.TimePickerOptions): JQuery;
     data(key: "kendoTimePicker"): kendo.ui.TimePicker;
+
+    kendoTimeline(): JQuery;
+    kendoTimeline(options: kendo.ui.TimelineOptions): JQuery;
+    data(key: "kendoTimeline"): kendo.ui.Timeline;
 
     kendoToolBar(): JQuery;
     kendoToolBar(options: kendo.ui.ToolBarOptions): JQuery;
