@@ -39,6 +39,7 @@ class Articulo_locacion extends CI_Controller{
 
     }
     public function importarEXCEL(){
+        $data = array();
         if (isset($_FILES['files']['name'])) {
           $file_name = $_FILES['files']['name'];
           $tmp = explode('.', $file_name);
@@ -54,12 +55,16 @@ class Articulo_locacion extends CI_Controller{
                      $minimo = $worksheet->getCellByColumnAndRow(3,$row)->getValue();
                      $maximo = $worksheet->getCellByColumnAndRow(4,$row)->getValue();
 
-                     $data[] = array(
-                      'DSP_LOCN' =>  $locacion,
-                      'SKU_ID' =>  $articulo,
-                      'MIN_INVN_QTY' =>  $minimo,
-                      'MAX_INVN_QTY' =>  $maximo,
-                     );
+                     if($locacion == null && $articulo == null && $minimo == null && $maximo == null){
+
+                     }else{
+                       $data[] = array(
+                        'DSP_LOCN' =>  $locacion,
+                        'SKU_ID' =>  $articulo,
+                        'MIN_INVN_QTY' =>  $minimo,
+                        'MAX_INVN_QTY' =>  $maximo,
+                       );
+                     } 
                  }
              }
              echo json_encode($data);

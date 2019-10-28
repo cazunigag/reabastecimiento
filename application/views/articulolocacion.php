@@ -2,6 +2,9 @@
 <html>
 <head>
     <title></title>
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
     <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.default.min.css" />
     <link rel="stylesheet" href="<?php echo base_url();?>assets/telerik/styles/kendo.default.mobile.min.css" />

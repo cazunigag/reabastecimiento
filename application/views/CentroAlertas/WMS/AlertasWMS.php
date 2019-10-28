@@ -82,23 +82,32 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li>
+        <li>           
           <div style="margin-top: 20px; margin-bottom: 20px"></div>
           <center>
-            <img src="<?php echo base_url();?>assets/img/logo.png" height="60" width="170"/>
+            <a href="<?php echo site_url('home/home');?>" class="logo">
+              <!-- mini logo for sidebar mini 50x50 pixels -->
+              <span class="logo-mini"></span>
+              <!-- logo for regular state and mobile devices -->
+              <span class="logo-lg"><img src="<?php echo base_url();?>assets/img/logo.png" height="60" width="170"/></span>
+            </a>  
           </center>
         </li>
         <div style="margin-top: 20px; margin-bottom: 20px"></div>
         <li class="header"><b>MENU</b></li>
-        <li>
-          <a href="<?php echo site_url('articuloLocacion');?>">
-            <i class="fa fa-table"></i><span>Ingreso Articulo-Locacion</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-refresh"></i>
+            <span>Reabastecimiento</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
-        </li>
-        <li>
-          <a href="<?php echo site_url('asignacionPedido');?>">
-            <i class="fa fa-table"></i><span>Asignacion de Pedidos</span>
-          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
+            <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
+            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-exchange"></i> Seteo 308</a></li>
+          </ul>
         </li>
         <li>
           <a href="<?php echo site_url('redex');?>">
@@ -108,6 +117,16 @@
         <li>
           <a href="<?php echo site_url('centroAlertas');?>">
             <i class="fa fa-warning"></i></i><span>Centro de Alertas</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('seteoAttr');?>">
+            <i class="fa fa-check-square-o"></i></i><span>Seteo Atributos Logisticos</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('LPNDemora');?>">
+            <i class="fa fa-calendar"></i></i><span>LPNs Con Demora</span>
           </a>
         </li>
       </ul>
@@ -544,6 +563,19 @@
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    checkChanges();
+      function checkChanges(){
+        if($("body").hasClass('sidebar-collapse')){
+          $(".logo-lg").hide();
+        }else{
+          $(".logo-lg").show();
+        }
+        setTimeout(checkChanges, 200);
+      }
+  });
 </script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/WMS/alertasWMS.js" async>
 </script>

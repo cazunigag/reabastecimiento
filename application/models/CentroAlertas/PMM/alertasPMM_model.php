@@ -86,7 +86,7 @@ class alertasPMM_model extends CI_Model{
 				}
 			}
 			if($existe == 0){
-				if(substr($systemdate,1,10) == substr($fechaCierre,1,10)){
+				if(substr($systemdate,0,10) == substr($fechaCierre,0,10)){
 					if(substr($systemdate,11,2) == substr($fechaCierre,11,2)){
 						if((substr($systemdate,14,2) - substr($fechaCierre,14,2)) >= 30){
 							array_push($noenviados, $wms);
@@ -96,11 +96,11 @@ class alertasPMM_model extends CI_Model{
 							array_push($noenviados, $wms);
 						}
 					}
-				}elseif ((substr($systemdate,5,2) - substr($fechaCierre,5,2)) >= 1) {
+				}elseif ((substr($systemdate,6,4) - substr($fechaCierre,6,4)) >= 1) {
 					array_push($noenviados, $wms);
 				}elseif ((substr($systemdate,3,2) - substr($fechaCierre,3,2)) >= 1) {
 					array_push($noenviados, $wms);
-				}elseif ((substr($systemdate,1,2) - substr($fechaCierre,1,2)) >= 1) {
+				}elseif ((substr($systemdate,0,2) - substr($fechaCierre,0,2)) >= 1) {
 					array_push($noenviados, $wms);
 				}
 			}
@@ -152,24 +152,62 @@ class alertasPMM_model extends CI_Model{
 		$systemdate=date('d/m/Y H:i:s');
 		foreach ($result as $key) {
 			$fechaCierre=$key->FECHA_CIERRE;
-			if(substr($systemdate,1,10) == substr($fechaCierre,1,10)){
+			if(substr($systemdate,0,10) == substr($fechaCierre,0,10)){
 				if(substr($systemdate,11,2) == substr($fechaCierre,11,2)){
-					if((substr($systemdate,14,2) - substr($fechaCierre,14,2)) >= 20){
-						array_push($noenviados, $key);
+					if((substr($systemdate,14,2) - substr($fechaCierre,14,2)) >= 30){
+						array_push($noenviados, $wms);
 					}
 				}elseif ((substr($systemdate,11,2) - substr($fechaCierre,11,2)) >= 1){
-					if(((60 - substr($fechaCierre,14,2)) + substr($systemdate,14,2)) >= 20){
-						array_push($noenviados, $key);
+					if(((60 - substr($fechaCierre,14,2)) + substr($systemdate,14,2)) >= 30){
+						array_push($noenviados, $wms);
 					}
 				}
-			}elseif ((substr($systemdate,5,2) - substr($fechaCierre,5,2)) >= 1) {
-				array_push($noenviados, $key);
+			}elseif ((substr($systemdate,6,4) - substr($fechaCierre,6,4)) >= 1) {
+				array_push($noenviados, $wms);
 			}elseif ((substr($systemdate,3,2) - substr($fechaCierre,3,2)) >= 1) {
-				array_push($noenviados, $key);
-			}elseif ((substr($systemdate,1,2) - substr($fechaCierre,1,2)) >= 1) {
-				array_push($noenviados, $key);
+				array_push($noenviados, $wms);
+			}elseif ((substr($systemdate,0,2) - substr($fechaCierre,0,2)) >= 1) {
+				array_push($noenviados, $wms);
 			}
 		}
 		return json_encode($noenviados);
+	}
+	public function detalleErrCargaPMM($carga){
+		$DBPMM = $this->load->database("PMMPRODCONT",TRUE);
+		$sql = "SELECT
+					SDI.ERROR_CODE,
+					REJ.REJ_DESC,
+					SDI.MNFST_NUMBER,
+					SDI.CARTON_NUMBER,
+					SDI.FROM_LOC,
+					SDI.TO_LOC,
+					SDI.TRF_NUMBER,
+					SDI.DATE_CREATED
+				FROM 
+					SDITRFDTI SDI,
+					SDIREJCD REJ
+				WHERE
+					SDI.MNFST_NUMBER = '$carga'
+					AND SDI.ERROR_CODE <> 0
+					AND SDI.ERROR_CODE = REJ.REJ_CODE
+				GROUP BY
+					SDI.ERROR_CODE,
+					REJ.REJ_DESC,
+					SDI.MNFST_NUMBER,
+				    SDI.CARTON_NUMBER,
+				    SDI.FROM_LOC ,
+				    SDI.TO_LOC ,
+				    SDI.TRF_NUMBER ,
+				    SDI.DATE_CREATED";
+
+		$result = $DBPMM->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$DBPMM->close();
+			return $data;
+		}
+		else{
+			return $DBPMM->error();
+		}
 	}
 }	

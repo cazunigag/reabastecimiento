@@ -12,6 +12,8 @@ $(document).ready(function(){
     var stopedDCPW = 0;
     var runningDCPW = 0;
 
+    var carga = "";
+
 	var dataSourceDetDPW = new kendo.data.DataSource({
         transport: {
             read: onReadDPW
@@ -178,6 +180,27 @@ $(document).ready(function(){
         },
         pageSize: 15
     });
+    var dataSourceDetErrDCPW = new kendo.data.DataSource({
+        transport: {
+            read: onReadDetErrDCPW
+        },
+        schema: {
+            model: {
+                id: "ERROR_CODE",
+                fields: {
+                        ERROR_CODE: {type: "string"}, // number - string - date
+                        REJ_DESC: {type: "string"},
+                        MNFST_NUMBER: {type: "string"}, // number - string - date
+                        CARTON_NUMBER: {type: "string"},
+                        FROM_LOC: {type: "string"},
+                        TO_LOC: {type: "string"},
+                        TRF_NUMBER: {type: "string"},
+                        DATE_CREATED: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
     function intermiteciaDCPW(){
       $("#DCPWBox").toggleClass("bg-green");
       $("#DCPWBox").toggleClass("bg-red");
@@ -257,9 +280,22 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").center();
+    var ventana_detalleErr_dpw = $("#POPUP_DetERR_DCPW");
+    ventana_detalleErr_dpw.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "Detalle Error Carga",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
     $("#gridDetDCPW").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetDCPW,
+        selectable: "row",
         height: "100%", 
         width: "1000px",
         sortable: true, 
@@ -278,6 +314,41 @@ $(document).ready(function(){
             {field: "PATENTE",title: "PATENTE",width:70,filterable: {multi: true, search: true}},
             {field: "FECHA_CIERRE",title: "FEC CIERRE",width:70,filterable: false}
         ]
+    }).on("click", "tbody td", function(e) {
+        var cell = $(e.currentTarget);
+        var cellIndex = cell[0].cellIndex;
+        var grid = $("#gridDetDCPW").data("kendoGrid");
+        var column = grid.columns[1];
+        var dataItem = grid.dataItem(cell.closest("tr"));
+        carga = dataItem[column.field];
+        var popupdeterrcargapmm = $("#POPUP_DetERR_DCPW");
+        popupdeterrcargapmm.data("kendoWindow").open();
+        var grid = $("#gridDetERRDCPW");
+        grid.data("kendoGrid").dataSource.read();
+    });
+     $("#gridDetERRDCPW").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetErrDCPW,
+        height: "100%", 
+        width: "1000px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [
+            {field: "ERROR_CODE",title: "ERROR",width: 70, filterable:false},
+            {field: "REJ_DESC",title: "DESC ERROR",width:70, filterable:false},
+            {field: "MNFST_NUMBER",title: "CARGA",width:100,filterable: {multi: true, search: true}},
+            {field: "CARTON_NUMBER",title: "CARTON",width: 100,filterable: {multi: true, search: true}},
+            {field: "FROM_LOC",title: "ORIGEN",width:70,filterable: {multi: true, search: true}},
+            {field: "TO_LOC",title: "DESTINO",width:70,filterable: false},
+            {field: "TRF_NUMBER",title: "TRANSFERENCIA",width:70,filterable: false},
+            {field: "DATE_CREATED ",title: "FEC CREACION",width:70,filterable: false}
+        ]
     });
     function onReadDCPW(e){
          $.ajax({
@@ -294,6 +365,20 @@ $(document).ready(function(){
                 }else{
                     stopedDCPW = 1;
                 }
+                e.success(result);
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    }
+    function onReadDetErrDCPW(e){
+         $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/pmm/errores/detErrCarga',
+            dataType: 'json',
+            data: {carga: carga},
+            success: function(result){
                 e.success(result);
             },
             error: function(result){

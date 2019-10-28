@@ -61,6 +61,8 @@ $route['asignacionPedido'] = "asignacionpedido/asignacion_pedido";
 $route['redex'] = "centrodistribucion/estanteria/loadCDLayout";
 $route['centroAlertas'] = "centroAlertas/centroAlertas";
 $route['seteoAttr'] = "seteoAtributos/SeteoAtributos";
+$route['LPNDemora'] = "LPNDemora/LPNDemora";
+$route['seteo308'] = "Depto308/Depto308";
 //rutas Estanteria
 $route['estanteria']  = "centrodistribucion/estanteria/loadPisosEstanteria";
 $route['piso/(:num)'] = "centrodistribucion/estanteria/loadPasillosEstanteria/$1";
@@ -176,6 +178,7 @@ $route['alertas/pmm/errores/cantDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/cant
 
 $route['alertas/pmm/errores/difCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/difCargaPMMWMS";
 $route['alertas/pmm/errores/cantDifCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifCargaPMMWMS";
+$route['alertas/pmm/errores/detErrCarga'] = "centroAlertas/PMM/alertasPMM/detalleErrCargaPMM";
 
 //rutas alertas EIS
 
@@ -188,4 +191,10 @@ $route['alertas/EIS/errores/resumenEIS'] = "centroAlertas/EIS/alertasEIS/resumen
 $route['SeteoAttr/infoSku'] = "seteoAtributos/SeteoAtributos/infoSku";
 $route['SeteoAttr/cboCartonType'] = "seteoAtributos/SeteoAtributos/cboCartonType";
 $route['SeteoAttr/attrSKU'] = "seteoAtributos/SeteoAtributos/attrSKU";
+
+//rutas LPN Demora
+
+$route['LPNDemora/totales'] = "LPNDemora/LPNDemora/totalDemoraFecha";
+$route['LPNDemora/resumen'] = "LPNDemora/LPNDemora/resumenDemoraFecha";
+
 

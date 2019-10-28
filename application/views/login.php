@@ -34,7 +34,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg"><h2 class="login-box-msg"><B>REABASTECIMIENTO</B></h2></p>
+    <p class="login-box-msg"><h2 class="login-box-msg"><B>REDEX</B></h2></p>
     
      <?php echo validation_errors(); ?>
     

@@ -2861,7 +2861,8 @@ $(document).ready(function(){
                         LOAD_NBR: {type: "string"}, // number - string - date
                         STAT_CODE: {type: "string"},
                         CODE_DESC: {type: "string"}, // number - string - date
-                        TRLR_NBR: {type: "string"}
+                        TRLR_NBR: {type: "string"},
+                        FEC_MOD: {type: "string"}
                     }
             }
         },
@@ -2981,7 +2982,7 @@ $(document).ready(function(){
                     rows.each(function(e) {
                         var grid = $("#gridDetCARGA").data("kendoGrid");
                         var item = grid.dataItem(this);
-                        cargas.push({LOAD_NBR: item.LOAD_NBR});
+                        cargas.push({LOAD_NBR: item.LOAD_NBR, TRLR_NBR: item.TRLR_NBR, STAT_CODE: item.STAT_CODE});
                     }) 
         },
         pageable: {
@@ -2994,7 +2995,8 @@ $(document).ready(function(){
             {field: "LOAD_NBR",title: "CARGA",width: 90, filterable:false, resizable:false, height: 80},
             {field: "STAT_CODE",title: "ESTADO",width:70,filterable:false},
             {field: "CODE_DESC",title: "DESC ESTADO",width:70,filterable: false},
-            {field: "TRLR_NBR",title: "PATENTE",width:70,filterable: false}
+            {field: "TRLR_NBR",title: "PATENTE",width:70,filterable: false},
+            {field: "FEC_MOD",title: "FECHA MODIFICACION",width:120,filterable: false}
         ]
     });
     $("#CARGADetalles").click(function(){
@@ -3065,7 +3067,7 @@ $(document).ready(function(){
     }
     $("#toolbarCARGA").kendoToolBar({
         items: [
-            { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarDISTRO}
+            { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarCARGA}
         ]
     });
     function ActualizarCARGA(){

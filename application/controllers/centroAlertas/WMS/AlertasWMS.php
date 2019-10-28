@@ -208,28 +208,27 @@ class AlertasWMS extends CI_Controller{
 	public function resumenCARGA(){
 		echo $this->alertasWMS_model->resumenCARGA();
 	}
-	public function reporcesarCARGA($cargas){
+	public function reporcesarCARGA(){
 		$proceso = 0;
 		$cargas = json_decode($this->input->post('cargas'));
 
 		foreach ($cargas as $key) {
-			switch ($key->LOAD_NBR) {
-				case '60':
-					$proceso = $this->alertasWMS_model->reporcesarCARGA60();
-					break;
-				case '79':
-					$proceso = $this->alertasWMS_model->reporcesarCARGA79();
-					break;
-				default:
-					$proceso = 1;
-					break;	
+			if($key->STAT_CODE == '60'){
+				$proceso = $this->alertasWMS_model->reporcesarCARGA60($key->LOAD_NBR);
 			}
-
+			elseif ($key->STAT_CODE == '79') {
+				$proceso = $this->alertasWMS_model->reporcesarCARGA79($key->LOAD_NBR, $key->TRLR_NBR);
+			}
+			elseif ($key->STAT_CODE == '70') {
+				$proceso = $this->alertasWMS_model->reporcesarCARGA79($key->LOAD_NBR, $key->TRLR_NBR);
+			}
+			else{
+				$proceso = 1;
+			}
 			if($proceso > 0){
 				break;
 				return $proceso;
 			}
-
 		}
 		return $proceso;
 	}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Alertas EIS</title>
+  <title>Seteo 308</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -13,12 +13,15 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Date Picker -->
@@ -51,8 +54,9 @@
     <!-- Logo -->
     <a href="<?php echo site_url('home/home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>RDX</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>EIS</b></span>
+      <span class="logo-lg"><b>REDEX</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -137,38 +141,16 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-      </h1>
-    </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="EISBox">
-           <span class="info-box-icon" ><i id="iconEIS" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">ERRORES EIS</span>
-              <span class="info-box-number" id="nEIS">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="EISDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
+        <div class="col-md-12">
         </div>
       </div>
-        <!-- ./col -->
-      </div>
-      <!-- /.row -->
-      <!-- Main row -->
+      
+     
           
           </div>
           <!-- /.box -->
@@ -194,8 +176,6 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-
-
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -255,11 +235,8 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<div id="POPUP_Detalle_EIS" class="grid">
-  <div id="gridDetEIS"></div>
-</div>
-<div id="POPUP_Resumen_EIS" class="grid">
-  <div id="gridResEIS"></div>
+<div id="POPUP_Resumen_LpnD" class="grid">
+  <div id="gridResLpnD"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -296,6 +273,9 @@
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url();?>assets/bower_components/moment/moment.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/locale-all.js"></script>
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
@@ -313,8 +293,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/EIS/alertasEIS.js" async>
-</script>
+<script type="text/javascript"></script>
 <style type="text/css">
   a{
     color: white;
@@ -336,7 +315,19 @@
   .k-toolbar .k-button{
     color: black;
   }
+  .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+  }
+      
+  .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+  }
+  .k-grid tbody tr {
+    line-height: 14px;
+  }
+  .k-grid {
+    font-size: 12px;
+  }
 </style>
 </body>
 </html>
-s

@@ -616,7 +616,7 @@ class alertasWMS_model extends CI_Model{
 					 WHERE ORIG_SHPMT_NBR = '$key->SHPMT_NBR')",
 					"UPDATE INPT_STORE_DISTRO SET ERROR_SEQ_NBR = 0, PROC_STAT_CODE = 0 WHERE SHPMT_NBR = '$key->SHPMT_NBR'"
 			);		
-			foreach ($variable as $key2) {
+			foreach ($sql as $key2) {
 
 				$result = $this->db->query($key2);
 
@@ -809,31 +809,69 @@ class alertasWMS_model extends CI_Model{
 		return 0;
 	}
 	public function erroresCARGA(){
+		$errCarga = array();
+		date_default_timezone_set("America/Santiago");
+		$systemdate=date('d/m/Y H:i:s');
 		$sql = "SELECT
 					LOAD_NBR,
 					STAT_CODE,
 					SC.CODE_DESC,
-					TRLR_NBR
+					TRLR_NBR,
+					TO_CHAR(OL.MOD_DATE_TIME, 'YYYY/MM/DD HH24:MI:SS') AS FEC_MOD
 				FROM
 					OUTBD_LOAD OL,
 					SYS_CODE SC
 				WHERE
-					STAT_CODE IN (60,79)
+					STAT_CODE IN (60,79,70)
 					AND SC.REC_TYPE = 'S'
 					AND SC.CODE_TYPE = '843'
 					AND TO_CHAR(OL.STAT_CODE) = TO_CHAR(SC.CODE_ID)
-					AND TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE)
-					AND (TO_DATE(SYSDATE,'DD/MM/YYYY HH24:MI:SS') - TO_DATE(OL.MOD_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS')) > .013796296/2";
+					--AND TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
-			$data = json_encode($result->result());
-			$this->db->close();
-			return $data;
+			foreach ($result->result() as $key) {
+				$fechaMod=$key->FEC_MOD;
+				if(substr($systemdate,0,10) == substr($fechaMod,0,10)){
+					if(substr($systemdate,11,2) == substr($fechaMod,11,2)){
+						if((substr($systemdate,14,2) - substr($fechaMod,14,2)) >= 30){
+							array_push($errCarga, $key);
+						}
+					}elseif ((substr($systemdate,11,2) - substr($fechaMod,11,2)) >= 1){
+						if(((60 - substr($fechaMod,14,2)) + substr($systemdate,14,2)) >= 30){
+							array_push($errCarga, $key);
+						}
+					}
+				}elseif ((substr($systemdate,6,4) - substr($fechaMod,6,4)) >= 1) {
+					array_push($errCarga, $key);
+				}elseif ((substr($systemdate,3,2) - substr($fechaMod,3,2)) >= 1) {
+					array_push($errCarga, $key);
+				}elseif ((substr($systemdate,0,2) - substr($fechaMod,0,2)) >= 1) {
+					array_push($errCarga, $key);
+				}
+
+				/*if(substr($systemdate,1,10) == substr($fechaMod,1,10)){
+					if(substr($systemdate,11,2) == substr($fechaMod,11,2)){
+						if((substr($systemdate,14,2) - substr($fechaMod,14,2)) >= 20){
+							array_push($errCarga, $key);
+						}
+					}elseif ((substr($systemdate,11,2) - substr($fechaMod,11,2)) >= 1){
+						if(((60 - substr($fechaMod,14,2)) + substr($systemdate,14,2)) >= 20){
+							array_push($errCarga, $key);
+						}
+					}
+				}elseif ((substr($systemdate,5,2) - substr($fechaMod,5,2)) >= 1) {
+					array_push($errCarga, $key);
+				}elseif ((substr($systemdate,3,2) - substr($fechaMod,3,2)) >= 1) {
+					array_push($errCarga, $key);
+				}elseif ((substr($systemdate,1,2) - substr($fechaMod,1,2)) >= 1) {
+					array_push($errCarga, $key);
+				}*/
+			}
 		}
-		else{
-			return $this->db->error();
-		}			
+		$data = json_encode($errCarga);
+		$this->db->close();
+		return $data;	
 	}
 	public function resumenCARGA(){
 		$sql = "SELECT
@@ -878,8 +916,10 @@ class alertasWMS_model extends CI_Model{
 		}
 	}
 	public function reporcesarCARGA60($carga){
+		$db2 = $this->load->database('LECLWMPROD', TRUE);
 		$sql = "UPDATE OUTBD_LOAD SET STAT_CODE = 40 WHERE LOAD_NBR = '$carga'";
 
+		$result = $db2->query($sql);
 		if(!$result){
 			return 1;
 		}else{
@@ -887,6 +927,7 @@ class alertasWMS_model extends CI_Model{
 		}
 	}
 	public function reporcesarCARGA79($carga, $patente){
+		$db2 = $this->load->database('LECLWMPROD', TRUE);
 		$sql = array(
 			"UPDATE OUTBD_LOAD SET STAT_CODE = 40 WHERE LOAD_NBR = '$carga'",
 			"UPDATE CARTON_HDR SET STAT_CODE = 50 WHERE LOAD_NBR = '$carga' AND STAT_CODE > 20",
@@ -896,7 +937,7 @@ class alertasWMS_model extends CI_Model{
 		);
 
 		foreach ($sql as $key) {
-			$result = $this->db->query($key);
+			$result = $db2->query($key);
 				if(!$result){
 					break;
 					return 1;

@@ -21,4 +21,8 @@ class AlertasPMM extends CI_Controller{
 	public function difCargaPMMWMS(){
 		echo $this->alertasPMM_model->difCargaPMMWMS();
 	}
+	public function detalleErrCargaPMM(){
+		$carga = $this->input->post('carga');
+		echo $this->alertasPMM_model->detalleErrCargaPMM($carga);
+	}
 }

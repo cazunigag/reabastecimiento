@@ -332,8 +332,9 @@ temporary rendered events).
   position: relative;
   /* for resize handle and other inner positioning */
   display: block;
+  height: 30px !important;
   /* make the <a> tag block */
-  font-size: .85em;
+  font-size: 1.25em;
   line-height: 1.3;
   border-radius: 3px;
   border: 1px solid #3a87ad;

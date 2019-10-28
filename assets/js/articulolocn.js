@@ -149,55 +149,9 @@ $(function() {
                     {width: 490}
                 ]
             }
-        ],
-        paste: function(e) {
-            e.preventDefault();
-
-            var currentRange = e.range;
-            var fullData = e.clipboardContent.data;
-            var mergedCells = e.clipboardContent.mergedCells;
-            var topLeft = currentRange.topLeft();
-            var initialRow = topLeft.row;
-            var initialCol = topLeft.col;
-            var origRef = e.clipboardContent.origRef;
-            var numberOfRows = origRef.bottomRight.row - origRef.topLeft.row + 1;
-            var numberOfCols = origRef.bottomRight.col - origRef.topLeft.col + 1;
-            var spread = e.sender;
-            var sheet = spread.activeSheet();
-            var rangeToPaste =  sheet.range(initialRow, initialCol, numberOfRows, numberOfCols);
-
-            sheet.batch(function() {
-                for(var i = 0; i < fullData.length; i += 1) {
-                    var currentFullData = fullData[i];
-
-                    for(var j = 0; j < currentFullData.length; j += 1 ) {
-                        var range = sheet.range(initialRow + i, initialCol + j);
-                        var value = currentFullData[j].value;
-
-                        if (value !== null) {
-                            range.input(value);
-                            range.format(null);
-                        }
-                    }
-                }
-            });
-
-            sheet.select(rangeToPaste);
-
-            for(var i = 0; i < mergedCells.length; i += 1) {
-                var initialMergedRange = sheet.range(mergedCells[i]);
-                var mergeTopLeft = initialMergedRange.topLeft();
-                var mergeInitialRow = mergeTopLeft.row + initialRow;
-                var mergedInitialCol = mergeTopLeft.col + initialCol;
-                var mergedNumberOfRows = initialMergedRange.values.length;
-                var mergedNumberOfCols = initialMergedRange.values()[0].length;
-
-                sheet.range(mergeInitialRow, mergedInitialCol, mergedNumberOfRows, mergedNumberOfCols).merge();
-            }
-        }
+        ]
     });
     function onRead(e){
-        console.log('read');
         if (count == 0) {
             e.success(Header);
         }else{
@@ -297,6 +251,7 @@ $(function() {
         POPUPImportar.data("kendoWindow").open();
     }
     function onSubmit(e){
+        console.log(e);
         var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
         var arregloGuardado = [];
         var i = 0;
@@ -304,10 +259,10 @@ $(function() {
         
     
         for (i; i < e.data.created.length; i++) {
-            if(e.data.created[i]["MAX_INVN_QTY"]<e.data.created[i]["MIN_INVN_QTY"]){
+            /*if(e.data.created[i]["MAX_INVN_QTY"]<e.data.created[i]["MIN_INVN_QTY"]){
                 popupNotification.show(" El valor Maximo no puede ser menor que el valor Minimo en la linea "+(i+2)+".", "error");
                 ok = 1;
-            }
+            }*/
             if(e.data.created[i]["DSP_LOCN"] != "" && e.data.created[i]["SKU_ID"] != "" && e.data.created[i]["MIN_INVN_QTY"] != null && e.data.created[i]["MAX_INVN_QTY"] != null){
                 arregloGuardado.push({
 
@@ -318,23 +273,29 @@ $(function() {
                 });
             }
         }
-        console.log(arregloGuardado);
-        if(ok == 0){
-            $.post(baseURL + 'articulolocacion/articulo_locacion/insertarArtLocacion',{models: kendo.stringify(arregloGuardado)},function(data){
-                if(data == 0){
-                    var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
-                    var sheet = spreadsheet.activeSheet();
-                    sheet.dataSource.read();
 
-                    popupNotification.getNotifications().parent().remove();
-                    popupNotification.show(" Cambios Almacenados Correctamente.", "success");
-                }else{
-                    popupNotification.getNotifications().parent().remove();
-                    popupNotification.show(" Error en el Guardado.", "error");
-                }
-            });
+        if(arregloGuardado.length != 0){
+           if(ok == 0){
+                $.post(baseURL + 'articulolocacion/articulo_locacion/insertarArtLocacion',{models: kendo.stringify(arregloGuardado)},function(data){
+                    if(data == 0){
+                        var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
+                        var sheet = spreadsheet.activeSheet();
+                        sheet.dataSource.read();
+
+                        popupNotification.getNotifications().parent().remove();
+                        popupNotification.show(" Proceso Finalizado Correctamente.", "success");
+                    }else{
+                        popupNotification.getNotifications().parent().remove();
+                        popupNotification.show(" Error en el Proceso.", "error");
+                    }
+                });
+            
+            }  
+        }else{
+            popupNotification.getNotifications().parent().remove();
+            popupNotification.show(" Debe ingresar datos para procesar.", "error");
+        }
         
-        } 
        
     }
     var ventana_filtrar = $("#POPUP_filtrar");
@@ -370,7 +331,9 @@ $(function() {
         sheet.dataSource.read();
 
     });
-    $("#files").kendoUpload();
+    $("#files").kendoUpload({
+        multiple: false
+    });
     $("#import_form").on('submit' ,function(e){
         var spreadsheet = $("#spreadsheet").data("kendoSpreadsheet");
         var sheet = spreadsheet.activeSheet();
@@ -386,15 +349,24 @@ $(function() {
           processData: false,
           success: function(result){
             $("#files").val('');
-            data = result;
-            console.log(count);
-            console.log(data);
-            sheet.dataSource.read();
-            var upload = $("#files").data("kendoUpload");
-            upload.removeAllFiles();
+            console.log(result.length);
+            if(result.length == 0){
+                var upload = $("#files").data("kendoUpload");
+                upload.removeAllFiles();
+                var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                popupNotification.getNotifications().parent().remove();
+                popupNotification.show(" El archivo esta en blanco, seleccione un archivo excel con datos", "error"); 
+                var popupfactor = $("#POPUP_importar");
+                popupfactor.data("kendoWindow").close();
+            }else{
+                data = result;
+                sheet.dataSource.read();
+                var upload = $("#files").data("kendoUpload");
+                upload.removeAllFiles();
+            }
           },
           error: function(result){
-            console.log('fuck this shit')
+            console.log('error');
           }
         });
         
