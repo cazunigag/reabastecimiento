@@ -210,4 +210,123 @@ class alertasPMM_model extends CI_Model{
 			return $DBPMM->error();
 		}
 	}
+	public function resErrDocPMM($asn){
+		$DBWMS = $this->load->database("prodWMS",TRUE);
+		$sql1 = "SELECT
+					AH.SHPMT_NBR ASN,
+					CH.CASE_NBR LPN,
+					TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') VERIFICACION,
+					PTT.MENU_OPTN_NAME MENU,
+					TO_CHAR(PTT.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') FECHA_ALMACENAJE
+				FROM
+					ASN_HDR AH,
+					CASE_HDR CH,
+					PROD_TRKG_TRAN PTT
+				WHERE
+					AH.SHPMT_NBR = '$asn'
+					AND AH.SHPMT_NBR = CH.ORIG_SHPMT_NBR
+					AND CH.CASE_NBR = PTT.CNTR_NBR
+					AND PTT.MENU_OPTN_NAME LIKE '%Dispos%'
+					AND AH.VERF_DATE_TIME > PTT.CREATE_DATE_TIME";
+
+		$result = $DBWMS->query($sql1);
+		if(sizeof($result->result()) == 0){
+			$sql2 ="SELECT
+						AH.SHPMT_NBR ASN,
+						CH.CASE_NBR LPN,
+						TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') VERIFICACION,
+						PT.TRAN_NBR MENU,
+						TO_CHAR(PT.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') FECHA_ALMACENAJE
+					FROM
+						ASN_HDR AH,
+						CASE_HDR CH,
+						PIX_TRAN PT
+					WHERE
+						AH.SHPMT_NBR = '$asn'
+						AND AH.SHPMT_NBR = CH.ORIG_SHPMT_NBR
+						AND CH.CASE_NBR = PT.CASE_NBR
+						AND AH.SHPMT_NBR = PT.REF_FIELD_1
+						AND PT.TRAN_TYPE = '608'
+						AND PT.TRAN_CODE = '12'
+						AND PT.ACTN_CODE = '06'
+						AND PT.REF_FIELD_4 = 'PP'
+						AND PT.REF_FIELD_5 IS NULL
+						AND PT.CREATE_DATE_TIME < AH.VERF_DATE_TIME";
+
+			$result = $DBWMS->query($sql2);
+
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}else{
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}
+	}
+	public function ErrLPNDisposicion($fecha){
+		$DBWMS = $this->load->database("prodWMS",TRUE);
+		$sql = "SELECT
+					AH.SHPMT_NBR ASN,
+					CH.CASE_NBR LPN,
+					TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') VERIFICACION,
+					PTT.MENU_OPTN_NAME MENU,
+					TO_CHAR(PTT.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') FECHA_ALMACENAJE
+				FROM
+					ASN_HDR AH,
+					CASE_HDR CH,
+					PROD_TRKG_TRAN PTT
+				WHERE
+					TRUNC(AH.VERF_DATE_TIME) = TRUNC(TO_DATE('$fecha'))
+					AND AH.SHPMT_NBR = CH.ORIG_SHPMT_NBR
+					AND CH.CASE_NBR = PTT.CNTR_NBR
+					AND PTT.MENU_OPTN_NAME LIKE '%Dispos%'
+					AND AH.VERF_DATE_TIME > PTT.CREATE_DATE_TIME";
+
+		$result = $DBWMS->query($sql);
+
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}
+		else{
+			return $DBWMS->error();
+		}
+	}
+	public function ErrAlmacenaje($fecha){
+		$DBWMS = $this->load->database("prodWMS",TRUE);
+		$sql = "SELECT
+					AH.SHPMT_NBR ASN,
+					CH.CASE_NBR LPN,
+					TO_CHAR(AH.VERF_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') VERIFICACION,
+					PT.TRAN_NBR MENU,
+					TO_CHAR(PT.CREATE_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') FECHA_ALMACENAJE
+				FROM
+					ASN_HDR AH,
+					CASE_HDR CH,
+					PIX_TRAN PT
+				WHERE
+					TRUNC(AH.VERF_DATE_TIME) = TRUNC(TO_DATE('$fecha'))
+					AND AH.SHPMT_NBR = CH.ORIG_SHPMT_NBR
+					AND CH.CASE_NBR = PT.CASE_NBR
+					AND AH.SHPMT_NBR = PT.REF_FIELD_1
+					AND PT.TRAN_TYPE = '608'
+					AND PT.TRAN_CODE = '12'
+					AND PT.ACTN_CODE = '06'
+					AND PT.REF_FIELD_4 = 'PP'
+					AND PT.REF_FIELD_5 IS NULL
+					AND PT.CREATE_DATE_TIME < AH.VERF_DATE_TIME";
+
+		$result = $DBWMS->query($sql);
+
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}
+		else{
+			return $DBWMS->error();
+		}
+}
 }	

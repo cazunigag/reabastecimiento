@@ -62,7 +62,10 @@ $route['redex'] = "centrodistribucion/estanteria/loadCDLayout";
 $route['centroAlertas'] = "centroAlertas/centroAlertas";
 $route['seteoAttr'] = "seteoAtributos/SeteoAtributos";
 $route['LPNDemora'] = "LPNDemora/LPNDemora";
-$route['seteo308'] = "Depto308/Depto308";
+$route['seteo308'] = "Reabastecimiento/Departamentos/Departamentos";
+$route['almacenamientolocn'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn";
+$route['sublineas'] = "Reabastecimiento/Mantenedores/Sublineas";
+$route['cartontype'] = "centrodistribucion/CartonType";
 //rutas Estanteria
 $route['estanteria']  = "centrodistribucion/estanteria/loadPisosEstanteria";
 $route['piso/(:num)'] = "centrodistribucion/estanteria/loadPasillosEstanteria/$1";
@@ -137,6 +140,8 @@ $route['alertas/wms/asn/resumen'] =  "centroAlertas/WMS/alertasWMS/resumenASN";
 $route['alertas/wms/asn/resumencod'] =  "centroAlertas/WMS/alertasWMS/detCodASN";
 $route['alertas/wms/asn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reprocesarASN";
 $route['alertas/wms/asn/eliminar'] =  "centroAlertas/WMS/alertasWMS/eliminarASN";
+$route['alertas/wms/asn/verificar'] =  "centroAlertas/WMS/alertasWMS/verificarASN";
+$route['alertas/wms/asn/untshpd'] =  "centroAlertas/WMS/alertasWMS/unidadesEnviadasASN";
 
 $route['alertas/wms/errores/LPN'] =  "centroAlertas/WMS/alertasWMS/erroresLPN";
 $route['alertas/wms/errores/cantLPN'] =  "centroAlertas/WMS/alertasWMS/cantErroresLPN";
@@ -144,6 +149,7 @@ $route['alertas/wms/lpn/totLPN'] =  "centroAlertas/WMS/alertasWMS/totLPNBajados"
 $route['alertas/wms/lpn/resumen'] =  "centroAlertas/WMS/alertasWMS/resumenLPN";
 $route['alertas/wms/lpn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reprocesarLPN";
 $route['alertas/wms/lpn/eliminar'] =  "centroAlertas/WMS/alertasWMS/eliminarLPN";
+$route['alertas/wms/lpn/verificar'] =  "centroAlertas/WMS/alertasWMS/verificarLPN";
 
 $route['alertas/wms/errores/DISTRO'] =  "centroAlertas/WMS/alertasWMS/erroresDISTRO";
 $route['alertas/wms/errores/cantDISTRO'] =  "centroAlertas/WMS/alertasWMS/cantErroresDISTRO";
@@ -160,6 +166,9 @@ $route['alertas/wms/errores/FASN'] =  "centroAlertas/WMS/alertasWMS/erroresFASN"
 $route['alertas/wms/errores/cantFASN'] =  "centroAlertas/WMS/alertasWMS/cantErroresFASN";
 $route['alertas/wms/fasn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesarFASN";
 
+$route['alertas/wms/errores/PST'] =  "centroAlertas/WMS/alertasWMS/pasillosSinWorkGroup";
+$route['alertas/wms/errores/cantPST'] =  "centroAlertas/WMS/alertasWMS/cantPasillosSinWorkGroup";
+
 //rutas alertas BT
 
 $route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
@@ -170,15 +179,21 @@ $route['alertas/bt/errores/cantMalEnviadosBT'] = "centroAlertas/BT/alertasBT/can
 
 $route['alertas/bt/errores/pickTicketDuplicados'] = "centroAlertas/BT/alertasBT/pickTicketDuplicados";
 $route['alertas/bt/errores/cantPickTicketDuplicados'] = "centroAlertas/BT/alertasBT/cantPickTicketDuplicados";
+$route['alertas/bt/actualizarPKT'] = "centroAlertas/BT/alertasBT/actualizarPKT";
 
 //rutas alertas PMM
 
 $route['alertas/pmm/errores/difPMMWMS'] = "centroAlertas/PMM/alertasPMM/diferenciasPMMWMS";
 $route['alertas/pmm/errores/cantDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifPMMWMS";
+$route['alertas/pmm/errores/detDifPMMWMS'] = "centroAlertas/PMM/alertasPMM/resErrDocPMM";
 
 $route['alertas/pmm/errores/difCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/difCargaPMMWMS";
 $route['alertas/pmm/errores/cantDifCargaPMMWMS'] = "centroAlertas/PMM/alertasPMM/cantDifCargaPMMWMS";
 $route['alertas/pmm/errores/detErrCarga'] = "centroAlertas/PMM/alertasPMM/detalleErrCargaPMM";
+
+$route['alertas/pmm/errores/errLPND'] = "centroAlertas/PMM/alertasPMM/ErrLPNDisposicion";
+
+$route['alertas/pmm/errores/errAlm'] = "centroAlertas/PMM/alertasPMM/ErrAlmacenaje";
 
 //rutas alertas EIS
 
@@ -197,4 +212,20 @@ $route['SeteoAttr/attrSKU'] = "seteoAtributos/SeteoAtributos/attrSKU";
 $route['LPNDemora/totales'] = "LPNDemora/LPNDemora/totalDemoraFecha";
 $route['LPNDemora/resumen'] = "LPNDemora/LPNDemora/resumenDemoraFecha";
 
+//rutas almacenamiento locacion
 
+$route['AlmLonc/info'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/info";
+
+$route['Deptos/select'] = "Reabastecimiento/Departamentos/Departamentos/selectDepto";
+$route['Deptos/pasillos'] = "Reabastecimiento/Departamentos/Departamentos/pasillosPutwy";
+$route['Deptos/locaciones'] = "Reabastecimiento/Departamentos/Departamentos/availableLocn";
+$route['Deptos/configurar'] = "Reabastecimiento/Departamentos/Departamentos/configurar";
+
+// rutas mantenedores
+
+$route['sublineas/read'] = "Reabastecimiento/Mantenedores/Sublineas/obtenerTabla";
+$route['sublineas/save'] = "Reabastecimiento/Mantenedores/Sublineas/guardarCambios";
+
+//rutas CartonType
+
+$route['cartontype/data'] = "centrodistribucion/CartonType/dataGrid1";

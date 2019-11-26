@@ -85,6 +85,12 @@
               <i class="fa fa-check-square"></i>  Verificacion Tipo Carton</button>
             </center>    
           </div>
+          <div class="input-group sidebar-form">
+            <center>
+            <button type="button" id="btnUPDCartonType" class="btn bg-olive margin" data-toggle="control-sidebar">
+              <i class="fa fa-refresh"></i>  Actualizar Tipo Carton</button>
+            </center>    
+          </div>
         </li>
          <li class="header" id="ClassPasilloHeader"><h5><b style="color: white;">Clasificacion Pasillo</b></h5></li>
         <li id="ClassPasillo">
@@ -173,6 +179,27 @@
        <button class="k-button k-primary" id="btnActCartonType" name="btnActCartonType" >Actualizar</button>
     </div>
 </div>
+<div id="POPUP_CartonType2">
+  <div >
+      <label>Pasillo:</label>
+      <select id="selectPasillos2" data-placeholder="Seleccione..."
+              style="width: 100%;">
+      <?php foreach ($pasillos as $key) { ?>
+        <option><?php echo $key->PASILLOS; ?></option>
+       <?php  } ?>
+      </select>
+  </div>
+   <div >
+      <label>Carton Type:</label>
+      <select id="selectCartonType2" data-placeholder="Seleccione..."
+              style="width: 100%;">
+      </select>
+    </div>
+    <br>
+    <div >
+       <button class="k-button k-primary" id="btnActCartonType2" name="btnActCartonType2" >Actualizar</button>
+    </div>
+</div>
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -186,6 +213,25 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal" id="closemodal">Cerrar</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-danger fade" id="modal-danger">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><i class="fa fa-warning"></i> Error</h4>
+      </div>
+      <div class="modal-body">
+        <p id="error-modal"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -227,9 +273,9 @@
   <?php foreach ($pasillos as $key) { 
     if(next($pasillos)!= null){ ?>
       pasillospiso = pasillospiso+'<?php echo $key->PASILLOS; ?>'+"','"; 
-<?php } else{ ?>
-      pasillospiso = pasillospiso+'<?php echo $key->PASILLOS; ?>';
-<?php } } ?>
+  <?php } else{ ?>
+        pasillospiso = pasillospiso+'<?php echo $key->PASILLOS; ?>';
+  <?php } } ?>
   var baseURL= "<?php echo base_url();?>";
   var pasillo = '';
   var persistencialocn= [];

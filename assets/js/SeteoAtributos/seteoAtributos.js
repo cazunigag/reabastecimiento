@@ -10,7 +10,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(result){
             	result.forEach(function(element){
-            		$("#skuinfo").append('<tr><td>'+element.SKU_ID+'</td><td>'+element.SKU_DESC+'</td><td id="ESTILO'+element.SKU_ID+'">'+element.EXP_LICN_SYMBOL+'</td><td>'+element.MERCH_TYPE+'</td><td>'+element.CODE_DESC+'</td><td>'+element.SALE_GRP+'</td><td>'+element.COMMODITY_CODE+'</td><td>'+element.SPL_INSTR_1+'</td><td>'+element.COMMODITY_LEVEL_DESC+'</td></tr>');
+            		$("#skuinfo").append('<tr id="'+element.SKU_ID+'"><td>'+element.SKU_ID+'</td><td>'+element.SKU_DESC+'</td><td id="ESTILO'+element.SKU_ID+'">'+element.EXP_LICN_SYMBOL+'</td><td>'+element.MERCH_TYPE+'</td><td>'+element.CODE_DESC+'</td><td>'+element.SALE_GRP+'</td><td>'+element.COMMODITY_CODE+'</td><td>'+element.SPL_INSTR_1+'</td><td>'+element.COMMODITY_LEVEL_DESC+'</td></tr>');
             	});
             },
             error: function(result){
@@ -60,7 +60,10 @@ $(document).ready(function(){
                         }
                 }
             },
-            pageSize: 15
+            pageSize: 15,
+            destroy: function(event){
+                console.log(event);
+            }
         });
 
     $("#gridAtributos").kendoGrid({
@@ -149,4 +152,7 @@ $(document).ready(function(){
                 ],
             });
     }
+    $(".k-grid-delete").click(function(){
+        alert('hola');
+    })
 });

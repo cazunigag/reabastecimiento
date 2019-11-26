@@ -96,7 +96,7 @@
         </li>
         <div style="margin-top: 20px; margin-bottom: 20px"></div>
         <li class="header"><b>MENU</b></li>
-       <li class="treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-refresh"></i>
             <span>Reabastecimiento</span>
@@ -107,13 +107,23 @@
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
             <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
-            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-exchange"></i> Seteo 308</a></li>
+            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-arrow-down"></i> Seteo Depto</a></li>
+            <li><a href="<?php echo site_url('almacenamientolocn');?>"><i class="fa fa-cube"></i> Almacenamiento Locacion</a></li>
+            <li><a href="<?php echo site_url('sublineas');?>"><i class="fa fa-table"></i> Mantenedor Min-Max Sublinea</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<?php echo site_url('redex');?>">
-            <i class="fa fa-map"></i></i><span>Centro de Distribucion</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map"></i>
+            <span>Centro de Distribucion</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
+            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+          </ul>
         </li>
         <li>
           <a href="<?php echo site_url('centroAlertas');?>">
@@ -352,7 +362,7 @@
         if($("body").hasClass('sidebar-collapse')){
           $(".logo-lg").hide();
         }else{
-          $(".logo-lg").show();
+          $(".logo-lg").fadeIn();
         }
         setTimeout(checkChanges, 200);
       }

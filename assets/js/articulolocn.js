@@ -1,6 +1,12 @@
 var count = 0;    
 var Header =[{DSP_LOCN:"",SKU_ID:"",MIN_INVN_QTY: "",MAX_INVN_QTY: "",PROCESS_DATE_TIME:"",MESSAGE:""}];
 var data = [];
+if(localStorage.getItem("datos")!= null){
+    count = 4;
+    var datos = JSON.parse(localStorage.getItem("datos"));
+    data = datos;
+}
+
 $(function() {
     var Cabecera = true;
     var funcion = '';
@@ -217,6 +223,13 @@ $(function() {
                     popupNotification.show(" Archivo Importado Correctamente", "success");
                     data = [];
                 } 
+            }
+            else if(count == 4){
+                e.success(data);
+                var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                popupNotification.getNotifications().parent().remove();
+                popupNotification.show("Configuracion Cargada Correctamente ", "success");
+                localStorage.clear();
             }
         }
     }

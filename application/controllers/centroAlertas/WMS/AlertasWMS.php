@@ -246,4 +246,22 @@ class AlertasWMS extends CI_Controller{
 		$pos = json_decode($this->input->post('pos'));
 		echo $this->alertasWMS_model->verificarOC($pos);
 	}
+	public function verificarLPN(){
+		$caseL = json_decode($this->input->post('lpns'));
+		echo $this->alertasWMS_model->verificarLPN($caseL);
+	}
+	public function verificarASN(){
+		$asns = json_decode($this->input->post('asns'));
+		echo $this->alertasWMS_model->verificarASN($asns);
+	}
+	public function unidadesEnviadasASN(){
+		$asns = json_decode($this->input->post('asns'));
+		echo $this->alertasWMS_model->unidadesEnviadasASN($asns);
+	}
+	public function pasillosSinWorkGroup(){
+		echo $this->alertasWMS_model->pasillosSinWorkGroup();
+	}
+	public function cantPasillosSinWorkGroup(){
+		echo sizeof(json_decode($this->alertasWMS_model->pasillosSinWorkGroup()));
+	}
 }

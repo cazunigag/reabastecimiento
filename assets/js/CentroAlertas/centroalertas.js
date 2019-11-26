@@ -19,7 +19,7 @@ $(document).ready(function(){
 	comprobarAlertasEIS();
 
 	function comprobarAlertasWMS(){
-		var alertasWMS = ["PKT", "PO", "BRCD", "ART", "OLA", "CITA", "ASN", "LPN", "DISTRO", "CARGA"];
+		var alertasWMS = ["PKT", "PO", "BRCD", "ART", "OLA", "CITA", "ASN", "LPN", "DISTRO", "CARGA","FASN","PST"];
 		for (var i = 0; i <= alertasWMS.length -1; i++) {
 			var request = 	$.ajax({
 					            type: "POST",
@@ -90,7 +90,6 @@ $(document).ready(function(){
 
 	$.when.apply(null, promisesBT).done(function(){
 		for (var i = 0; i <= promisesBT.length -1; i++) {
-			console.log(promisesBT[i].responseText);
 			if(promisesBT[i].responseText > 0){
 		 		if(runningBT == 0){
 			 		stopedBT = 0;
@@ -139,16 +138,12 @@ $(document).ready(function(){
 					            }
 					        });
 			promisesPMM.push(request);
-			console.log(promisesPMM);
 		}	 
 	}
 
 	$.when.apply(null, promisesPMM).done(function(){
-		console.log(promisesPMM.length);
 		for (var i = 0; i <= promisesPMM.length -1; i++) {
-			console.log(promisesPMM[i].responseText);
 			if(promisesPMM[i].responseText > 0){
-				console.log('hola');
 		 		if(runningPMM == 0){
 			 		stopedPMM = 0;
 			 		intermitenciaPMM();
@@ -196,16 +191,12 @@ $(document).ready(function(){
 					            }
 					        });
 			promisesEIS.push(request);
-			console.log(promisesEIS);
 		}	 
 	}
 
 	$.when.apply(null, promisesEIS).done(function(){
-		console.log(promisesEIS.length);
 		for (var i = 0; i <= promisesEIS.length -1; i++) {
-			console.log(promisesEIS[i].responseText);
 			if(promisesEIS[i].responseText > 0){
-				console.log('hola');
 		 		if(runningEIS == 0){
 			 		stopedEIS = 0;
 			 		intermitenciaEIS();

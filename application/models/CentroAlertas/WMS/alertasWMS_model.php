@@ -11,7 +11,7 @@ class alertasWMS_model extends CI_Model{
 	public function erroresPKT(){
 		$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
 			  WHERE TO_cHAR(A.ERROR_SEQ_NBR)=B.REF_VALUE_1(+) AND A.PKT_CTRL_NBR = C.PKT_CTRL_NBR(+) AND TO_cHAR(C.ERROR_SEQ_NBR)=D.REF_VALUE_1(+)
-			  AND (A.ERROR_SEQ_NBR>0 OR C.ERROR_SEQ_NBR>0)";
+			  AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -54,7 +54,7 @@ class alertasWMS_model extends CI_Model{
 	public function erroresPO(){
 		$sql="SELECT A.PO_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PO_HDR A, MSG_LOG B, INPT_PO_DTL C, MSG_LOG D
 			  WHERE TO_CHAR(A.ERROR_SEQ_NBR)=B.REF_VALUE_1(+) AND A.PO_NBR = C.PO_NBR(+) AND TO_CHAR(C.ERROR_SEQ_NBR)=D.REF_VALUE_1(+)
-			  AND (A.ERROR_SEQ_NBR>0 OR C.ERROR_SEQ_NBR>0)";
+			  AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -521,7 +521,7 @@ class alertasWMS_model extends CI_Model{
 					TO_cHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+)
 					AND A.SHPMT_NBR = C.SHPMT_NBR(+)
 					AND TO_cHAR(C.ERROR_SEQ_NBR) = D.REF_VALUE_1(+)
-					AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0)";
+					AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -654,7 +654,7 @@ class alertasWMS_model extends CI_Model{
 		$sql = "SELECT A.CASE_NBR, A.ORIG_SHPMT_NBR, B.MSG AS MSG_LPN, C.SIZE_DESC, D.MSG AS MSG_SKU 
 				FROM INPT_CASE_HDR A, MSG_LOG B, INPT_CASE_DTL C, MSG_LOG D 
 		   		WHERE TO_CHAR(A.ERROR_SEQ_NBR) = B.REF_VALUE_1(+) AND A.CASE_NBR = C.CASE_NBR(+) AND TO_CHAR(C.ERROR_SEQ_NBR) = D.REF_VALUE_1(+)
-		   		AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0)";
+		   		AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -817,7 +817,7 @@ class alertasWMS_model extends CI_Model{
 					STAT_CODE,
 					SC.CODE_DESC,
 					TRLR_NBR,
-					TO_CHAR(OL.MOD_DATE_TIME, 'YYYY/MM/DD HH24:MI:SS') AS FEC_MOD
+					TO_CHAR(OL.MOD_DATE_TIME, 'DD/MM/YYYY HH24:MI:SS') AS FEC_MOD
 				FROM
 					OUTBD_LOAD OL,
 					SYS_CODE SC
@@ -829,7 +829,8 @@ class alertasWMS_model extends CI_Model{
 					--AND TRUNC(OL.MOD_DATE_TIME) = TRUNC(SYSDATE)";
 
 		$result = $this->db->query($sql);
-		if($result || $result != null){
+		if($result->num_rows()>0 ){
+			//var_dump($result->num_rows());
 			foreach ($result->result() as $key) {
 				$fechaMod=$key->FEC_MOD;
 				if(substr($systemdate,0,10) == substr($fechaMod,0,10)){
@@ -842,11 +843,11 @@ class alertasWMS_model extends CI_Model{
 							array_push($errCarga, $key);
 						}
 					}
-				}elseif ((substr($systemdate,6,4) - substr($fechaMod,6,4)) >= 1) {
+				}elseif ((substr($systemdate,6,4) - substr($fechaMod,6,4)) > 0) {
 					array_push($errCarga, $key);
-				}elseif ((substr($systemdate,3,2) - substr($fechaMod,3,2)) >= 1) {
+				}elseif ((substr($systemdate,3,2) - substr($fechaMod,3,2)) > 0) {
 					array_push($errCarga, $key);
-				}elseif ((substr($systemdate,0,2) - substr($fechaMod,0,2)) >= 1) {
+				}elseif ((substr($systemdate,0,2) - substr($fechaMod,0,2)) > 0) {
 					array_push($errCarga, $key);
 				}
 
@@ -1017,6 +1018,131 @@ class alertasWMS_model extends CI_Model{
 					AND A.STAT_CODE = B.CODE_ID
 					AND B.REC_TYPE = 'S'
 					AND B.CODE_TYPE = '123'";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function verificarLPN($caseL){
+		$lpns = "";
+		foreach ($caseL as $key) {
+			if(next($caseL) == false){
+				$lpns = $lpns.$key->CASE_NBR;
+			}else{
+				$lpns = $lpns.$key->CASE_NBR."','";
+			}
+		}
+		$sql = "SELECT
+				    A.CASE_NBR LPN,
+				    A.MOD_DATE_TIME FEC_MODIFICACION,
+				    A.STAT_CODE,
+				    B.CODE_DESC
+				FROM
+				    CASE_HDR A,
+				    SYS_CODE B
+				WHERE
+				    A.CASE_NBR IN ('$lpns')
+				    AND A.STAT_CODE = B.CODE_ID
+				    AND B.REC_TYPE = 'S'
+				    AND B.CODE_TYPE = '509'";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function verificarASN($asns){
+		$shpmts = "";
+		foreach ($asns as $key) {
+			if(next($asns) == false){
+				$shpmts = $shpmts.$key->SHPMT_NBR;
+			}else{
+				$shpmts = $shpmts.$key->SHPMT_NBR."','";
+			}
+		}
+		$sql = "SELECT
+				    A.SHPMT_NBR ASN,
+				    A.MOD_DATE_TIME FEC_MODIFICACION,
+				    A.STAT_CODE,
+				    B.CODE_DESC
+				FROM
+				    ASN_HDR A,
+				    SYS_CODE B
+				WHERE
+				    A.SHPMT_NBR IN ('$shpmts')
+				    AND A.STAT_CODE = B.CODE_ID
+				    AND B.REC_TYPE = 'S'
+				    AND B.CODE_TYPE = '564'";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function unidadesEnviadasASN($asns){
+		$shpmts = "";
+		foreach ($asns as $key) {
+			if(next($asns) == false){
+				$shpmts = $shpmts.$key->SHPMT_NBR;
+			}else{
+				$shpmts = $shpmts.$key->SHPMT_NBR."','";
+			}
+		}
+		$sql = "SELECT
+					A.SHPMT_NBR,
+					A.UNITS_SHPD,
+					B.AD_UNITS_SHPD
+				FROM
+					INPT_ASN_HDR A,
+					(SELECT
+						C.SHPMT_NBR,
+						SUM(C.UNITS_SHPD) AD_UNITS_SHPD
+					 FROM
+					 	INPT_ASN_DTL C
+					 GROUP BY
+					 	C.SHPMT_NBR) B
+				WHERE
+					A.SHPMT_NBR IN ('$shpmts')
+					AND A.SHPMT_NBR = B.SHPMT_NBR";
+
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function pasillosSinWorkGroup(){
+		$sql = "SELECT
+				    SUBSTR(LOCN_BRCD,1,4) PASILLO,
+				    COUNT(*) CANTIDAD_UBICACIONES
+				FROM
+				    LOCN_HDR
+				WHERE
+				    (WORK_GRP IS NULL OR WORK_AREA IS NULL)
+				    AND AREA = 'R'
+				GROUP BY 
+				    SUBSTR(LOCN_BRCD,1,4)
+				ORDER BY 1";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){

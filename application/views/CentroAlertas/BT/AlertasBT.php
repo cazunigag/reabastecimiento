@@ -53,6 +53,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>BigTicket</b></span>
+      <span class="logo-mini"><b>BT</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -106,13 +107,23 @@
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
             <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
-            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-exchange"></i> Seteo 308</a></li>
+            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-arrow-down"></i> Seteo Depto</a></li>
+            <li><a href="<?php echo site_url('almacenamientolocn');?>"><i class="fa fa-cube"></i> Almacenamiento Locacion</a></li>
+            <li><a href="<?php echo site_url('sublineas');?>"><i class="fa fa-table"></i> Mantenedor Min-Max Sublinea</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<?php echo site_url('redex');?>">
-            <i class="fa fa-map"></i></i><span>Centro de Distribucion</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map"></i>
+            <span>Centro de Distribucion</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
+            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+          </ul>
         </li>
         <li>
           <a href="<?php echo site_url('centroAlertas');?>">
@@ -137,67 +148,75 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-      </h1>
-    </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="SDIBTBox">
-           <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">MSG SIN PROCESAR</span>
-              <span class="info-box-number" id="nSDIBT">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
+      <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-warning"/>  Tablas Finales</i></h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <!-- /.info-box-content -->
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-green" id="SDIBTBox">
+                 <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">MSG SIN PROCESAR</span>
+                    <span class="info-box-number" id="nSDIBT">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-green" id="VBTBox">
+                 <span class="info-box-icon" ><i id="iconVBT" class="glyphicon glyphicon-ok"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">MSG MAL ENVIADOS</span>
+                    <span class="info-box-number" id="nVBT">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="VBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-green" id="CUDDBox">
+                 <span class="info-box-icon" ><i id="iconCUDD" class="glyphicon glyphicon-ok"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">CUD DUPLICADOS</span>
+                    <span class="info-box-number" id="nCUDD">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="CUDDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="VBTBox">
-           <span class="info-box-icon" ><i id="iconVBT" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">MSG MAL ENVIADOS</span>
-              <span class="info-box-number" id="nVBT">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="VBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="CUDDBox">
-           <span class="info-box-icon" ><i id="iconCUDD" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">CUD DUPLICADOS</span>
-              <span class="info-box-number" id="nCUDD">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="CUDDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-      </div>
         <!-- ./col -->
       </div>
       <!-- /.row -->
@@ -292,6 +311,7 @@
   <div id="gridDetVBT"></div>
 </div>
 <div id="POPUP_Detalle_CUDD" class="grid">
+  <div id="toolbarCUD"></div>
   <div id="gridDetCUDD"></div>
 </div>
 <!-- ./wrapper -->
@@ -340,7 +360,7 @@
         if($("body").hasClass('sidebar-collapse')){
           $(".logo-lg").hide();
         }else{
-          $(".logo-lg").show();
+          $(".logo-lg").fadeIn();
         }
         setTimeout(checkChanges, 200);
       }

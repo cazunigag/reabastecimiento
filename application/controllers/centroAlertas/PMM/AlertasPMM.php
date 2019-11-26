@@ -25,4 +25,16 @@ class AlertasPMM extends CI_Controller{
 		$carga = $this->input->post('carga');
 		echo $this->alertasPMM_model->detalleErrCargaPMM($carga);
 	}
+	public function resErrDocPMM(){
+		$asn = $this->input->post('asn');
+		echo $this->alertasPMM_model->resErrDocPMM($asn);
+	}
+	public function ErrLPNDisposicion(){
+		$fecha = $this->input->post('fecha');
+		echo $this->alertasPMM_model->ErrLPNDisposicion($fecha);
+	}
+	public function ErrAlmacenaje(){
+		$fecha = $this->input->post('fecha');
+		echo $this->alertasPMM_model->ErrAlmacenaje($fecha);
+	}
 }

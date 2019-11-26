@@ -5,7 +5,7 @@ class Estanteria_model extends CI_Model{
 
 	public function __construct() 
      {
-        $this->load->database('reportWMS');
+        $this->load->database('prodWMS');
         $DB2 = $this->load->database('PMMWMS', TRUE);
         $DB3 = $this->load->database('PMMPRODCONT', TRUE);
      }
@@ -451,7 +451,7 @@ class Estanteria_model extends CI_Model{
 	public function getCartonTypes(){
 		$DB3 = $this->load->database('PMMPRODCONT', TRUE);
 		$sql ="SELECT 
-					C.ATR_CODE AS CARTON_TYPE,
+					TRIM(C.ATR_CODE) AS CARTON_TYPE,
 					C.ATR_CODE_DESC
 				FROM
 					BASACDEE C,
@@ -557,28 +557,19 @@ class Estanteria_model extends CI_Model{
 		$area = substr($pasillo, 0, 1);
 		$zone = substr($pasillo, 1, 1);
 		$aisle = substr($pasillo, 2, 2);
-		$sql = "Begin
-			       For C0 In (Select Lh.Locn_Id, Lh.Area, Lh.Zone, Lh.Aisle, Pld.Sku_Id, Im.Carton_Type
-			            From Pick_Locn_Dtl Pld, Item_Master Im, Locn_Hdr Lh
-			           Where Lh.Area = '$area'
-			             And Lh.Zone = '$zone'
-			             And Lh.Aisle = '$aisle'
-			             And Lh.Locn_Id = Pld.Locn_Id
-			             And Pld.Sku_Id = Im.Sku_Id)
-			       Loop
-			          Update Item_Master Im
-			             Set Im.Carton_Type = '$cartonType'
-			           Where Im.Sku_Id = C0.Sku_Id;
-			       End Loop;
-			       Commit;
-			       
-			    Exception
-			       When Others Then
-			          Rollback;
-			          
-			    End;";
-		$result = $this->db->query($sql);
-		if($result || $result != null){
+		$out = "";
+		$DB2 = $this->load->database('LECLWMPROD', TRUE);
+		$DB3 = $this->load->database('PMMWMS', TRUE);
+		$sql = "UPDATE PNL_AISLE_CLASSIFICATION SET CARTON_TYPE = '$cartonType' WHERE AREA = '$area' AND ZONE = '$zone' AND AISLE = '$aisle'";
+		$params = array(array('name' => ":p_Area", 'value' => $area, 'type' => SQLT_CHR, 'length' => 99 ),
+						array('name' => ":p_Zone", 'value' => $zone, 'type' => SQLT_CHR, 'length' => 99 ),
+						array('name' => ":p_Aisle", 'value' => $aisle, 'type' => SQLT_CHR, 'length' => 99 ),
+						array('name' => ":p_Carton_Type", 'value' => $cartonType, 'type' => SQLT_CHR, 'length' => 99 ),
+						array('name' => ":p_Status", 'value' => $out, 'type' => SQLT_CHR, 'length' => 99 ));
+
+		$result = $DB2->stored_procedure("PMMWMS", "Rdx_Actualiza_Carton_Type", $params);
+		$result2 = $DB3->query($sql);
+		if($result || $result != null || $result2 || $result2 != null){
 			$this->db->close();
 			return $result;
 		}

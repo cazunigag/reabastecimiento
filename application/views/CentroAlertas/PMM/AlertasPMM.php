@@ -53,6 +53,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>PMM</b></span>
+      <span class="logo-mini"><b>PMM</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -106,13 +107,23 @@
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
             <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
-            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-exchange"></i> Seteo 308</a></li>
+            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-arrow-down"></i> Seteo Depto</a></li>
+            <li><a href="<?php echo site_url('almacenamientolocn');?>"><i class="fa fa-cube"></i> Almacenamiento Locacion</a></li>
+            <li><a href="<?php echo site_url('sublineas');?>"><i class="fa fa-table"></i> Mantenedor Min-Max Sublinea</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<?php echo site_url('redex');?>">
-            <i class="fa fa-map"></i></i><span>Centro de Distribucion</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map"></i>
+            <span>Centro de Distribucion</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
+            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+          </ul>
         </li>
         <li>
           <a href="<?php echo site_url('centroAlertas');?>">
@@ -137,51 +148,95 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-      </h1>
-    </section>
 
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="DPWBox">
-           <span class="info-box-icon" ><i id="iconDPW" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">DOC NO RECIBIDOS</span>
-              <span class="info-box-number" id="nDPW">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="DPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
+      <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-warning"/>  Tablas Finales</i></h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <!-- /.info-box-content -->
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-green" id="DPWBox">
+                 <span class="info-box-icon" ><i id="iconDPW" class="glyphicon glyphicon-ok"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">DOC NO RECIBIDOS</span>
+                    <span class="info-box-number" id="nDPW">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="DPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-green" id="DCPWBox">
+                 <span class="info-box-icon" ><i id="iconDCPW" class="glyphicon glyphicon-ok"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">CARGAS NO RECIBIDAS</span>
+                    <span class="info-box-number" id="nDCPW">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="DCPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                 
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-aqua" id="ELPNDBox">
+                 <a id="UpdELPND"><span class="info-box-icon" ><i id="iconELPND" class="fa fa-download"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">ERRORES LPN DISPOSICION</span>
+                    <span class="info-box-number" id="nELPND">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="ELPNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                 
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-aqua" id="EALMBox">
+                 <a id="UpdEALM"><span class="info-box-icon" ><i id="iconEALM" class="fa fa-download"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">ERRORES ALMACENAJE</span>
+                    <span class="info-box-number" id="nEALM">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="EALMDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                 
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="DCPWBox">
-           <span class="info-box-icon" ><i id="iconDCPW" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">CARGAS NO RECIBIDAS</span>
-              <span class="info-box-number" id="nDCPW">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="DCPWDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-           
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-      </div>
         <!-- ./col -->
       </div>
       <!-- /.row -->
@@ -276,11 +331,53 @@
 <div id="POPUP_Detalle_DPW" class="grid">
   <div id="gridDetDPW"></div>
 </div>
+<div id="POPUP_DetErr_DPW" class="grid">
+  <div id="gridDetERRDPW"></div>
+</div>
 <div id="POPUP_Detalle_DCPW" class="grid">
   <div id="gridDetDCPW"></div>
 </div>
 <div id="POPUP_DetERR_DCPW" class="grid">
   <div id="gridDetERRDCPW"></div>
+</div>
+<div id="POPUP_ELPND" class="grid">
+  <div id="gridELPND"></div>
+</div>
+<div id="POPUP_calendarioDispo">
+  <div class="form-group">
+    <label>Seleccione una fecha:</label>
+
+    <div class="input-group date">
+      <div class="input-group-addon">
+        <i class="fa fa-calendar"></i>
+      </div>
+      <input type="text" class="form-control pull-right" id="datepicker">
+    </div>
+    <!-- /.input group -->
+  </div>
+  <div class="form-group">
+    <button type="button" id="btnActualizarAlertDispo" class="btn btn-primary">Actualizar</button>
+  </div>
+</div>
+<div id="POPUP_calendarioALM">
+  <div class="form-group">
+    <label>Seleccione una fecha:</label>
+
+    <div class="input-group date">
+      <div class="input-group-addon">
+        <i class="fa fa-calendar"></i>
+      </div>
+      <input type="text" class="form-control pull-right" id="datepickerALM">
+    </div>
+    <!-- /.input group -->
+  </div>
+  <div class="form-group">
+    <button type="button" id="btnActualizarAlertAlm" class="btn btn-primary">Actualizar</button>
+  </div>
+</div>
+<div id="POPUP_EALM" class="grid">
+  <div id="gridEALM"></div>
+</div>
 </div>
 <!-- jQuery 3 -->
 
@@ -326,7 +423,7 @@
         if($("body").hasClass('sidebar-collapse')){
           $(".logo-lg").hide();
         }else{
-          $(".logo-lg").show();
+          $(".logo-lg").fadeIn();
         }
         setTimeout(checkChanges, 200);
       }

@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="example">
-    <div id="spreadsheet" style="width: 100%;"></div>
+    <div id="spreadsheet" style="width: 100%; height: 650px;"></div>
     <div id="POPUP_filtrar">
         <div class="col-md-6 mb-3">
             <label for="Codtemporada" class="required">Rango de Fechas:</label>

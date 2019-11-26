@@ -41,4 +41,8 @@ class AlertasBT extends CI_Controller{
 		}
 		echo $count;
 	}
+	public function actualizarPKT(){
+		$pkts = json_decode($this->input->post('pkts'));
+		echo $this->alertasBT_model->actualizarPKT($pkts);
+	}
 }

@@ -13,6 +13,7 @@ $(document).ready(function(){
     actualizarAlertaDISTRO();
     actualizarAlertaCARGA();
     actualizarAlertaFASN();
+    actualizarAlertaPST();
 
     //DECLARACION DE VARIABLES
 
@@ -49,6 +50,8 @@ $(document).ready(function(){
     var runningCARGA = 0;
     var stopedFASN = 0;
     var runningFASN = 0;
+    var stopedPST = 0;
+    var runningPST = 0;
     var codigoASN = "";
     var codigoCITA = "";
 
@@ -133,7 +136,8 @@ $(document).ready(function(){
 
             },
             error: function(result){
-                console.log(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
         $.ajax({
@@ -156,7 +160,8 @@ $(document).ready(function(){
                 });
             },
             error: function(result){
-                console.log(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -266,7 +271,8 @@ $(document).ready(function(){
                 e.success(result);
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -279,7 +285,8 @@ $(document).ready(function(){
                 e.success(result);
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la grilla");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -315,7 +322,8 @@ $(document).ready(function(){
                     }
                 },
                 error: function(xhr){
-                    console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                    $("#error-modal").text("Ocurrio un error con la funcion");
+                    $("#modal-danger").modal('show');
                 }
             });
         }
@@ -354,7 +362,8 @@ $(document).ready(function(){
                         }
                     },
                     error: function(xhr){
-                        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+                        $("#error-modal").text("Ocurrio un error con la funcion");
+                        $("#modal-danger").modal('show');
                     }
                 });
             }
@@ -455,7 +464,8 @@ $(document).ready(function(){
 
             },
             error: function(result){
-                console.log(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
         $.ajax({
@@ -478,7 +488,8 @@ $(document).ready(function(){
                 });
             },
             error: function(result){
-                console.log(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -524,7 +535,7 @@ $(document).ready(function(){
     $("#gridVerPO").kendoGrid({
         autoBind: false,
         dataSource: dataSourceVerPO,
-        height: "90%", 
+        height: "100%", 
         width: "600px",
         sortable: true, 
         filterable: true,
@@ -584,7 +595,8 @@ $(document).ready(function(){
                 e.success(result);
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -601,12 +613,15 @@ $(document).ready(function(){
                 }else{
                     var popupverificarpo = $("#POPUP_Verificar_PO");
                     popupverificarpo.data("kendoWindow").close();
+                    var popupdetallepo = $("#POPUP_Detalle_PO");
+                    popupdetallepo.data("kendoWindow").close();
                     $("#warning-modal").text("La OC seleccionada no se encuentra en las tablas finales");
                     $("#modal-warning").modal('show');
                 }
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -873,7 +888,8 @@ $(document).ready(function(){
                 e.success(result);
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -1122,7 +1138,8 @@ $(document).ready(function(){
                 e.success(result);
             },
             error: function(result){
-                alert(JSON.stringify(result));
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
             }
         });
     }
@@ -1909,6 +1926,39 @@ $(document).ready(function(){
         },
         pageSize: 15
     });
+    var dataSourceVerASN = new kendo.data.DataSource({
+        transport: {
+            read: onReadVerASN
+        },
+        schema: {
+            model: {
+                id: "ASN",
+                fields: {
+                        ASN: {type: "string"}, // number - string - date
+                        FEC_MODIFICACION: {type: "string"},
+                        STAT_CODE: {type: "string"}, // number - string - date
+                        CODE_DESC: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    var dataSourceUndEnvASN = new kendo.data.DataSource({
+        transport: {
+            read: onReadUndEnvASN
+        },
+        schema: {
+            model: {
+                id: "SHPMT_NBR",
+                fields: {
+                        SHPMT_NBR: {type: "string"}, // number - string - date
+                        UNITS_SHPD: {type: "string"},
+                        AD_UNITS_SHPD: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
     function intermitenciaASN(){
       $("#ASNBox").toggleClass("bg-green");
       $("#ASNBox").toggleClass("bg-red");
@@ -2057,6 +2107,7 @@ $(document).ready(function(){
                         var grid = $("#gridDetASN").data("kendoGrid");
                         var item = grid.dataItem(this);
                         asns.push({SHPMT_NBR: item.SHPMT_NBR});
+                        console.log(asns);
                     }) 
         },
         pageable: {
@@ -2066,12 +2117,51 @@ $(document).ready(function(){
         },
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
-            {field: "SHPMT_NBR",title: "ASN",width: 60, filterable:false, resizable:false, height: 80},
-            {field: "REF_FIELD_1",title: "CITA",width:60,filterable:false},
-            {field: "PO_NBR",title: "OC",width:60,filterable:false},
-            {field: "SIZE_DESC",title: "SKU",width:60,filterable: false},
+            {field: "SHPMT_NBR",title: "ASN",width: 60, filterable: {multi: true, search: true}},
+            {field: "REF_FIELD_1",title: "CITA",width:60,filterable: {multi: true, search: true}},
+            {field: "PO_NBR",title: "OC",width:60,filterable: {multi: true, search: true}},
+            {field: "SIZE_DESC",title: "SKU",width:60,filterable: {multi: true, search: true}},
             {field: "MSG_SHPMT",title: "MENSAJE CABECERA",width:90,filterable: false},
             {field: "MSG_SKU",title: "MENSAJE DETALLE",width:90,filterable: false}
+        ]
+    });
+    $("#gridVerASN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceVerASN,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "ASN",title: "ASN",width: 70, filterable:false, resizable:false, height: 80},
+            {field: "FEC_MODIFICACION",title: "ULTIMA MODIFICACION",width:70,filterable:false},
+            {field: "STAT_CODE",title: "ESTADO",width:70,filterable: false},
+            {field: "CODE_DESC",title: "DESCRIPCION",width: 70,filterable: false}
+        ]
+    });
+    $("#gridUndEnvASN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceUndEnvASN,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "SHPMT_NBR",title: "ASN",width: 70, filterable:false, resizable:false, height: 80},
+            {field: "UNITS_SHPD",title: "UND ENVIADAS HDR",width:70,filterable:false},
+            {field: "AD_UNITS_SHPD",title: "UND ENVIADAS DTL",width:70,filterable: false}       
         ]
     });
     $("#ASNBajados").click(function(){
@@ -2126,6 +2216,30 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").center();
+    var ventana_verif_asn = $("#POPUP_Verificar_ASN");
+    ventana_verif_asn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Verificacion Tablas Finales ASN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+    var ventana_shpun_asn = $("#POPUP_UNDENV_ASN");
+    ventana_shpun_asn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Unidades Enviadas ASN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
     function onReadResASN(e){
         $.ajax({
             type: "POST",
@@ -2167,12 +2281,89 @@ $(document).ready(function(){
             }
         });
     }
+    function onReadVerASN(e){
+        console.log('hola');
+         $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/asn/verificar',
+            dataType: 'json',
+            data:{ asns: JSON.stringify(asns)},
+            success: function(result){
+                if(result.length != 0){
+                    e.success(result);
+                    console.log(result.length);
+                }else{
+                    var popupverificarlpn = $("#POPUP_Verificar_ASN");
+                    popupverificarlpn.data("kendoWindow").close();
+                    var popupdetalleasn = $("#POPUP_Detalle_ASN");
+                    popupdetalleasn.data("kendoWindow").close();
+                    $("#warning-modal").text("El(Los) ASN(s) seleccionado(s) no se encuentra(n) en las tablas finales");
+                    $("#modal-warning").modal('show');
+                }
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
+    function onReadUndEnvASN(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/asn/untshpd',
+            dataType: 'json',
+            data:{ asns: JSON.stringify(asns)},
+            success: function(result){
+                e.success(result);
+                console.log(result.length);    
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
     $("#toolbarASN").kendoToolBar({
         items: [
             { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarASN},
-            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarASN}
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarASN},
+            { type: "button", text: "Verificar ASN", icon: "k-icon k-i-check-circle" ,click: VerificarASN},
+            { type: "button", text: "Unidades Enviadas", icon: "k-icon k-i-calculator" ,click: UnidadesEnviadas}
         ]
     });
+    function UnidadesEnviadas(){
+        var data = JSON.stringify(asns);
+        if(Array.isArray(asns) && asns.length != 0){
+            var popupverificarpo = $("#POPUP_UNDENV_ASN");
+            popupverificarpo.data("kendoWindow").open();
+            var grid = $("#gridUndEnvASN");
+            grid.data("kendoGrid").dataSource.read();
+        }
+        else{;
+            var popupdetallepo = $("#POPUP_UNDENV_ASN");
+            popupdetallepo.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un ASN para verificar las unidades enviadas");
+            $("#modal-danger").modal('show');
+        }
+
+    }
+    function VerificarASN(){
+        var data = JSON.stringify(asns);
+        if(Array.isArray(asns) && asns.length != 0){
+            console.log(asns.length);
+            var popupverificarpo = $("#POPUP_Verificar_ASN");
+            popupverificarpo.data("kendoWindow").open();
+            var grid = $("#gridVerASN");
+            console.log(grid);
+            grid.data("kendoGrid").dataSource.read();
+        }
+        else{;
+            var popupdetallepo = $("#POPUP_Verificar_ASN");
+            popupdetallepo.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un ASN para verificar");
+            $("#modal-danger").modal('show');
+        }
+    }
     function ActualizarASN(){
         var data = JSON.stringify(asns);
         if(Array.isArray(asns) && asns.length != 0){
@@ -2288,6 +2479,23 @@ $(document).ready(function(){
                         SIZE_DESC: {type: "string"}, // number - string - date
                         MSG_LPN: {type: "string"},
                         MSG_SKU: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 15
+    });
+    var dataSourceVerLPN = new kendo.data.DataSource({
+        transport: {
+            read: onReadVerLPN
+        },
+        schema: {
+            model: {
+                id: "LPN",
+                fields: {
+                        LPN: {type: "string"}, // number - string - date
+                        FEC_MODIFICACION: {type: "string"},
+                        STAT_CODE: {type: "string"}, // number - string - date
+                        CODE_DESC: {type: "string"}
                     }
             }
         },
@@ -2419,10 +2627,30 @@ $(document).ready(function(){
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
             {field: "CASE_NBR",title: "LPN",width: 90, filterable:false, resizable:false, height: 80},
-            {field: "ORIG_SHPMT_NBR",title: "ASN",width:70,filterable:false},
+            {field: "ORIG_SHPMT_NBR",title: "ASN",width:70,filterable: {multi: true, search: true}},
             {field: "SIZE_DESC",title: "SKU",width:70,filterable: false},
             {field: "MSG_LPN",title: "MENSAJE CABECERA",width:70,filterable:false},
             {field: "MSG_SKU",title: "MENSAJE DETALLE",width:70,filterable: false}
+        ]
+    });
+    $("#gridVerLPN").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceVerLPN,
+        height: "100%", 
+        width: "600px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "LPN",title: "LPN",width: 70, filterable:false, resizable:false, height: 80},
+            {field: "FEC_MODIFICACION",title: "ULTIMA MODIFICACION",width:70,filterable:false},
+            {field: "STAT_CODE",title: "ESTADO",width:70,filterable: false},
+            {field: "CODE_DESC",title: "DESCRIPCION",width: 70,filterable: false}
         ]
     });
     $("#LPNBajados").click(function(){
@@ -2465,6 +2693,18 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").center();
+    var ventana_verificacion_lpn = $("#POPUP_Verificar_LPN");
+    ventana_verificacion_lpn.kendoWindow({
+        width: "750px",
+        height: "550px",
+        title: "Verificacion Tablas Finales LPN",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
     function onReadResLPN(e){
         $.ajax({
             type: "POST",
@@ -2491,12 +2731,53 @@ $(document).ready(function(){
             }
         });
     }
+    function onReadVerLPN(e){
+         $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/lpn/verificar',
+            dataType: 'json',
+            data:{ lpns: JSON.stringify(lpns)},
+            success: function(result){
+                if(result.length != 0){
+                    e.success(result);
+                    console.log(result.length);
+                }else{
+                    var popupverificarlpn = $("#POPUP_Verificar_LPN");
+                    popupverificarlpn.data("kendoWindow").close();
+                    var popupdetallelpn = $("#POPUP_Detalle_LPN");
+                    popupdetallelpn.data("kendoWindow").close();
+                    $("#warning-modal").text("El(Los) LPN(s) seleccionado(s) no se encuentra(n) en las tablas finales");
+                    $("#modal-warning").modal('show');
+                }
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error al cargar la pagina");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
     $("#toolbarLPN").kendoToolBar({
         items: [
             { type: "button", text: "Reprocesar", icon: "k-icon k-i-reload" ,click: ActualizarLPN},
-            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarLPN}
+            { type: "button", text: "Eliminar", icon: "k-icon k-i-delete" ,click: EliminarLPN},
+            { type: "button", text: "Verificar LPN", icon: "k-icon k-i-check-circle" ,click: VerificarLPN}
         ]
     });
+    function VerificarLPN(){
+        var data = JSON.stringify(lpns);
+        if(Array.isArray(lpns) && lpns.length != 0){
+            var popupverificarpo = $("#POPUP_Verificar_LPN");
+            popupverificarpo.data("kendoWindow").open();
+            var grid = $("#gridVerLPN");
+            grid.data("kendoGrid").dataSource.read();
+        }
+        else{;
+            var popupdetallepo = $("#POPUP_Verificar_LPN");
+            popupdetallepo.data("kendoWindow").close();
+            $("#error-modal").text("Debe seleccionar al menos un LPN para verificar");
+            $("#modal-danger").modal('show');
+        }
+    }
     function ActualizarLPN(){
         var data = JSON.stringify(lpns);
         if(Array.isArray(lpns) && lpns.length != 0){
@@ -3247,12 +3528,12 @@ $(document).ready(function(){
         },
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
-            {field: "SHPMT_NBR",title: "ASN",width: 50, filterable:false, resizable:false, height: 80},
+            {field: "SHPMT_NBR",title: "ASN",width: 50, filterable: {multi: true, search: true}},
             {field: "STAT_CODE",title: "ESTADO",width:40,filterable:false},
             {field: "FECHA_CREACION",title: "FECHA CREACION",width:70,filterable: false},
             {field: "FECHA_MOD",title: "FEC MODIFICACION",width:70,filterable: false},
             {field: "FECHA_VERIFICACION",title: "FEC VERIFICACION",width:70,filterable: false},
-            {field: "MANIF_NBR",title: "FACTURA",width:70,filterable: false},
+            {field: "MANIF_NBR",title: "FACTURA",width:70,filterable: {multi: true, search: true}},
             {field: "REP_NAME",title: "PROVEEDOR",width:70,filterable: false},
             {field: "PO_NBR",title: "OC",width:50,filterable: false}
         ]
@@ -3318,4 +3599,163 @@ $(document).ready(function(){
             $("#modal-danger").modal('show');
         }
     }
+
+    //FUNCIONES ALERTA PST
+
+    var dataSourceDetPST = new kendo.data.DataSource({
+        transport: {
+            read: onReadErrPST
+        },
+        schema: {
+            model: {
+                id: "PASILLO",
+                fields: {
+                        PASILLO: {type: "string"}, // number - string - date
+                        CANTIDAD_UBICACIONES: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 50
+    });
+
+    var dataSourceDetPST = new kendo.data.DataSource({
+        transport: {
+            read: onReadErrPST
+        },
+        schema: {
+            model: {
+                id: "PASILLO",
+                fields: {
+                        PASILLO: {type: "string"}, // number - string - date
+                        CANTIDAD_UBICACIONES: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 50
+    });
+
+    function intermitenciaPST(){
+      $("#PSTBox").toggleClass("bg-green");
+      $("#PSTBox").toggleClass("bg-red");
+      $("#iconPST").toggleClass("glyphicon-ok");
+      $("#iconPST").toggleClass("ion-android-alert");
+      if(stopedPST == 0){
+         runningPST = 1;
+         setTimeout(intermitenciaPST, 500);
+      }
+      else{
+        stopPST();
+      }
+    }
+    function actualizarAlertaPST(){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconPST").toggleClass("fa");
+                $("#iconPST").toggleClass("fa-refresh");
+                $("#iconPST").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPST").toggleClass("fa");
+                $("#iconPST").toggleClass("fa-refresh");
+                $("#iconPST").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/wms/errores/cantPST',
+            dataType: 'json',
+            success: function(result){
+                $("#nPST").html(result);
+                if(result > 0){
+                    if(runningPST == 0){
+                        stopedPST = 0;
+                        intermitenciaPST();
+                        
+                    }
+                    setTimeout(actualizarAlertaPST, 600000);
+                }else{
+                    setTimeout(actualizarAlertaPST, 600000);
+                    if(stopedPST == 0 && runningPST == 1){
+                        runningPST = 0;
+                        stopedPST = 1
+                    }
+                }
+
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function stopPST(){
+        $("#PSTBox").removeClass("bg-green");
+        $("#PSTBox").removeClass("bg-red");
+        $("#iconPST").removeClass("glyphicon-ok");
+        $("#iconPST").removeClass("ion-android-alert"); 
+        $("#PSTBox").addClass("bg-green");
+        $("#iconPST").addClass("glyphicon-ok");
+    } 
+
+     $("#gridDetPST").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetPST,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "PASILLO",title: "PASILLOS",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "CANTIDAD_UBICACIONES",title: "CANTIDAD UBICACIONES",width:70,filterable:false}
+        ]
+    }).on("click", "tbody td", function(e) {
+        var cell = $(e.currentTarget);
+        var cellIndex = cell[0].cellIndex;
+        var grid = $("#gridDetPST").data("kendoGrid");
+        var column = grid.columns[0];
+        var dataItem = grid.dataItem(cell.closest("tr"));
+        codigoASN = dataItem[column.field];
+        /*var popupresumencodasn = $("#POPUP_Resumen_codASN");
+        popupresumencodasn.data("kendoWindow").open();
+        var grid = $("#gridRescodASN");
+        grid.data("kendoGrid").dataSource.read();*/
+    });
+
+    $("#PSTDetalles").click(function(){
+        actualizarAlertaPST();
+        var popupdetallefasn = $("#POPUP_Detalle_PST");
+        popupdetallefasn.data("kendoWindow").open();
+        var grid = $("#gridDetPST");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_detalle_fasn = $("#POPUP_Detalle_PST");
+    ventana_detalle_fasn.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "PASILLOS SIN WORK GROUP",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+
+    function onReadErrPST(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/errores/PST',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }   
 });

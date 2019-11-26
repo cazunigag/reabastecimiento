@@ -83,11 +83,11 @@ class alertasBT_model extends CI_Model{
 		$result = $bdwms->query($sql);
 		if($result || $result != null){
 			$data = json_encode($result->result());
-			$this->db->close();
+			$bdwms->close();
 			return $data;
 		}
 		else{
-			return $this->db->error();
+			return $bdwms->error();
 		}
 	}
 	public function cantPickTicketDuplicados(){
@@ -125,11 +125,33 @@ class alertasBT_model extends CI_Model{
 		$result = $bdwms->query($sql);
 		if($result || $result != null){
 			$data = json_encode($result->result());
-			$this->db->close();
+			$bdwms->close();
 			return $data;
 		}
 		else{
-			return $this->db->error();
+			return $bdwms->error();
 		}
+	}
+	public function actualizarPKT($pkts){
+		$bdwms = $this->load->database("prodWMS", TRUE);
+		$datos = "";
+		foreach ($pkts as $key) {
+			if(next($pkts) == false){
+				$datos = $datos.$key->PKT_CTRL_NBR;
+			}else{
+				$datos = $datos.$key->PKT_CTRL_NBR."','";
+			}
+		}
+		$sql = array("UPDATE PKT_HDR_INTRNL SET STAT_CODE = 99, TOTAL_NBR_OF_UNITS = 0, MOD_DATE_TIME = TRUNC(SYSDATE), USER_ID = 'JASILVA'
+					  WHERE PKT_CTRL_NBR IN ('$datos')",
+					 "UPDATE PKT_DTL SET KT_QTY = 0, MOD_DATE_TIME = TRUNC(SYSDATE), USER_ID = 'JASILVA' WHERE PKT_CTRL_NBR IN ('$datos')");
+		foreach ($sql as $key) {
+			$result = $bdwms->query($key);
+				if(!$result){
+					break;
+					return 1;
+				}
+		}
+		return 0;
 	}
 }	

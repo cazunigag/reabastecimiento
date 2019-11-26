@@ -1,5 +1,6 @@
 $(document).ready(function(){ 
   console.log(flagAnt);
+  console.log(!localStorage.getItem("persistencialocn"));
   $("#btnExportarAntiguedad").hide();
   $("#menuAdminLocn").hide();
   console.log(localStorage.getItem("persistencialocn"));
@@ -50,7 +51,7 @@ $(document).ready(function(){
         });
       }
 	});
-	if(localStorage.getItem("persistencialocn") != null){
+	if(localStorage.getItem("persistencialocn") != ""){
     $('td').css("background-color", "#b8b894");
     var persistencialocn = JSON.parse(localStorage.getItem("persistencialocn"));
 	  persistencialocn.forEach(function(element){

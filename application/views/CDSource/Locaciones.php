@@ -172,7 +172,7 @@
 
 <?php } } ?>
 </center>
-<br><br><br><br>
+<br>
  <center>
 <?php
     $alto = $dimensiones[0]->ALTO;
@@ -312,9 +312,9 @@
       overflow-x: auto;
       white-space: nowrap;
       position: relative;
-      top: 110px;
-      left: 120px;
-      width: 90%;
+      top: 80px;
+      left: 20px;
+      width: 97%;
   }
   .direcciondiv {
       overflow-x: auto;

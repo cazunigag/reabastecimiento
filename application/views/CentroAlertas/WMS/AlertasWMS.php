@@ -52,6 +52,7 @@
     <a href="<?php echo site_url('home/home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
+      <span class="logo-mini"><b>WMS</b></span>
       <span class="logo-lg"><b>WMS</b></span>
     </a>
    
@@ -106,13 +107,23 @@
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
             <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
-            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-exchange"></i> Seteo 308</a></li>
+            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-arrow-down"></i> Seteo Depto</a></li>
+            <li><a href="<?php echo site_url('almacenamientolocn');?>"><i class="fa fa-cube"></i> Almacenamiento Locacion</a></li>
+            <li><a href="<?php echo site_url('sublineas');?>"><i class="fa fa-table"></i> Mantenedor Min-Max Sublinea</a></li>
           </ul>
         </li>
-        <li>
-          <a href="<?php echo site_url('redex');?>">
-            <i class="fa fa-map"></i></i><span>Centro de Distribucion</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-map"></i>
+            <span>Centro de Distribucion</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
+            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+          </ul>
         </li>
         <li>
           <a href="<?php echo site_url('centroAlertas');?>">
@@ -137,218 +148,249 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <i class="fa fa-warning"/>  Alertas INPT</i>
-      </h1>
-    </section>
-
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="info-box bg-green" id="pktBox">
-           <a id="PKTBajados"><span class="info-box-icon" ><i id="iconPKT" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">PICK TICKET BAJADOS</span>
-              <span class="info-box-number" id="npkt">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="pktDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="POBox">
-           <span class="info-box-icon"><i id="iconPO" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">PO BAJADOS</span>
-              <span class="info-box-number" id="nPO">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="PODetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="BRCDBox">
-           <span class="info-box-icon"><i id="iconBRCD" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">BARCODE (XREF)</span>
-              <span class="info-box-number" id="nBRCD">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="BRCDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="ARTBox">
-           <span class="info-box-icon"><i id="iconART" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">ERRORES ARTICULOS</span>
-              <span class="info-box-number" id="nART">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="ARTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <!-- ./col -->
-      </div>
+  
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-warning"/>  Alertas INPT</i></h3>
 
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="CITABox">
-           <a id="CITASBajadas"><span class="info-box-icon" ><i id="iconCITA" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">CITAS BAJADAS</span>
-              <span class="info-box-number" id="nCITA">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="CITADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <!-- /.info-box-content -->
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+              <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="info-box bg-green" id="pktBox">
+                   <a id="PKTBajados"><span class="info-box-icon" ><i id="iconPKT" class="glyphicon glyphicon-ok"></i></span></a>
+                    <div class="info-box-content">
+                      <span class="info-box-text">PICK TICKET BAJADOS</span>
+                      <span class="info-box-number" id="npkt">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="pktDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="POBox">
+                   <span class="info-box-icon"><i id="iconPO" class="glyphicon glyphicon-ok"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">PO BAJADOS</span>
+                      <span class="info-box-number" id="nPO">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="PODetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="BRCDBox">
+                   <span class="info-box-icon"><i id="iconBRCD" class="glyphicon glyphicon-ok"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">BARCODE (XREF)</span>
+                      <span class="info-box-number" id="nBRCD">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="BRCDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="ARTBox">
+                   <span class="info-box-icon"><i id="iconART" class="glyphicon glyphicon-ok"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">ERRORES ARTICULOS</span>
+                      <span class="info-box-number" id="nART">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="ARTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <!-- ./col -->
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="CITABox">
+                   <a id="CITASBajadas"><span class="info-box-icon" ><i id="iconCITA" class="glyphicon glyphicon-ok"></i></span></a>
+                    <div class="info-box-content">
+                      <span class="info-box-text">CITAS BAJADAS</span>
+                      <span class="info-box-number" id="nCITA">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="CITADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="ASNBox">
+                   <a id="ASNBajados"><span class="info-box-icon" ><i id="iconASN" class="glyphicon glyphicon-ok"></i></span></a>
+                    <div class="info-box-content">
+                      <span class="info-box-text">ASN BAJADOS</span>
+                      <span class="info-box-number" id="nASN">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="ASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div> 
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="LPNBox">
+                   <a id="LPNBajados"><span class="info-box-icon" ><i id="iconLPN" class="glyphicon glyphicon-ok"></i></span></a>
+                    <div class="info-box-content">
+                      <span class="info-box-text">LPN BAJADOS</span>
+                      <span class="info-box-number" id="nLPN">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="LPNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                  <div class="info-box bg-green" id="DISTROBox">
+                   <span class="info-box-icon" ><i id="iconDISTRO" class="glyphicon glyphicon-ok"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">ERRORES DISTRO</span>
+                      <span class="info-box-number" id="nDISTRO">0</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                          <span class="progress-description">
+                            <a id="DISTROSDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-warning"/>  Alertas OUTPT</i></h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="CARGABox">
+                 <a id="CARGASEjecutadas"><span class="info-box-icon" ><i id="iconCARGA" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">CARGAS ENVIADAS</span>
+                    <span class="info-box-number" id="nCARGA">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="CARGADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="ASNBox">
-           <a id="ASNBajados"><span class="info-box-icon" ><i id="iconASN" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">ASN BAJADOS</span>
-              <span class="info-box-number" id="nASN">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="ASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
+      <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-warning"/>  Alertas Tablas Finales</i></h3>
+
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <!-- /.info-box-content -->
           </div>
-        </div> 
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="LPNBox">
-           <a id="LPNBajados"><span class="info-box-icon" ><i id="iconLPN" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">LPN BAJADOS</span>
-              <span class="info-box-number" id="nLPN">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="OLABox">
+                 <a id="OLASEjecutadas"><span class="info-box-icon" ><i id="iconOLA" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">OLAS EJECUTADAS</span>
+                    <span class="info-box-number" id="nOLA">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="OLADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
-                  <span class="progress-description">
-                    <a id="LPNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="DISTROBox">
-           <span class="info-box-icon" ><i id="iconDISTRO" class="glyphicon glyphicon-ok"></i></span>
-            <div class="info-box-content">
-              <span class="info-box-text">ERRORES DISTRO</span>
-              <span class="info-box-number" id="nDISTRO">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="FASNBox">
+                 <a id="FASNEjecutadas"><span class="info-box-icon" ><i id="iconFASN" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">ERRORES ASN</span>
+                    <span class="info-box-number" id="nFASN">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="FASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
-                  <span class="progress-description">
-                    <a id="DISTROSDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>  
-      </div>
-       <div class="row">
-       <section class="content-header">
-        <h1>
-          <i class="fa fa-warning"/>  Alertas OUTPT</i>
-        </h1>
-      </section>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="CARGABox">
-           <a id="CARGASEjecutadas"><span class="info-box-icon" ><i id="iconCARGA" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">CARGAS ENVIADAS</span>
-              <span class="info-box-number" id="nCARGA">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="PSTBox">
+                 <a id="PST"><span class="info-box-icon" ><i id="iconPST" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">PASILLOS SIN WORK GROUP</span>
+                    <span class="info-box-number" id="nPST">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="PSTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
-                  <span class="progress-description">
-                    <a id="CARGADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
             </div>
-            <!-- /.info-box-content -->
           </div>
         </div>
-      </div>
-      <div class="row">
-       <section class="content-header">
-        <h1>
-          <i class="fa fa-warning"/>  Alertas Tablas Finales</i>
-        </h1>
-      </section>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="OLABox">
-           <a id="OLASEjecutadas"><span class="info-box-icon" ><i id="iconOLA" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">OLAS EJECUTADAS</span>
-              <span class="info-box-number" id="nOLA">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="OLADetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
-          <div class="info-box bg-green" id="FASNBox">
-           <a id="FASNEjecutadas"><span class="info-box-icon" ><i id="iconFASN" class="glyphicon glyphicon-ok"></i></span></a>
-            <div class="info-box-content">
-              <span class="info-box-text">ERRORES ASN</span>
-              <span class="info-box-number" id="nFASN">0</span>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                  <span class="progress-description">
-                    <a id="FASNDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                  </span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-        </div>
-      </div>
       <!-- /.row -->
       <!-- Main row -->
           
@@ -424,8 +466,17 @@
   <div id="toolbarASN"></div>
   <div id="gridDetASN"></div>
 </div>
+<div id="POPUP_Verificar_ASN" class="grid">
+  <div id="gridVerASN"></div>
+</div>
+<div id="POPUP_UNDENV_ASN" class="grid">
+  <div id="gridUndEnvASN"></div>
+</div>
 <div id="POPUP_Resumen_LPN" class="grid">
   <div id="gridResLPN"></div>
+</div>
+<div id="POPUP_Verificar_LPN" class="grid">
+  <div id="gridVerLPN"></div>
 </div>
 <div id="POPUP_Detalle_LPN" class="grid">
   <div id="toolbarLPN"></div>
@@ -445,6 +496,14 @@
 <div id="POPUP_Detalle_FASN" class="grid">
   <div id="toolbarFASN"></div>
   <div id="gridDetFASN"></div>
+</div>
+
+<div id="POPUP_Detalle_PST" class="grid">
+  <div id="gridDetPST"></div>
+</div>
+
+<div id="POPUP_Resumen_PST" class="grid">
+  <div id="gridResPST"></div>
 </div>
 
 <div class="modal modal-success fade" id="modal-success">
@@ -571,7 +630,7 @@
         if($("body").hasClass('sidebar-collapse')){
           $(".logo-lg").hide();
         }else{
-          $(".logo-lg").show();
+          $(".logo-lg").fadeIn();
         }
         setTimeout(checkChanges, 200);
       }

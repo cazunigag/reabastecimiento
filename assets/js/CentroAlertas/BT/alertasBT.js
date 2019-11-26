@@ -8,6 +8,8 @@ $(document).ready(function(){
 
 	//declaracion de variables
 
+    var pkts = [];
+
 	var stopedSDI = 0;
 	var runningSDI = 0;
     var stopedVBT = 0;
@@ -318,6 +320,11 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").center();
+    $("#toolbarCUD").kendoToolBar({
+        items: [
+            { type: "button", text: "Actualizar PickTicket", icon: "k-icon k-i-change-manually" ,click: ActualizarPKT}
+        ]
+    });
     $("#gridDetCUDD").kendoGrid({
         autoBind: false,
         dataSource: dataSourceDetCUDD,
@@ -326,12 +333,23 @@ $(document).ready(function(){
         sortable: true, 
         filterable: true,
         scrollable: true,
+        change: function (e, args) {
+                    pkts = [];
+                    var rows = e.sender.select();
+                    rows.each(function(e) {
+                        var grid = $("#gridDetCUDD").data("kendoGrid");
+                        var item = grid.dataItem(this);
+                        pkts.push({PKT_CTRL_NBR: item.PKT_CTRL_NBR});
+                    })
+                    console.log(pkts);  
+        },
         pageable: {
                     refresh: true,
                     pageSizes: true,
                     buttonCount: 5
         },
         columns: [
+            {selectable: true, width: "15px" },
             {field: "CUD",title: "CUD",width: 70,filterable: {multi: true, search: true}},
             {field: "PKT_CTRL_NBR",title: "PKT",width:70, filterable:false},
             {field: "STAT_CODE",title: "ESTADO",width:100,filterable: false},
@@ -345,6 +363,26 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(result){
                 e.success(result);
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    }
+    function ActualizarPKT(){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/bt/actualizarPKT',
+            dataType: 'json',
+            data: {pkts: pkts},
+            success: function(result){
+                if(result == 0){
+                    var grid = $("#gridDetCUDD");
+                    grid.data("kendoGrid").dataSource.read();
+                    alert("PickTickets Actualizados");
+                }else{
+                    alert("Error al actualizar PickTickets");
+                }
             },
             error: function(result){
                 alert(JSON.stringify(result));
