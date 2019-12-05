@@ -66,6 +66,7 @@ $route['seteo308'] = "Reabastecimiento/Departamentos/Departamentos";
 $route['almacenamientolocn'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn";
 $route['sublineas'] = "Reabastecimiento/Mantenedores/Sublineas";
 $route['cartontype'] = "centrodistribucion/CartonType";
+$route['cartontypearticulo'] = "centrodistribucion/CartonTypeArticulo";
 //rutas Estanteria
 $route['estanteria']  = "centrodistribucion/estanteria/loadPisosEstanteria";
 $route['piso/(:num)'] = "centrodistribucion/estanteria/loadPasillosEstanteria/$1";
@@ -78,6 +79,8 @@ $route['pasillos/tipoCartones/todos'] = "centrodistribucion/estanteria/getCarton
 $route['pasillos/utilizacion'] = "centrodistribucion/estanteria/getUtilizacionPasillo";
 $route['pasillos/actClase'] = "centrodistribucion/estanteria/actualizarClassTabla";
 $route['pasillos/actTipoCarton'] = "centrodistribucion/estanteria/actualizarCartonType";
+$route['pasillos/actTipoCartonArticulo'] = "centrodistribucion/estanteria/actualizarCartonTypeArticulo";
+$route['pasillos/actTipoCartonEstilo'] = "centrodistribucion/estanteria/actualizarCartonTypeEstilo";
 $route['locaciones/vacias'] = "centrodistribucion/estanteria/getEmptyLocn";
 $route['locaciones/detalle/cabecera'] = "centrodistribucion/estanteria/getHeader";
 $route['locaciones/antiguedad/descConteoCilcico/(:num)/(:any)'] = "centrodistribucion/estanteria/downloadAntiguedadContCiclico/$1/$2";
@@ -169,6 +172,9 @@ $route['alertas/wms/fasn/actualizar'] =  "centroAlertas/WMS/alertasWMS/reporcesa
 $route['alertas/wms/errores/PST'] =  "centroAlertas/WMS/alertasWMS/pasillosSinWorkGroup";
 $route['alertas/wms/errores/cantPST'] =  "centroAlertas/WMS/alertasWMS/cantPasillosSinWorkGroup";
 
+$route['alertas/wms/errores/INTF'] =  "centroAlertas/WMS/alertasWMS/invnNeedTypeFaltantes";
+$route['alertas/wms/errores/cantINTF'] =  "centroAlertas/WMS/alertasWMS/cantInvnNeedTypeFaltantes";
+
 //rutas alertas BT
 
 $route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
@@ -215,6 +221,9 @@ $route['LPNDemora/resumen'] = "LPNDemora/LPNDemora/resumenDemoraFecha";
 //rutas almacenamiento locacion
 
 $route['AlmLonc/info'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/info";
+$route['AlmLonc/update'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/update";
+$route['AlmLonc/create'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/create";
+$route['AlmLonc/delete'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/delete";
 
 $route['Deptos/select'] = "Reabastecimiento/Departamentos/Departamentos/selectDepto";
 $route['Deptos/pasillos'] = "Reabastecimiento/Departamentos/Departamentos/pasillosPutwy";

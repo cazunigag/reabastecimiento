@@ -374,12 +374,13 @@ $(document).ready(function(){
             type: "POST",
             url: baseURL + 'alertas/bt/actualizarPKT',
             dataType: 'json',
-            data: {pkts: pkts},
+            data: {pkts: JSON.stringify(pkts)},
             success: function(result){
                 if(result == 0){
                     var grid = $("#gridDetCUDD");
                     grid.data("kendoGrid").dataSource.read();
-                    alert("PickTickets Actualizados");
+                    $("#success-modal").html("PickTicket Actualizado Correctamente");
+                    $("#modal-success").modal('show');
                 }else{
                     alert("Error al actualizar PickTickets");
                 }

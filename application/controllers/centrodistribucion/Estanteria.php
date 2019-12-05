@@ -123,6 +123,16 @@ class Estanteria extends CI_Controller{
         $cartonType = $this->input->post('cartonType');
         echo $this->Estanteria_model->actualizarCartonType($pasillo, $cartonType);
      }
+     public function actualizarCartonTypeArticulo(){
+        $sku = $this->input->post('sku');
+        $cartonType = $this->input->post('cartonType');
+        echo $this->Estanteria_model->actualizarCartonTypeArticulo($sku, $cartonType);
+     }
+     public function actualizarCartonTypeEstilo(){
+        $estilo = $this->input->post('estilo');
+        $cartonType = $this->input->post('cartonType');
+        echo $this->Estanteria_model->actualizarCartonTypeArticulo($estilo, $cartonType);
+     }
      public function downloadExcelAntiguedadSku($dias, $pasillo){
 
         $spreadsheet = new Spreadsheet();

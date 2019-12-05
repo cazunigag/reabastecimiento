@@ -51,7 +51,7 @@ $(document).ready(function(){
         });
       }
 	});
-	if(localStorage.getItem("persistencialocn") != ""){
+	if(localStorage.getItem("persistencialocn") != null){
     $('td').css("background-color", "#b8b894");
     var persistencialocn = JSON.parse(localStorage.getItem("persistencialocn"));
 	  persistencialocn.forEach(function(element){

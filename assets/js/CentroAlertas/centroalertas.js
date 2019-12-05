@@ -19,7 +19,7 @@ $(document).ready(function(){
 	comprobarAlertasEIS();
 
 	function comprobarAlertasWMS(){
-		var alertasWMS = ["PKT", "PO", "BRCD", "ART", "OLA", "CITA", "ASN", "LPN", "DISTRO", "CARGA","FASN","PST"];
+		var alertasWMS = ["PKT", "PO", "BRCD", "ART", "OLA", "CITA", "ASN", "LPN", "DISTRO", "CARGA","FASN","PST","INTF"];
 		for (var i = 0; i <= alertasWMS.length -1; i++) {
 			var request = 	$.ajax({
 					            type: "POST",

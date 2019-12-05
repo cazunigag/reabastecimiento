@@ -18,7 +18,8 @@ class Seteoatributos_model extends CI_Model{
 					IM.SALE_GRP,
 					IM.COMMODITY_CODE,
 					IM.SPL_INSTR_1,
-					IM.COMMODITY_LEVEL_DESC
+					IM.COMMODITY_LEVEL_DESC,
+					IM.CARTON_TYPE
 				FROM
 					ITEM_MASTER IM,
 					SYS_CODE SC

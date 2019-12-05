@@ -122,7 +122,16 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
-            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-cube"></i> Carton Type
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type Pasillo</a></li>
+                <li><a href="<?php echo site_url('cartontypearticulo');?>"><i class="fa fa-cube"></i> Carton Type Articulo</a></li>
+              </ul>
           </ul>
         </li>
         <li>
@@ -388,6 +397,22 @@
                   <!-- /.info-box-content -->
                 </div>
               </div>
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="INTFBox">
+                 <a id="INTF"><span class="info-box-icon" ><i id="iconINTF" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">INVN NEED TYPE FALTANTES</span>
+                    <span class="info-box-number" id="nINTF">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="INTFDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -504,6 +529,10 @@
 
 <div id="POPUP_Resumen_PST" class="grid">
   <div id="gridResPST"></div>
+</div>
+
+<div id="POPUP_Detalle_INTF" class="grid">
+  <div id="gridDetINTF"></div>
 </div>
 
 <div class="modal modal-success fade" id="modal-success">

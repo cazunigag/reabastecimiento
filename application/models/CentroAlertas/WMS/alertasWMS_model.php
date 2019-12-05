@@ -835,11 +835,11 @@ class alertasWMS_model extends CI_Model{
 				$fechaMod=$key->FEC_MOD;
 				if(substr($systemdate,0,10) == substr($fechaMod,0,10)){
 					if(substr($systemdate,11,2) == substr($fechaMod,11,2)){
-						if((substr($systemdate,14,2) - substr($fechaMod,14,2)) >= 30){
+						if((substr($systemdate,14,2) - substr($fechaMod,14,2)) >= 20){
 							array_push($errCarga, $key);
 						}
 					}elseif ((substr($systemdate,11,2) - substr($fechaMod,11,2)) >= 1){
-						if(((60 - substr($fechaMod,14,2)) + substr($systemdate,14,2)) >= 30){
+						if(((60 - substr($fechaMod,14,2)) + substr($systemdate,14,2)) >= 20){
 							array_push($errCarga, $key);
 						}
 					}
@@ -1149,6 +1149,54 @@ class alertasWMS_model extends CI_Model{
 			$data = json_encode($result->result());
 			$this->db->close();
 			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function invnNeedTypeFaltantes(){
+		$resultado = array();
+		$sql = "SELECT DISTINCT
+					X.*
+				FROM
+					(SELECT
+						A.CURR_WORK_GRP,
+						A.CURR_WORK_AREA,
+						SUM((CASE
+								WHEN A.INVN_NEED_TYPE = 2 THEN 1 ELSE 0
+							 END)) SUM_2,
+						SUM((CASE
+								WHEN A.INVN_NEED_TYPE = 53 THEN 1 ELSE 0
+							 END)) SUM_53
+					 FROM
+					 	INT_PATH_DEFN A
+					 WHERE
+					 	A.INVN_NEED_TYPE IN (2,53)
+					 	AND CURR_WORK_GRP IS NOT NULL
+					 	AND CURR_WORK_AREA IS NOT NULL
+					 GROUP BY
+					 	A.CURR_WORK_GRP, A.CURR_WORK_AREA) X
+				WHERE 
+					X.SUM_2 = 0
+					OR X.SUM_53 = 0";
+
+		$result = $this->db->query($sql);
+
+		
+		if($result || $result != null){
+			foreach ($result->result() as $key) {
+				if($key->SUM_2 == 0){
+					array_push($resultado, array("CURR_WORK_GRP" => $key->CURR_WORK_GRP,
+									   "CURR_WORK_AREA" => $key->CURR_WORK_AREA,
+									   "FALTANTE" => "FALTA TIPO DE NECESIDAD DE INVENTARIO 2"));
+				}
+				if($key->SUM_53 == 0){
+					array_push($resultado, array("CURR_WORK_GRP" => $key->CURR_WORK_GRP,
+									   "CURR_WORK_AREA" => $key->CURR_WORK_AREA,
+									   "FALTANTE" => "FALTA TIPO DE NECESIDAD DE INVENTARIO 53"));
+				}
+			}
+			return json_encode($resultado);
 		}
 		else{
 			return $this->db->error();

@@ -543,13 +543,15 @@ $(document).ready(function(){
                 fields: {
                         ASN: {type: "string"}, // number - string - date
                         LPN: {type: "string"},
+                        SKU_ID: {type: "string"},
+                        ORIG_QTY: {type: "string"},
                         VERIFICACION: {type: "string"}, // number - string - date
                         MENU: {type: "string"},
                         FECHA_ALMACENAJE: {type: "string"}
                     }
             }
         },
-        pageSize: 15
+        pageSize: 200
     });
     var ventana_filtrar = $("#POPUP_ELPND");
     ventana_filtrar.kendoWindow({
@@ -577,7 +579,9 @@ $(document).ready(function(){
         },
         columns: [
             {field: "ASN",title: "ASN",width: 70, filterable: {multi: true, search: true}},
-            {field: "LPN",title: "LPN",width:70, filterable:false},
+            {field: "LPN",title: "LPN",width:90, filterable:false},
+            {field: "SKU_ID",title: "SKU",width:70, filterable:false},
+            {field: "ORIG_QTY",title: "UNIDADES",width:70, filterable:false},
             {field: "VERIFICACION",title: "FEC VERIFICACION",width:100,filterable: false},
             {field: "MENU",title: "MENU / N° TRAN",width: 70,filterable: false},
             {field: "FECHA_ALMACENAJE",title: "FEC DISP",width:70,filterable: false}
@@ -611,7 +615,67 @@ $(document).ready(function(){
         ventanaErrLpnDispo.data("kendoWindow").open();
     });
 
+    $("#toolbarELPND").kendoToolBar({
+        items: [
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarELPND}
+        ]
+    });
 
+    function ExportarELPND(){
+       var rows = [{
+            cells: [
+               // The first cell.
+              { value: "ASN" },
+               // The second cell.
+              { value: "LPN" },
+              // The third cell.
+              { value: "SKU_ID" },
+              // The fifth cell.
+              { value: "ORIG_QTY" },
+              { value: "VERIFICACION" },
+              { value: "MENU" },
+              { value: "FECHA DISPOCISION" }
+            ]
+          }];
+        var data = dataSourceELPND.data();
+        for (var i = 0; i < data.length; i++){
+          // Push single row for every record.
+          rows.push({
+            cells: [
+              { value: data[i].ASN },
+              { value: data[i].LPN },
+              { value: data[i].SKU_ID },
+              { value: data[i].ORIG_QTY },
+              { value: data[i].VERIFICACION },
+              { value: data[i].MENU },
+              { value: data[i].FECHA_ALMACENAJE }
+            ]
+          })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+          sheets: [
+            {
+              columns: [
+                // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true }
+              ],
+              // The title of the sheet.
+              title: "Errores Almacenaje",
+              // The rows of the sheet.
+              rows: rows
+            }
+          ]
+        });
+        // Save the file as an Excel file with the xlsx extension.
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Errores_LPN_Diposicion.xlsx"}); 
+    }
     var ventana_filtrar = $("#POPUP_calendarioALM");
     ventana_filtrar.kendoWindow({
         width: "300px",
@@ -680,13 +744,15 @@ $(document).ready(function(){
                 fields: {
                         ASN: {type: "string"}, // number - string - date
                         LPN: {type: "string"},
+                        SKU_ID: {type: "string"},
+                        ORIG_QTY: {type: "string"},
                         VERIFICACION: {type: "string"}, // number - string - date
                         MENU: {type: "string"},
                         FECHA_ALMACENAJE: {type: "string"}
                     }
             }
         },
-        pageSize: 15
+        pageSize: 200
     });
     var ventana_filtrar = $("#POPUP_EALM");
     ventana_filtrar.kendoWindow({
@@ -698,6 +764,13 @@ $(document).ready(function(){
             "Close"
         ]
     }).data("kendoWindow").center();
+
+    $("#toolbarEALM").kendoToolBar({
+        items: [
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarEALM}
+        ]
+    });
+
     $("#gridEALM").kendoGrid({
         autoBind: false,
         dataSource: dataSourceEALM,
@@ -715,6 +788,8 @@ $(document).ready(function(){
         columns: [
             {field: "ASN",title: "ASN",width: 70, filterable: {multi: true, search: true}},
             {field: "LPN",title: "LPN",width:70, filterable:false},
+            {field: "SKU_ID",title: "SKU",width:70, filterable:false},
+            {field: "ORIG_QTY",title: "UNIDADES",width:70, filterable:false},
             {field: "VERIFICACION",title: "FEC VERIFICACION",width:100,filterable: false},
             {field: "MENU",title: "MENU / N° TRAN",width: 70,filterable: false},
             {field: "FECHA_ALMACENAJE",title: "FEC DISP",width:70,filterable: false}
@@ -747,4 +822,60 @@ $(document).ready(function(){
         var ventanaErrLpnDispo = $("#POPUP_EALM");
         ventanaErrLpnDispo.data("kendoWindow").open();
     });
+
+    function ExportarEALM(){
+        var rows = [{
+            cells: [
+               // The first cell.
+              { value: "ASN" },
+               // The second cell.
+              { value: "LPN" },
+              // The third cell.
+              { value: "SKU_ID" },
+              // The fifth cell.
+              { value: "ORIG_QTY" },
+              { value: "VERIFICACION" },
+              { value: "MENU" },
+              { value: "FECHA_ALMACENAJE" }
+            ]
+          }];
+        var data = dataSourceEALM.data();
+        for (var i = 0; i < data.length; i++){
+          // Push single row for every record.
+          rows.push({
+            cells: [
+              { value: data[i].ASN },
+              { value: data[i].LPN },
+              { value: data[i].SKU_ID },
+              { value: data[i].ORIG_QTY },
+              { value: data[i].VERIFICACION },
+              { value: data[i].MENU },
+              { value: data[i].FECHA_ALMACENAJE }
+            ]
+          })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+          sheets: [
+            {
+              columns: [
+                // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true }
+              ],
+              // The title of the sheet.
+              title: "Errores Almacenaje",
+              // The rows of the sheet.
+              rows: rows
+            }
+          ]
+        });
+        // Save the file as an Excel file with the xlsx extension.
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "ErroresAlmacenaje.xlsx"});
+    }
 });

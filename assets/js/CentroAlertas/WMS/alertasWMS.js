@@ -14,6 +14,7 @@ $(document).ready(function(){
     actualizarAlertaCARGA();
     actualizarAlertaFASN();
     actualizarAlertaPST();
+    actualizarAlertaINTF();
 
     //DECLARACION DE VARIABLES
 
@@ -52,6 +53,8 @@ $(document).ready(function(){
     var runningFASN = 0;
     var stopedPST = 0;
     var runningPST = 0;
+    var stopedINTF = 0;
+    var runningINTF = 0;
     var codigoASN = "";
     var codigoCITA = "";
 
@@ -3757,5 +3760,139 @@ $(document).ready(function(){
                 console.log(JSON.stringify(result));
             }
         });
-    }   
+    }  
+
+     //FUNCIONES ALERTA INTF
+
+    var dataSourceDetINTF = new kendo.data.DataSource({
+        transport: {
+            read: onReadErrINTF
+        },
+        schema: {
+            model: {
+                id: "CURR_WORK_GRP",
+                fields: {
+                        CURR_WORK_GRP: {type: "string"}, // number - string - date
+                        CURR_WORK_AREA: {type: "string"},
+                        FALTANTE: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 50
+    });
+
+    function intermitenciaINTF(){
+      $("#INTFBox").toggleClass("bg-green");
+      $("#INTFBox").toggleClass("bg-red");
+      $("#iconINTF").toggleClass("glyphicon-ok");
+      $("#iconINTF").toggleClass("ion-android-alert");
+      if(stopedINTF == 0){
+         runningINTF = 1;
+         setTimeout(intermitenciaINTF, 500);
+      }
+      else{
+        stopINTF();
+      }
+    }
+    function actualizarAlertaINTF(){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconINTF").toggleClass("fa");
+                $("#iconINTF").toggleClass("fa-refresh");
+                $("#iconINTF").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconINTF").toggleClass("fa");
+                $("#iconINTF").toggleClass("fa-refresh");
+                $("#iconINTF").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/wms/errores/cantINTF',
+            dataType: 'json',
+            success: function(result){
+                $("#nINTF").html(result);
+                if(result > 0){
+                    if(runningINTF == 0){
+                        stopedINTF = 0;
+                        intermitenciaINTF();
+                        
+                    }
+                    setTimeout(actualizarAlertaINTF, 600000);
+                }else{
+                    setTimeout(actualizarAlertaINTF, 600000);
+                    if(stopedINTF == 0 && runningINTF == 1){
+                        runningINTF = 0;
+                        stopedINTF = 1
+                    }
+                }
+
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function stopINTF(){
+        $("#INTFBox").removeClass("bg-green");
+        $("#INTFBox").removeClass("bg-red");
+        $("#iconINTF").removeClass("glyphicon-ok");
+        $("#iconINTF").removeClass("ion-android-alert"); 
+        $("#INTFBox").addClass("bg-green");
+        $("#iconINTF").addClass("glyphicon-ok");
+    } 
+
+     $("#gridDetINTF").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetINTF,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "CURR_WORK_GRP",title: "GRUPO DE TRABAJO",width: 90, filterable:false, resizable:false, height: 80},
+            {field: "CURR_WORK_AREA",title: "AREA DE TRABAJO",width:70,filterable:false},
+            {field: "FALTANTE",title: "INVN NEED TYPE FALTANTE",width:70,filterable:false}
+        ]
+    });
+
+    $("#INTFDetalles").click(function(){
+        actualizarAlertaINTF();
+        var popupdetallefasn = $("#POPUP_Detalle_INTF");
+        popupdetallefasn.data("kendoWindow").open();
+        var grid = $("#gridDetINTF");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_detalle_fasn = $("#POPUP_Detalle_INTF");
+    ventana_detalle_fasn.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "INVN NEED TYPE FALTANTES",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+
+    function onReadErrINTF(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/wms/errores/INTF',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    } 
 });

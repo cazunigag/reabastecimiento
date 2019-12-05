@@ -122,7 +122,16 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
-            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-cube"></i> Carton Type
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type Pasillo</a></li>
+                <li><a href="<?php echo site_url('cartontypearticulo');?>"><i class="fa fa-cube"></i> Carton Type Articulo</a></li>
+              </ul>
           </ul>
         </li>
         <li>
@@ -341,6 +350,7 @@
   <div id="gridDetERRDCPW"></div>
 </div>
 <div id="POPUP_ELPND" class="grid">
+  <div id="toolbarELPND"></div>
   <div id="gridELPND"></div>
 </div>
 <div id="POPUP_calendarioDispo">
@@ -376,6 +386,7 @@
   </div>
 </div>
 <div id="POPUP_EALM" class="grid">
+  <div id="toolbarEALM"></div>
   <div id="gridEALM"></div>
 </div>
 </div>

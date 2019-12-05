@@ -578,6 +578,36 @@ class Estanteria_model extends CI_Model{
 			return $this->db->error();
 		}
 	}
+	public function actualizarCartonTypeArticulo($sku, $cartonType){
+		
+		$DB2 = $this->load->database('LECLWMPROD', TRUE);
+		$DB3 = $this->load->database('PMMWMS', TRUE);
+		$sql = "UPDATE ITEM_MASTER SET CARTON_TYPE = '$cartonType' WHERE SKU_ID = '$sku'";
+		$result2 = $DB2->query($sql);
+		if($result || $result != null || $result2 || $result2 != null){
+			$this->db->close();
+			return $result;
+		}
+		else{
+			$this->db->close();
+			return $this->db->error();
+		}
+	}
+	public function actualizarCartonTypeEstilo($estilo, $cartonType){
+		
+		$DB2 = $this->load->database('LECLWMPROD', TRUE);
+		$DB3 = $this->load->database('PMMWMS', TRUE);
+		$sql = "UPDATE ITEM_MASTER SET CARTON_TYPE = '$cartonType' WHERE EXP_LICN_SYMBOL = '$estilo'";
+		$result2 = $DB2->query($sql);
+		if($result || $result != null || $result2 || $result2 != null){
+			$this->db->close();
+			return $result;
+		}
+		else{
+			$this->db->close();
+			return $this->db->error();
+		}
+	}
 	public function downloadExcelAntiguedadSku($pasillo, $dias){
 		$area = substr($pasillo, 0, 1);
 		$zone = substr($pasillo, 1, 1);

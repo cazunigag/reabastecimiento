@@ -264,4 +264,10 @@ class AlertasWMS extends CI_Controller{
 	public function cantPasillosSinWorkGroup(){
 		echo sizeof(json_decode($this->alertasWMS_model->pasillosSinWorkGroup()));
 	}
+	public function invnNeedTypeFaltantes(){
+		echo $this->alertasWMS_model->invnNeedTypeFaltantes();
+	}
+	public function cantInvnNeedTypeFaltantes(){
+		echo sizeof(json_decode($this->alertasWMS_model->invnNeedTypeFaltantes()));
+	}
 }

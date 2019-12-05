@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
   <title>Almacenamiento Locacion</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -125,7 +128,16 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
-            <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type</a></li>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-cube"></i> Carton Type
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type Pasillo</a></li>
+                <li><a href="<?php echo site_url('cartontypearticulo');?>"><i class="fa fa-cube"></i> Carton Type Articulo</a></li>
+              </ul>
           </ul>
         </li>
         <li>
@@ -157,6 +169,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="box box-primary">
+            <div id="toolbarAlmLocn"></div>
             <div id="gridINFO"></div>
           </div>
         </div>
@@ -303,23 +316,6 @@
 </script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/Reabastecimiento/AlmacenamientoLocn/almacenamientolocn.js"></script>
 <style type="text/css">
-  a{
-    color: white;
-  }
-  a:link{
-    color: white;
-  }
-  a:visited{
-    color: white;
-  }
-  a:hover{
-    color: white;
-    cursor: pointer;
-  }
-  a:active{
-    color: white;
-    cursor: pointer;
-  }
   .k-toolbar .k-button{
     color: black;
   }
