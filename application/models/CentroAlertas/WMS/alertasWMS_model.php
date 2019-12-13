@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use \phpseclib\Net\SSH2;
+use \phpseclib\Crypt\RSA;
+
 class alertasWMS_model extends CI_Model{
 
 	public function __construct(){
@@ -1140,6 +1143,7 @@ class alertasWMS_model extends CI_Model{
 				WHERE
 				    (WORK_GRP IS NULL OR WORK_AREA IS NULL)
 				    AND AREA = 'R'
+				    AND PICK_DETRM_ZONE IS NOT NULL
 				GROUP BY 
 				    SUBSTR(LOCN_BRCD,1,4)
 				ORDER BY 1";
@@ -1173,6 +1177,7 @@ class alertasWMS_model extends CI_Model{
 					 WHERE
 					 	A.INVN_NEED_TYPE IN (2,53)
 					 	AND CURR_WORK_GRP IS NOT NULL
+					 	AND SUBSTR(CURR_WORK_GRP,1,1) = 'R'
 					 	AND CURR_WORK_AREA IS NOT NULL
 					 GROUP BY
 					 	A.CURR_WORK_GRP, A.CURR_WORK_AREA) X

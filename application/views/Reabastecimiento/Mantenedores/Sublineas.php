@@ -33,6 +33,7 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/cultures/kendo.culture.es-CL.min.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -162,7 +163,7 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
+        <div class="col-lg-12 col-xs-12">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Sublineas</h3>

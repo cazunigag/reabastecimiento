@@ -15,10 +15,31 @@ $(document).ready(function(){
             model: {
                 id: "AISLE",
                 fields: {
-                        AISLE: {type: "string"},
-                       	LOCN_CLASS: {type: "string"}, // number - string - date
-                        PUTWY_TYPE: {type: "string"},
-                        CODE_DESC: {type: "string"}
+                        AISLE: {
+                            type: "string",
+                            validation: {
+                                required:{
+                                    message: "Este campo es requerido"
+                                }
+                            }
+                        },
+                       	LOCN_CLASS: {
+                            type: "string",
+                            validation: {
+                                required:{
+                                    message: "Este campo es requerido"
+                                }
+                            }
+                        }, // number - string - date
+                        PUTWY_TYPE: {
+                            type: "string",
+                            validation: {
+                                required:{
+                                    message: "Este campo es requerido"
+                                }
+                            }
+                        },
+                        CODE_DESC: {type: "string", editable: false}
                     }
             }
         },
@@ -35,22 +56,31 @@ $(document).ready(function(){
         height: "500px", 
         width: "600px",
         sortable: true,
-        editable: true,
+        editable: false,
         filterable: true,
         scrollable: true,
+        edit: function(e) {
+          var cellValue = e.container.find("input").val();
+          if(cellValue != ""){
+            var grid = $("#gridINFO").data("kendoGrid");
+            grid.setOptions({editable: false});
+          }
+        },
         pageable: {
                     refresh: true,
                     pageSizes: true,
                     buttonCount: 5
         },
         columns: [ // Columnas a Listar
-            {field: "AISLE", editable: false, title: "PASILLO", width: 70, filterable: {multi: true, search: true}},
-            {field: "LOCN_CLASS", editable: false, title: "CLASS", width:70, filterable: {multi: true, search: true}},
-            {field: "PUTWY_TYPE", editable: false, title: "PUTWY TYPE", width:70, filterable: {multi: true, search: true}},
-            {field: "CODE_DESC", editable: false, title: "DESCRIPCION", width:70, filterable: false},
-            {command: { name: "destroy" , text: " " }, width: "24px"},
+            {field: "AISLE", title: "PASILLO", width: 70, filterable: {multi: true, search: true}},
+            {field: "LOCN_CLASS", title: "CLASS", width:70, filterable: {multi: true, search: true}},
+            {field: "PUTWY_TYPE", title: "PUTWY TYPE", width:70, filterable: {multi: true, search: true}},
+            {field: "CODE_DESC", title: "DESCRIPCION", width:70, filterable: false},
+            {command: { text: "Eliminar", click: destroyRow }, width: "24px"},
         ]
     });
+    var grid = $("#gridINFO").data("kendoGrid");
+    console.log(grid);
     function onReadINFO(e){
          $.ajax({
             type: "POST",
@@ -179,14 +209,18 @@ $(document).ready(function(){
     }
     function AñadirRegistro(){
         var grid = $("#gridINFO").data("kendoGrid");
+        grid.setOptions({editable: true});
         grid.addRow();
     }
     function onUpdate(e){
         console.log(e);
     }
     function destroyRow(e){
-        var grid = $("#gridINFO").data("kendoGrid");
-        grid.removeRow(e.target);
+        if(confirm("Desea eliminar esta configuracion?")){
+            var grid = $("#gridINFO").data("kendoGrid");
+            grid.removeRow(e.target);
+        }
+       
     }
 
 });

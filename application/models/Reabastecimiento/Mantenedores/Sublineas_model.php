@@ -9,7 +9,13 @@ class Sublineas_model extends CI_Model{
 		
 	}
 	public function obtenerTabla(){
-		$sql = "SELECT * FROM RDX_SUBLINEA_MAXMIN";
+		$sql = "SELECT 
+					SUBLINEA,
+					DES_SUBLINEA,
+					MINIMO,
+					MAXIMO
+				FROM 
+					RDX_SUBLINEA_MAXMIN";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){

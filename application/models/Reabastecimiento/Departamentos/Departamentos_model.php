@@ -27,6 +27,7 @@ class Departamentos_model extends CI_Model{
 					IM.SKU_ID,
 					IM.MERCH_TYPE,
 					IWM.PUTWY_TYPE,
+					IM.SPL_INSTR_1 SUBLINEA,
 					IM.STD_CASE_QTY MODA,
 					NVL(RESERVA.TOTAL_RESERVA, 0) TOT_RESERVA,
 					NVL(ACTIVO.TOTAL_ACTIVO, 0) TOT_ACTIVO
@@ -108,23 +109,27 @@ class Departamentos_model extends CI_Model{
 		}
 	}
 	public function availableLocn($pasillo){
-		$sql = "SELECT
-					A.LOCN_ID,
-					A.REPL_LOCN_BRCD,
-					A.MAX_NBR_OF_SKU,
-					COUNT(B.SKU_ID) TOT_ACT_SKU
-				FROM
-					PICK_LOCN_HDR A,
-					PICK_LOCN_DTL B
+		$sql = "SELECT * FROM(
+					SELECT
+						A.LOCN_ID,
+						SUBSTR(A.REPL_LOCN_BRCD,1,4)||'-'||SUBSTR(A.REPL_LOCN_BRCD,5,2)||'-'||SUBSTR(A.REPL_LOCN_BRCD,7,2) AS REPL_LOCN_BRCD,
+						A.MAX_NBR_OF_SKU,
+						COUNT(B.SKU_ID) TOT_ACT_SKU
+					FROM
+						PICK_LOCN_HDR A,
+						PICK_LOCN_DTL B
+					WHERE
+						SUBSTR(A.REPL_LOCN_BRCD,1,4) = '$pasillo'
+						AND A.LOCN_ID = B.LOCN_ID(+)
+					GROUP BY
+						A.LOCN_ID,
+						A.REPL_LOCN_BRCD,
+						A.MAX_NBR_OF_SKU
+					ORDER BY
+						2
+				) X 
 				WHERE
-					SUBSTR(A.REPL_LOCN_BRCD,1,4) = '$pasillo'
-					AND A.LOCN_ID = B.LOCN_ID(+)
-				GROUP BY
-					A.LOCN_ID,
-					A.REPL_LOCN_BRCD,
-					A.MAX_NBR_OF_SKU
-				ORDER BY
-					2";
+					X.MAX_NBR_OF_SKU > X.TOT_ACT_SKU";
 
 		$result = $this->db->query($sql);
 		if($result || $result != null){
@@ -139,35 +144,90 @@ class Departamentos_model extends CI_Model{
 	public function configurar($data){
 
 		$datos = array();
+		$putwys = "";
+		$skus = "";
+		$count = 1;
+		$overall = 0;
+		$locn = "";
 
 		foreach ($data as $key) {
-			
-			$sql = "SELECT * FROM   
-					    (SELECT
-					        SUBSTR(A.REPL_LOCN_BRCD,1,4)||'-'||SUBSTR(A.REPL_LOCN_BRCD,5,2)||'-'||SUBSTR(A.REPL_LOCN_BRCD,7,2) AS LOCN,
-					        B.SKU_ID,
-					        ($key->MODA*(SELECT MINIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MINIMO,
-					        ($key->MODA*(SELECT MAXIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MAXIMO
-					    FROM
-					        PICK_LOCN_HDR A,
-					        ITEM_MASTER B
-					    WHERE
-					        --ROWNUM = 1
-					         B.SKU_ID = '$key->SKU_ID'
-					        AND SUBSTR(A.REPL_LOCN_BRCD,1,4) = (SELECT AISLE FROM RDX_PUTWY_LOCN WHERE ROWNUM = 1 AND PUTWY_TYPE = '$key->PUTWY_TYPE')
-					        AND A.MAX_NBR_OF_SKU > (SELECT COUNT(*) FROM PICK_LOCN_DTL WHERE LOCN_ID = A.LOCN_ID)
-					    ORDER BY
-					        A.REPL_LOCN_BRCD)
-					WHERE ROWNUM = 1";
+			if(next($data) == false){
+				$putwys = $putwys.$key->PUTWY_TYPE;
+			}else{
+				$putwys = $putwys.$key->PUTWY_TYPE."','";
+			}
+			if(next($data) == false){
+				$skus = $skus.$key->SKU_ID;
+			}else{
+				$skus = $skus.$key->SKU_ID."','";
+			}
+
+			$sql = "SELECT
+					    B.SKU_ID,
+					    (1*(SELECT MINIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MINIMO,
+					    (1*(SELECT MAXIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MAXIMO
+					FROM
+					    ITEM_MASTER B
+					WHERE
+					    --ROWNUM = 1
+					    B.SKU_ID = '$key->SKU_ID'";
 			$result = $this->db->query($sql);
+
+			$sql2 = "SELECT
+					    A.LOCN_ID,
+					    SUBSTR(A.REPL_LOCN_BRCD,1,4)||'-'||SUBSTR(A.REPL_LOCN_BRCD,5,2)||'-'||SUBSTR(A.REPL_LOCN_BRCD,7,2) AS LOCN,
+					    A.MAX_NBR_OF_SKU - COUNT(B.SKU_ID) SKUS_RESTANTES
+					FROM
+					    PICK_LOCN_HDR A,
+					    PICK_LOCN_DTL B
+					WHERE
+					    SUBSTR(A.REPL_LOCN_BRCD,1,4) IN (SELECT AISLE FROM RDX_PUTWY_LOCN WHERE PUTWY_TYPE in ('$putwys'))
+					    AND A.LOCN_ID = B.LOCN_ID(+)
+					GROUP BY
+					    A.LOCN_ID,
+					    A.REPL_LOCN_BRCD,
+					    A.MAX_NBR_OF_SKU
+					HAVING
+					    (A.MAX_NBR_OF_SKU - COUNT(B.SKU_ID)) > 0
+					ORDER BY 
+					    2";
+			$result2 = $this->db->query($sql2);		    
 			if($result || $result != null){
 				foreach ($result->result() as $key2) {
+
+					foreach ($result2->result() as $key3) {
+						if($locn == ""){
+							if($count <= $key3->SKUS_RESTANTES){
+								$locn = $key3->LOCN;
+								$count ++;
+								break;
+							}
+						}else{
+							if($locn != $key3->LOCN){
+								if(array_search($locn, array_column($datos, 'DSP_LOCN'))){
+								}else{
+									$count = 1;
+									if($count <= $key3->SKUS_RESTANTES){
+										$locn = $key3->LOCN;
+										$count ++;
+										break;
+									}
+								}
+							}else{
+								if($count <= $key3->SKUS_RESTANTES){
+									$count ++;
+									break;
+								}
+							}
+						}					
+					}
+
 					$datos[] = array(
-                        'DSP_LOCN' =>  $key2->LOCN,
+                        'DSP_LOCN' =>  $locn,
                         'SKU_ID' =>  $key2->SKU_ID,
                         'MIN_INVN_QTY' =>  $key2->MINIMO,
                         'MAX_INVN_QTY' =>  $key2->MAXIMO,
-                       );
+                    );
 				}
 			}
 			else{

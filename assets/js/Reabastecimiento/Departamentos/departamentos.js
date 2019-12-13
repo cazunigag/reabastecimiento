@@ -21,6 +21,7 @@ $(document).ready(function(){
                         SKU_ID: {type: "string"}, // number - string - date
                         MERCH_TYPE: {type: "string"},
                         PUTWY_TYPE: {type: "string"},
+                        SUBLINEA: {type: "string"},
                         MODA: {type: "string"}, // number - string - date
                         TOT_RESERVA: {type: "string"},
                         TOT_ACTIVO: {type: "string"}
@@ -124,6 +125,7 @@ $(document).ready(function(){
             {field: "SKU_ID",title: "SKU",width: 70, filterable:false, resizable:false, height: 80},
             {field: "MERCH_TYPE",title: "DEPTO",width:70,filterable:false},
             {field: "PUTWY_TYPE",title: "PUTWY TYPE",width:70,filterable: false},
+            {field: "SUBLINEA",title: "SUBLINEA",width:70,filterable: false},
             {field: "MODA",title: "MODA",width:70,filterable: false},
             {field: "TOT_RESERVA",title: "TOTAL RACK",width:70,filterable: false},
             {field: "TOT_ACTIVO",title: "TOTAL ACTIVO",width:70,filterable: false}
@@ -256,22 +258,28 @@ $(document).ready(function(){
         grid.data("kendoGrid").dataSource.read();
     }
     function Configurar(){
-        $.ajax({
-            type: "POST",
-            url: baseURL + 'Deptos/configurar',
-            data: { data: JSON.stringify(data) },
-            dataType: 'json',
-            success: function(result){
-                localStorage.setItem("datos", JSON.stringify(result));
-                console.log(localStorage.getItem("datos"));
-                var confirmar = confirm("Proceso finalizado correctamente. Desea ir al seteo Articulo-Locacion?")
-                if(confirmar){
-                    window.location.href = baseURL + 'articuloLocacion';
+        if(data.length > 0){
+            $.ajax({
+                type: "POST",
+                url: baseURL + 'Deptos/configurar',
+                data: { data: JSON.stringify(data) },
+                dataType: 'json',
+                success: function(result){
+                    localStorage.setItem("datos", JSON.stringify(result));
+                    console.log(localStorage.getItem("datos"));
+                    var confirmar = confirm("Desea ir al seteo Articulo-Locacion?")
+                    if(confirmar){
+                        window.location.href = baseURL + 'articuloLocacion';
+                    }
+                },
+                error: function(result){
+                    alert(JSON.stringify(result));
                 }
-            },
-            error: function(result){
-                alert(JSON.stringify(result));
-            }
-        });
+            });
+        }
+        else{
+            $("#error-modal").text("Debe seleccionar al menos 1 SKU para configurar");
+            $("#modal-danger").modal('show');
+        }
     }
 });
