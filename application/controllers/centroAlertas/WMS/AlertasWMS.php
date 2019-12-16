@@ -32,10 +32,7 @@ class AlertasWMS extends CI_Controller{
 		var_dump($result);
 	}
 	public function erroresPKT(){
-		$connection = ssh2_connect('10.0.156.21', 23);
-		//ssh2_auth_password($connection, 'wmsadm', 'rpy01200');
-		/*$stream = ssh2_exec($connection, 'ls');
-		var_dump($stream);*/
+		echo $this->alertasWMS_model->erroresPKT();
 	}
 	public function cantErroresPKT(){
 		echo sizeof(json_decode($this->alertasWMS_model->erroresPKT()));

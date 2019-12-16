@@ -201,6 +201,11 @@ $route['alertas/pmm/errores/errLPND'] = "centroAlertas/PMM/alertasPMM/ErrLPNDisp
 
 $route['alertas/pmm/errores/errAlm'] = "centroAlertas/PMM/alertasPMM/ErrAlmacenaje";
 
+$route['alertas/pmm/errores/errCC'] = "centroAlertas/PMM/alertasPMM/ErrConteoCiclico";
+
+$route['alertas/pmm/errores/errLPNM'] = "centroAlertas/PMM/alertasPMM/ErrLPNModificado";
+
+
 //rutas alertas EIS
 
 $route['alertas/EIS/errores/msgEIS'] = "centroAlertas/EIS/alertasEIS/msgEIS";

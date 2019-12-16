@@ -11,7 +11,7 @@ class Artlocacion_model extends CI_Model{
 
 	public function insertarArtLocacion($json){
 
-		$sql = "SELECT LOTE_SEQ.NEXTVAL FROM DUAL";
+		$sql = "SELECT PMMWMS.LOTE_SEQ.NEXTVAL FROM DUAL";
 		$result = $this->db->query($sql);
 
 		foreach($result->result() as $row){

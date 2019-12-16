@@ -336,5 +336,85 @@ class alertasPMM_model extends CI_Model{
 		else{
 			return $DBWMS->error();
 		}
-}
+	}
+	public function ErrConteoCiclico($fecha){
+		$DBWMS = $this->load->database("prodWMS",TRUE);
+		$sql = "SELECT
+				    PT.TRAN_TYPE,
+				    PT.TRAN_CODE,
+				    PT.ACTN_CODE,
+				    PT.RSN_CODE,
+				    PT.SKU_ID,
+				    PT.INVN_ADJMT_QTY,
+				    PT.INVN_ADJMT_TYPE,
+				    PT.REF_FIELD_1,
+				    PT.TRAN_NBR,
+				    PT.PIX_SEQ_NBR,
+				    PT.SYS_USER_ID,
+				    PT.CREATE_DATE_TIME
+				FROM   
+				    PIX_TRAN PT
+				WHERE
+				    PT.RSN_CODE='CC' 
+				    AND PT.INVN_ADJMT_QTY >=500
+				    AND TRUNC(PT.CREATE_DATE_TIME) = TRUNC(TO_DATE('$fecha'))";
+
+		$result = $DBWMS->query($sql);
+
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}
+		else{
+			return $DBWMS->error();
+		}
+	}
+	public function ErrLPNModificado($fecha){
+		$DBWMS = $this->load->database("prodWMS",TRUE);
+		$sql = "SELECT
+				    PT.TRAN_TYPE,
+				    PT.TRAN_CODE,
+				    PT.ACTN_CODE,
+				    PT.RSN_CODE,
+				    PT.CASE_NBR,
+				    CH.STAT_CODE,
+				    SC.CODE_DESC,
+				    LH.DSP_LOCN,
+				    PT.SKU_ID,
+				    PT.INVN_ADJMT_QTY,
+				    PT.INVN_ADJMT_TYPE,
+				    PT.TRAN_NBR,
+				    PT.PIX_SEQ_NBR,
+				    PT.SYS_USER_ID,
+				    PT.CREATE_DATE_TIME
+				FROM
+				    PIX_TRAN PT,
+				    CASE_HDR CH,
+				    SYS_CODE SC,
+				    LOCN_HDR LH
+				WHERE
+				   ( (PT.TRAN_TYPE=300 AND PT.TRAN_CODE='01' AND PT.ACTN_CODE='08') OR
+				    (PT.TRAN_TYPE=300 AND PT.TRAN_CODE='01' AND PT.ACTN_CODE='09')  OR
+				    (PT.TRAN_TYPE=606 AND PT.TRAN_CODE='02' AND PT.ACTN_CODE='08')  OR
+				    (PT.TRAN_TYPE=606 AND PT.TRAN_CODE='02' AND PT.ACTN_CODE='09') )
+				    AND PT.INVN_ADJMT_QTY >=500
+				    AND TRUNC(PT.CREATE_DATE_TIME) = TRUNC(TO_DATE('03/12/2019'))
+				    AND PT.CASE_NBR = CH.CASE_NBR
+				    AND CH.STAT_CODE = SC.CODE_ID
+				    AND SC.REC_TYPE = 'S'
+				    AND SC.CODE_TYPE = '509'
+				    AND CH.LOCN_ID = LH.LOCN_ID";
+
+		$result = $DBWMS->query($sql);
+
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$DBWMS->close();
+			return $data;
+		}
+		else{
+			return $DBWMS->error();
+		}
+	}
 }	

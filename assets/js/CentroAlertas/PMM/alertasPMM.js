@@ -17,8 +17,13 @@ $(document).ready(function(){
     var runningELPND = 0;
     var stopedEALM = 0;
     var runningEALM = 0;
+    var stopedECC = 0;
+    var runningECC= 0;
+    var stopedLPNM = 0;
+    var runningLPNM= 0;
 
     var carga = "";
+
 
 	var dataSourceDetDPW = new kendo.data.DataSource({
         transport: {
@@ -876,6 +881,466 @@ $(document).ready(function(){
           ]
         });
         // Save the file as an Excel file with the xlsx extension.
-        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "ErroresAlmacenaje.xlsx"});
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Errores Almacenaje.xlsx"});
+    }
+
+    var ventana_filtrar = $("#POPUP_calendarioECC");
+    ventana_filtrar.kendoWindow({
+        width: "300px",
+        title: "Buscar Errores Conteo Ciclico",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow").center();
+    $('#datepickerECC').datepicker({
+      autoclose: true,
+      format: 'dd/mm/yyyy'
+    })
+    $("#UpdECC").click(function(){
+        var ventanafiltrar = $("#POPUP_calendarioECC");
+        ventanafiltrar.data("kendoWindow").open();
+    });
+    $("#btnActualizarAlertECC").click(function(){
+        stopedECC = 1;
+        fecha = $("#datepickerECC").val();
+        var grid = $("#gridECC");
+        grid.data("kendoGrid").dataSource.read();
+        var ventanafiltrar = $("#POPUP_calendarioECC");
+        ventanafiltrar.data("kendoWindow").close();
+        
+    });
+    function ReadErrCC(e){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconECC").toggleClass("fa-refresh");
+                $("#iconECC").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconECC").toggleClass("fa-refresh");
+                $("#iconECC").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/pmm/errores/errCC',
+            data: {fecha: fecha},
+            dataType: 'json',
+            success: function(result){
+                if(result.length > 0){
+                    if(runningECC == 0){
+                        stopedECC = 0;
+                        intermiteciaECC();
+                    }
+                    $("#nECC").html(result.length);
+                }else{
+                    stopedECC = 1;
+                }
+                e.success(result);
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error al cargar la grilla");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
+    var dataSourceECC = new kendo.data.DataSource({
+        transport: {
+            read: ReadErrCC
+        },
+        schema: {
+            model: {
+                id: "TRAN_TYPE",
+                fields: {
+                        TRAN_TYPE: {type: "string"}, // number - string - date
+                        TRAN_CODE: {type: "string"},
+                        ACTN_CODE: {type: "string"},
+                        SKU_ID: {type: "string"},
+                        INVN_ADJMT_QTY: {type: "string"}, // number - string - date
+                        INVN_ADJMT_TYPE: {type: "string"},
+                        REF_FIELD_1: {type: "string"},
+                        TRAN_NBR: {type: "string"},
+                        PIX_SEQ_NBR: {type: "string"},
+                        SYS_USER_ID: {type: "string"},
+                        CREATE_DATE_TIME: {type: "string"},
+                    }
+            }
+        },
+        pageSize: 200
+    });
+    var ventana_filtrar = $("#POPUP_ECC");
+    ventana_filtrar.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "Errores Conteo Ciclico",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow").center();
+
+    $("#toolbarECC").kendoToolBar({
+        items: [
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarECC}
+        ]
+    });
+
+    $("#gridECC").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceECC,
+        selectable: "row",
+        height: "100%", 
+        width: "1000px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [
+            {field: "TRAN_TYPE",title: "TRAN TYPE",width: 70, filterable: {multi: true, search: true}},
+            {field: "TRAN_CODE",title: "TRAN CODE",width:70, filterable:false},
+            {field: "ACTN_CODE",title: "ACTN CODE",width:70, filterable:false},
+            {field: "RSN_CODE",title: "RAZON",width:70, filterable:false},
+            {field: "SKU_ID",title: "SKU",width:100,filterable: false},
+            {field: "INVN_ADJMT_QTY",title: "CANTIDAD",width: 70,filterable: false},
+            {field: "INVN_ADJMT_TYPE",title: "SIGNO",width:70,filterable: false},
+            {field: "REF_FIELD_1",title: "UBICACION",width:70,filterable: false},
+            {field: "TRAN_NBR",title: "TRAN NBR",width:70,filterable: false},
+            {field: "PIX_SEQ_NBR",title: "SEQUENCIA",width:70,filterable: false},
+            {field: "SYS_USER_ID",title: "USUARIO",width:100,filterable: false},
+            {field: "CREATE_DATE_TIME",title: "FEC CREACION",width:70,filterable: false}
+        ]
+    });
+    function intermiteciaECC(){
+      $("#ECCBox").toggleClass("bg-aqua");
+      $("#ECCBox").toggleClass("bg-red");
+      $("#iconECC").toggleClass("fa-download");
+      $("#iconECC").toggleClass("ion-android-alert");
+      if(stopedECC == 0){
+         runningECC = 1;
+         setTimeout(intermiteciaECC, 500);
+      }
+      else{
+        runningECC = 0;
+        stopECC();
+      }
+    }
+    function stopECC(){
+        $("#ECCBox").removeClass("bg-aqua");
+        $("#ECCBox").removeClass("bg-red");
+        $("#iconECC").removeClass("fa-download");
+        $("#iconECC").removeClass("ion-android-alert"); 
+        $("#ECCBox").addClass("bg-aqua");
+        $("#iconECC").addClass("fa-download");
+        $("#nECC").html('0');
+    }
+    $("#ECCDetalles").click(function(){
+        var ventanaErrLpnDispo = $("#POPUP_ECC");
+        ventanaErrLpnDispo.data("kendoWindow").open();
+    });
+
+    function ExportarECC(){
+        var rows = [{
+            cells: [
+              { value: "TRAN TYPE" },
+              { value: "TRAN CODE" },
+              { value: "ACTN CODE" },
+              { value: "RAZON" },
+              { value: "SKU" },
+              { value: "CANTIDAD" },
+              { value: "SIGNO" },
+              { value: "UBICACION" },
+              { value: "TRAN NBR" },
+              { value: "SEQUENCIA" },
+              { value: "USUARIO" },
+              { value: "FEC CREACION" }
+            ]
+          }];
+        var data = dataSourceECC.data();
+        for (var i = 0; i < data.length; i++){
+          // Push single row for every record.
+          rows.push({
+            cells: [
+              { value: data[i].TRAN_TYPE },
+              { value: data[i].TRAN_CODE },
+              { value: data[i].ACTN_CODE },
+              { value: data[i].RSN_CODE },
+              { value: data[i].SKU_ID },
+              { value: data[i].INVN_ADJMT_QTY },
+              { value: data[i].INVN_ADJMT_TYPE },
+              { value: data[i].REF_FIELD_1 },
+              { value: data[i].TRAN_NBR },
+              { value: data[i].PIX_SEQ_NBR },
+              { value: data[i].SYS_USER_ID },
+              { value: data[i].CREATE_DATE_TIME }
+            ]
+          })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+          sheets: [
+            {
+              columns: [
+                // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true }
+              ],
+              // The title of the sheet.
+              title: "Errores Conteo Ciclico",
+              // The rows of the sheet.
+              rows: rows
+            }
+          ]
+        });
+        // Save the file as an Excel file with the xlsx extension.
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Errores Conteo Ciclico.xlsx"});
+    }
+
+
+
+    var ventana_filtrar = $("#POPUP_calendarioLPNM");
+    ventana_filtrar.kendoWindow({
+        width: "300px",
+        title: "Buscar Errores LPN Modificados",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow").center();
+    $('#datepickerLPNM').datepicker({
+      autoclose: true,
+      format: 'dd/mm/yyyy'
+    })
+    $("#UpdLPNM").click(function(){
+        var ventanafiltrar = $("#POPUP_calendarioLPNM");
+        ventanafiltrar.data("kendoWindow").open();
+    });
+    $("#btnActualizarAlertLPNM").click(function(){
+        stopedLPNM = 1;
+        fecha = $("#datepickerLPNM").val();
+        var grid = $("#gridLPNM");
+        grid.data("kendoGrid").dataSource.read();
+        var ventanafiltrar = $("#POPUP_calendarioLPNM");
+        ventanafiltrar.data("kendoWindow").close();
+        
+    });
+    function ReadErrLPNM(e){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconLPNM").toggleClass("fa-refresh");
+                $("#iconLPNM").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconLPNM").toggleClass("fa-refresh");
+                $("#iconLPNM").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/pmm/errores/errLPNM',
+            data: {fecha: fecha},
+            dataType: 'json',
+            success: function(result){
+                if(result.length > 0){
+                    if(runningLPNM == 0){
+                        stopedLPNM = 0;
+                        intermiteciaLPNM();
+                    }
+                    $("#nLPNM").html(result.length);
+                }else{
+                    stopedLPNM = 1;
+                }
+                e.success(result);
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error al cargar la grilla");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
+    var dataSourceLPNM = new kendo.data.DataSource({
+        transport: {
+            read: ReadErrLPNM
+        },
+        schema: {
+            model: {
+                id: "TRAN_TYPE",
+                fields: {
+                        TRAN_TYPE: {type: "string"}, // number - string - date
+                        TRAN_CODE: {type: "string"},
+                        ACTN_CODE: {type: "string"},
+                        CASE_NBR: {type: "string"},
+                        STAT_CODE: {type: "string"},
+                        CODE_DESC: {type: "string"},
+                        DSP_LOCN: {type: "string"},
+                        SKU_ID: {type: "string"},
+                        INVN_ADJMT_QTY: {type: "string"}, // number - string - date
+                        INVN_ADJMT_TYPE: {type: "string"},
+                        TRAN_NBR: {type: "string"},
+                        PIX_SEQ_NBR: {type: "string"},
+                        SYS_USER_ID: {type: "string"},
+                        CREATE_DATE_TIME: {type: "string"},
+                    }
+            }
+        },
+        pageSize: 200
+    });
+    var ventana_filtrar = $("#POPUP_LPNM");
+    ventana_filtrar.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "Errores LPN Modificados",
+        visible: false,
+        actions: [
+            "Close"
+        ]
+    }).data("kendoWindow").center();
+
+    $("#toolbarLPNM").kendoToolBar({
+        items: [
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarLPNM}
+        ]
+    });
+
+    $("#gridLPNM").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceLPNM,
+        selectable: "row",
+        height: "100%", 
+        width: "1000px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [
+            {field: "TRAN_TYPE",title: "TRAN TYPE",width: 70, filterable: {multi: true, search: true}},
+            {field: "TRAN_CODE",title: "TRAN CODE",width:70, filterable:false},
+            {field: "ACTN_CODE",title: "ACTN CODE",width:70, filterable:false},
+            {field: "RSN_CODE",title: "RAZON",width:70, filterable:false},
+            {field: "CASE_NBR",title: "LPN",width:130,filterable: false},
+            {field: "STAT_CODE",title: "ESTADO",width:130,filterable: false},
+            {field: "CODE_DESC",title: "DESC ESTADO",width:130,filterable: false},
+            {field: "DSP_LOCN",title: "UBICACION",width:130,filterable: false},
+            {field: "SKU_ID",title: "SKU",width:70,filterable: false},
+            {field: "INVN_ADJMT_QTY",title: "CANTIDAD",width: 70,filterable: false},
+            {field: "INVN_ADJMT_TYPE",title: "SIGNO",width:70,filterable: false},
+            {field: "TRAN_NBR",title: "TRAN NBR",width:70,filterable: false},
+            {field: "PIX_SEQ_NBR",title: "SEQUENCIA",width:70,filterable: false},
+            {field: "SYS_USER_ID",title: "USUARIO",width:100,filterable: false},
+            {field: "CREATE_DATE_TIME",title: "FEC CREACION",width:70,filterable: false}
+        ]
+    });
+    function intermiteciaLPNM(){
+      $("#LPNMBox").toggleClass("bg-aqua");
+      $("#LPNMBox").toggleClass("bg-red");
+      $("#iconLPNM").toggleClass("fa-download");
+      $("#iconLPNM").toggleClass("ion-android-alert");
+      if(stopedLPNM == 0){
+         runningLPNM = 1;
+         setTimeout(intermiteciaLPNM, 500);
+      }
+      else{
+        runningLPNM = 0;
+        stopLPNM();
+      }
+    }
+    function stopLPNM(){
+        $("#LPNMBox").removeClass("bg-aqua");
+        $("#LPNMBox").removeClass("bg-red");
+        $("#iconLPNM").removeClass("fa-download");
+        $("#iconLPNM").removeClass("ion-android-alert"); 
+        $("#LPNMBox").addClass("bg-aqua");
+        $("#iconLPNM").addClass("fa-download");
+        $("#nECC").html('0');
+    }
+    $("#LPNMDetalles").click(function(){
+        var ventanaErrLpnDispo = $("#POPUP_LPNM");
+        ventanaErrLpnDispo.data("kendoWindow").open();
+    });
+    function ExportarLPNM(){
+        var rows = [{
+            cells: [
+              { value: "TRAN TYPE" },
+              { value: "TRAN CODE" },
+              { value: "ACTN CODE" },
+              { value: "RAZON" },
+              { value: "LPN" },
+              { value: "ESTADO" },
+              { value: "DESC ESTADO" },
+              { value: "UBICACION" },
+              { value: "SKU" },
+              { value: "CANTIDAD" },
+              { value: "SIGNO" },
+              { value: "TRAN NBR" },
+              { value: "SEQUENCIA" },
+              { value: "USUARIO" },
+              { value: "FEC CREACION" }
+            ]
+          }];
+        var data = dataSourceLPNM.data();
+        for (var i = 0; i < data.length; i++){
+          // Push single row for every record.
+          rows.push({
+            cells: [
+              { value: data[i].TRAN_TYPE },
+              { value: data[i].TRAN_CODE },
+              { value: data[i].ACTN_CODE },
+              { value: data[i].RSN_CODE },
+              { value: data[i].CASE_NBR },
+              { value: data[i].STAT_CODE },
+              { value: data[i].CODE_DESC },
+              { value: data[i].DSP_LOCN },
+              { value: data[i].SKU_ID },
+              { value: data[i].INVN_ADJMT_QTY },
+              { value: data[i].INVN_ADJMT_TYPE },
+              { value: data[i].TRAN_NBR },
+              { value: data[i].PIX_SEQ_NBR },
+              { value: data[i].SYS_USER_ID },
+              { value: data[i].CREATE_DATE_TIME }
+            ]
+          })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+          sheets: [
+            {
+              columns: [
+                // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true }
+              ],
+              // The title of the sheet.
+              title: "Errores LPN Modificados",
+              // The rows of the sheet.
+              rows: rows
+            }
+          ]
+        });
+        // Save the file as an Excel file with the xlsx extension.
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Errores LPN Modificados.xlsx"});
     }
 });

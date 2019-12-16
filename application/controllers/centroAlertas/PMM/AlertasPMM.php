@@ -37,4 +37,12 @@ class AlertasPMM extends CI_Controller{
 		$fecha = $this->input->post('fecha');
 		echo $this->alertasPMM_model->ErrAlmacenaje($fecha);
 	}
+	public function ErrConteoCiclico(){
+		$fecha = $this->input->post('fecha');
+		echo $this->alertasPMM_model->ErrConteoCiclico($fecha);
+	}
+	public function ErrLPNModificado(){
+		$fecha = $this->input->post('fecha');
+		echo $this->alertasPMM_model->ErrLPNModificado($fecha);
+	}
 }

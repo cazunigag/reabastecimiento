@@ -244,6 +244,44 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-aqua" id="ECCBox">
+                 <a id="UpdECC"><span class="info-box-icon" ><i id="iconECC" class="fa fa-download"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">ERRORES CONTEO CICLICO</span>
+                    <span class="info-box-number" id="nECC">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="ECCDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                 
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-aqua" id="LPNMBox">
+                 <a id="UpdLPNM"><span class="info-box-icon" ><i id="iconLPNM" class="fa fa-download"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">ERRORES LPN MODIFICADOS</span>
+                    <span class="info-box-number" id="nLPNM">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="LPNMDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                 
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- ./col -->
@@ -389,6 +427,46 @@
   <div id="toolbarEALM"></div>
   <div id="gridEALM"></div>
 </div>
+<div id="POPUP_calendarioECC">
+  <div class="form-group">
+    <label>Seleccione una fecha:</label>
+
+    <div class="input-group date">
+      <div class="input-group-addon">
+        <i class="fa fa-calendar"></i>
+      </div>
+      <input type="text" class="form-control pull-right" id="datepickerECC">
+    </div>
+    <!-- /.input group -->
+  </div>
+  <div class="form-group">
+    <button type="button" id="btnActualizarAlertECC" class="btn btn-primary">Actualizar</button>
+  </div>
+</div>
+<div id="POPUP_ECC" class="grid">
+  <div id="toolbarECC"></div>
+  <div id="gridECC"></div>
+</div>
+<div id="POPUP_calendarioLPNM">
+  <div class="form-group">
+    <label>Seleccione una fecha:</label>
+
+    <div class="input-group date">
+      <div class="input-group-addon">
+        <i class="fa fa-calendar"></i>
+      </div>
+      <input type="text" class="form-control pull-right" id="datepickerLPNM">
+    </div>
+    <!-- /.input group -->
+  </div>
+  <div class="form-group">
+    <button type="button" id="btnActualizarAlertLPNM" class="btn btn-primary">Actualizar</button>
+  </div>
+</div>
+<div id="POPUP_LPNM" class="grid">
+  <div id="toolbarLPNM"></div>
+  <div id="gridLPNM"></div>
+</div>
 </div>
 <!-- jQuery 3 -->
 
@@ -463,6 +541,19 @@
   }
   .k-toolbar .k-button{
     color: black;
+  }
+  .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+  }
+      
+  .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+  }
+  .k-grid tbody tr {
+    line-height: 14px;
+  }
+  .k-grid {
+    font-size: 12px;
   }
 </style>
 </body>
