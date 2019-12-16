@@ -139,11 +139,11 @@
             <i class="fa fa-warning"></i></i><span>Centro de Alertas</span>
           </a>
         </li>
-        <li>
+        <!--<li>
           <a href="<?php echo site_url('seteoAttr');?>">
             <i class="fa fa-check-square-o"></i></i><span>Seteo Atributos Logisticos</span>
           </a>
-        </li>
+        </li>-->
         <li>
           <a href="<?php echo site_url('LPNDemora');?>">
             <i class="fa fa-calendar"></i></i><span>LPNs Con Demora</span>
