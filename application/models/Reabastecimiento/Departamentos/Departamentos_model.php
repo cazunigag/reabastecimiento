@@ -5,7 +5,7 @@ class Departamentos_model extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->database();
+		$this->load->database("PMMWMS");
 		
 	}
 	public function listDepartamentos(){
@@ -28,7 +28,7 @@ class Departamentos_model extends CI_Model{
 					IM.MERCH_TYPE,
 					IWM.PUTWY_TYPE,
 					IM.SPL_INSTR_1 SUBLINEA,
-					IM.STD_CASE_QTY MODA,
+					IM.STD_PACK_QTY MODA,
 					NVL(RESERVA.TOTAL_RESERVA, 0) TOT_RESERVA,
 					NVL(ACTIVO.TOTAL_ACTIVO, 0) TOT_ACTIVO
 				FROM
@@ -145,7 +145,6 @@ class Departamentos_model extends CI_Model{
 
 		$datos = array();
 		$putwys = "";
-		$skus = "";
 		$count = 1;
 		$overall = 0;
 		$locn = "";
@@ -156,16 +155,11 @@ class Departamentos_model extends CI_Model{
 			}else{
 				$putwys = $putwys.$key->PUTWY_TYPE."','";
 			}
-			if(next($data) == false){
-				$skus = $skus.$key->SKU_ID;
-			}else{
-				$skus = $skus.$key->SKU_ID."','";
-			}
 
 			$sql = "SELECT
 					    B.SKU_ID,
-					    (1*(SELECT MINIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MINIMO,
-					    (1*(SELECT MAXIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MAXIMO
+					    (B.STD_PACK_QTY*(SELECT MINIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MINIMO,
+					    (B.STD_PACK_QTY*(SELECT MAXIMO FROM RDX_SUBLINEA_MAXMIN WHERE SUBLINEA = B.SPL_INSTR_1)) AS MAXIMO
 					FROM
 					    ITEM_MASTER B
 					WHERE
@@ -181,7 +175,7 @@ class Departamentos_model extends CI_Model{
 					    PICK_LOCN_HDR A,
 					    PICK_LOCN_DTL B
 					WHERE
-					    SUBSTR(A.REPL_LOCN_BRCD,1,4) IN (SELECT AISLE FROM RDX_PUTWY_LOCN WHERE PUTWY_TYPE in ('$putwys'))
+					    SUBSTR(A.REPL_LOCN_BRCD,1,4) IN (SELECT AISLE FROM RDX_PUTWY_LOCN WHERE PUTWY_TYPE = '$key->PUTWY_TYPE')
 					    AND A.LOCN_ID = B.LOCN_ID(+)
 					GROUP BY
 					    A.LOCN_ID,
@@ -191,7 +185,7 @@ class Departamentos_model extends CI_Model{
 					    (A.MAX_NBR_OF_SKU - COUNT(B.SKU_ID)) > 0
 					ORDER BY 
 					    2";
-			$result2 = $this->db->query($sql2);		    
+			$result2 = $this->db->query($sql2);		
 			if($result || $result != null){
 				foreach ($result->result() as $key2) {
 
@@ -204,14 +198,21 @@ class Departamentos_model extends CI_Model{
 							}
 						}else{
 							if($locn != $key3->LOCN){
-								if(array_search($locn, array_column($datos, 'DSP_LOCN'))){
-								}else{
-									$count = 1;
+								$count = 1;
+								$locn = $key3->LOCN;
+								foreach ($datos as $arr) {
+									if($key3->LOCN == $arr['DSP_LOCN']){
+										$count ++;
+									}
+								}
+								if($count > 1 ){
 									if($count <= $key3->SKUS_RESTANTES){
-										$locn = $key3->LOCN;
 										$count ++;
 										break;
 									}
+								}else{
+									$count ++;
+									break;
 								}
 							}else{
 								if($count <= $key3->SKUS_RESTANTES){
@@ -219,9 +220,8 @@ class Departamentos_model extends CI_Model{
 									break;
 								}
 							}
-						}					
+						}				
 					}
-
 					$datos[] = array(
                         'DSP_LOCN' =>  $locn,
                         'SKU_ID' =>  $key2->SKU_ID,

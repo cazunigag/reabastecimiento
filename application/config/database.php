@@ -77,8 +77,8 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = WMSQA)(PORT = 1528)))
     (CONNECT_DATA = (SID = LER6QA)(SERVER = DEDICATED)))',
-	'username' => 'leclwmqa',
-	'password' => 'leclwmqa',
+	'username' => 'pmmwms',
+	'password' => 'wms',
 	'database' => '',
 	'dbdriver' => 'oci8',
 	'dbprefix' => '',

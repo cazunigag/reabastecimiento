@@ -39,6 +39,8 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/cultures/kendo.culture.es-CL.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/messages/kendo.messages.es-CL.min.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,83 +84,7 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li>           
-          <div style="margin-top: 20px; margin-bottom: 20px"></div>
-          <center>
-            <a href="<?php echo site_url('home/home');?>" class="logo">
-              <!-- mini logo for sidebar mini 50x50 pixels -->
-              <span class="logo-mini"></span>
-              <!-- logo for regular state and mobile devices -->
-              <span class="logo-lg"><img src="<?php echo base_url();?>assets/img/logo.png" height="60" width="170"/></span>
-            </a>  
-          </center>
-        </li>
-        <div style="margin-top: 20px; margin-bottom: 20px"></div>
-        <li class="header"><b>MENU</b></li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-refresh"></i>
-            <span>Reabastecimiento</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo site_url('articuloLocacion');?>"><i class="fa fa-table"></i> Ingreso Articulo-Locacion</a></li>
-            <li><a href="<?php echo site_url('asignacionPedido');?>"><i class="fa fa-table"></i> Asignacion de Pedidos</a></li>
-            <li><a href="<?php echo site_url('seteo308');?>"><i class="fa fa-arrow-down"></i> Seteo Depto</a></li>
-            <li><a href="<?php echo site_url('almacenamientolocn');?>"><i class="fa fa-cube"></i> Almacenamiento Locacion</a></li>
-            <li><a href="<?php echo site_url('sublineas');?>"><i class="fa fa-table"></i> Mantenedor Min-Max Sublinea</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-map"></i>
-            <span>Centro de Distribucion</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo site_url('redex');?>"><i class="fa fa-map"></i> Centro de Distribucion</a></li>
-            <li class="treeview">
-              <a href="#"><i class="fa fa-cube"></i> Carton Type
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="<?php echo site_url('cartontype');?>"><i class="fa fa-cube"></i> Carton Type Pasillo</a></li>
-                <li><a href="<?php echo site_url('cartontypearticulo');?>"><i class="fa fa-cube"></i> Carton Type Articulo</a></li>
-              </ul>
-          </ul>
-        </li>
-        <li>
-          <a href="<?php echo site_url('centroAlertas');?>">
-            <i class="fa fa-warning"></i></i><span>Centro de Alertas</span>
-          </a>
-        </li>
-        <!--<li>
-          <a href="<?php echo site_url('seteoAttr');?>">
-            <i class="fa fa-check-square-o"></i></i><span>Seteo Atributos Logisticos</span>
-          </a>
-        </li>-->
-        <li>
-          <a href="<?php echo site_url('LPNDemora');?>">
-            <i class="fa fa-calendar"></i></i><span>LPNs Con Demora</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+ <?php $this->load->view("sidebar_menu"); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -229,7 +155,7 @@
         <p id="error-modal"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal" id="modalerrorCerrar">Cerrar</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -246,7 +172,7 @@
         <h4 class="modal-title"><i class="fa fa-info"></i> Informacion</h4>
       </div>
       <div class="modal-body">
-        <p>Operacion Cancelada</p>
+        <p id="info-modal"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
@@ -314,7 +240,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/Reabastecimiento/AlmacenamientoLocn/almacenamientolocn.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/Reabastecimiento/AlmacenamientoLocn/almacenamientolocn.js?n=1"></script>
 <style type="text/css">
   .k-toolbar .k-button{
     color: black;

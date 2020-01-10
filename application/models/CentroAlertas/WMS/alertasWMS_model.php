@@ -514,7 +514,8 @@ class alertasWMS_model extends CI_Model{
 					B.MSG AS MSG_SHPMT,
 					C.SIZE_DESC,
 					C.PO_NBR,
-					D.MSG AS MSG_SKU
+					D.MSG AS MSG_SKU,
+					A.CREATE_DATE_TIME
 				FROM 
 					INPT_ASN_HDR A,
 					MSG_LOG B,

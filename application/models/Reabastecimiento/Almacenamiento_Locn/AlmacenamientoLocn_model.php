@@ -5,7 +5,7 @@ class AlmacenamientoLocn_model extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->database();
+		$this->load->database("PMMWMS");
 		
 	}
 
@@ -49,6 +49,60 @@ class AlmacenamientoLocn_model extends CI_Model{
 		}
 		return 0;
 	}
+	public function aisles(){
+		$datos[] = array();
+		$sql = "SELECT DISTINCT SUBSTR(LOCN_BRCD,1,4) AISLE FROM LOCN_HDR ORDER BY 1";
+
+		$result = $this->db->query($sql);
+
+		foreach ($result->result() as $key) {
+			array_push($datos, $key->AISLE);	
+		}
+		if($result || $result != null){
+			$data = json_encode($datos);
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function putwy_types(){
+		$datos[] = array();
+		$sql = "SELECT CODE_ID FROM SYS_CODE WHERE REC_TYPE = 'B' AND CODE_TYPE = '667'";
+
+		$result = $this->db->query($sql);
+
+		foreach ($result->result() as $key) {
+			array_push($datos, $key->CODE_ID);	
+		}
+		if($result || $result != null){
+			$data = json_encode($datos);
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function locn_class(){
+		$datos[] = array();
+		$sql = "SELECT DISTINCT LOCN_CLASS FROM LOCN_HDR";
+
+		$result = $this->db->query($sql);
+
+		foreach ($result->result() as $key) {
+			array_push($datos, $key->LOCN_CLASS);	
+		}
+		if($result || $result != null){
+			$data = json_encode($datos);
+			$this->db->close();
+			return $data;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
 	public function create($created){
 		foreach ($created as $key) {
 			$sql = "SELECT 
@@ -83,12 +137,20 @@ class AlmacenamientoLocn_model extends CI_Model{
 					if(sizeof($result->result())==0){
 						return 4;
 					}else{
-						$sql = "INSERT INTO PMMWMS.RDX_PUTWY_LOCN (AISLE, LOCN_CLASS, PUTWY_TYPE) VALUES ('$key->AISLE', '$key->LOCN_CLASS',
-						 '$key->PUTWY_TYPE')";
-						 $result = $this->db->query($sql);
-						 if(!$result){
-							return 2;
+						$sql = "SELECT DISTINCT LOCN_CLASS FROM LOCN_HDR WHERE LOCN_CLASS = '$key->LOCN_CLASS'";
+
+						$result = $this->db->query($sql);
+
+						if(sizeof($result->result())==0){
+							return 5;
+						}else{
+								$sql = "INSERT INTO PMMWMS.RDX_PUTWY_LOCN (AISLE, LOCN_CLASS, PUTWY_TYPE) VALUES ('$key->AISLE', '$key->LOCN_CLASS','$key->PUTWY_TYPE')";
+							 $result = $this->db->query($sql);
+							 if(!$result){
+								return 2;
+							}
 						}
+						
 					}
 				}
 			}

@@ -18,13 +18,12 @@ class Asignacion_pedido extends CI_Controller{
         echo $this->asignacionpedido_model->getAsignaciones();
 	}
 	public function getSku(){
-        echo $this->asignacionpedido_model->getSku();
+		sh2_connect('10.0.150.13', 23);
+        //echo $this->asignacionpedido_model->getSku();
 	}
 	public function actualizarSKUS(){
-		$tempData = $this->input->post('skus');
-        $json = json_decode($tempData, true);
-        $resp = $this->asignacionpedido_model->actualizarSKUS($json);
-        echo json_encode($resp);
+		ssh2_connect('10.0.150.13', 23);
 
 	}
+	//10.0.150.13  user rpyop  pass xxx 
 }

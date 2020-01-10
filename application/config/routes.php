@@ -62,6 +62,9 @@ $route['redex'] = "centrodistribucion/estanteria/loadCDLayout";
 $route['centroAlertas'] = "centroAlertas/centroAlertas";
 $route['seteoAttr'] = "seteoAtributos/SeteoAtributos";
 $route['LPNDemora'] = "LPNDemora/LPNDemora";
+$route['CambioDemora'] = "LPNDemora/CambioDemoraLPN";
+$route['CambioDemoraLOCN'] = "LPNDemora/CambioDemoraLOCN";
+$route['CambioDemoraCarton'] = "LPNDemora/CambioDemoraCarton";
 $route['seteo308'] = "Reabastecimiento/Departamentos/Departamentos";
 $route['almacenamientolocn'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn";
 $route['sublineas'] = "Reabastecimiento/Mantenedores/Sublineas";
@@ -223,9 +226,22 @@ $route['SeteoAttr/attrSKU'] = "seteoAtributos/SeteoAtributos/attrSKU";
 $route['LPNDemora/totales'] = "LPNDemora/LPNDemora/totalDemoraFecha";
 $route['LPNDemora/resumen'] = "LPNDemora/LPNDemora/resumenDemoraFecha";
 
+$route['CambioDemoraLPN/read'] = "LPNDemora/CambioDemoraLPN/importarEXCEL";
+$route['CambioDemoraLPN/save'] = "LPNDemora/CambioDemoraLPN/save";
+
+$route['CambioDemoraLOCN/read'] = "LPNDemora/CambioDemoraLOCN/importarEXCEL";
+$route['CambioDemoraLOCN/save'] = "LPNDemora/CambioDemoraLOCN/save";
+$route['CambioDemoraLOCN/detalleLocns'] = "LPNDemora/CambioDemoraLOCN/detalleLocns";
+
+$route['CambioDemoraCarton/read'] = "LPNDemora/CambioDemoraCarton/importarEXCEL";
+$route['CambioDemoraCarton/save'] = "LPNDemora/CambioDemoraCarton/save";
+
 //rutas almacenamiento locacion
 
 $route['AlmLonc/info'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/info";
+$route['AlmLonc/valid/aisles'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/aisles";
+$route['AlmLonc/valid/putwy_types'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/putwy_types";
+$route['AlmLonc/valid/locn_class'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/locn_class";
 $route['AlmLonc/update'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/update";
 $route['AlmLonc/create'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/create";
 $route['AlmLonc/delete'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamiento_Locn/delete";

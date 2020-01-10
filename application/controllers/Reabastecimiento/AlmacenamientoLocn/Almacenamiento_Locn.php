@@ -16,6 +16,15 @@ class Almacenamiento_Locn extends CI_Controller{
 	public function info(){
 		echo $this->AlmacenamientoLocn_model->info();
 	}
+	public function aisles(){
+		echo $this->AlmacenamientoLocn_model->aisles();
+	}
+	public function putwy_types(){
+		echo $this->AlmacenamientoLocn_model->putwy_types();
+	}
+	public function locn_class(){
+		echo $this->AlmacenamientoLocn_model->locn_class();
+	}
 	public function update(){
 		$updated = json_decode($this->input->post('updated'));
 		$old = json_decode($this->input->post('old'));

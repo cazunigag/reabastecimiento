@@ -17,32 +17,32 @@ $(document).ready(function(){
                         MINIMO: {
                             type: "number",
                             validation: {
-                                required: true,
-                                maxlength:
+                                required: {
+                                    message: "Este campo es requerido" 
+                                },
+                                min: 0,
+                                max: 9999.99,
+                                maxlengthminimo:
                                     function(input) { 
-                                        if (input.val() > 9999.99) {
-                                           input.attr("data-maxlength-msg", "El valor maximo es 9999.99");
-                                           flagSave = false;
-                                           return false;
-                                        }              
-                                        flagSave = true;                         
-                                        return true;
+                                        return validarMAX(input)
                                     }
                             }
                         }, // number - string - date
                         MAXIMO: {
                             type: "number",
                             validation: {
-                                required: true,
-                                maxlength:
+                                required: {
+                                    message: "Este campo es requerido" 
+                                },
+                                min: 0,
+                                max: 9999.99,
+                                maxlengthmaximo:
                                     function(input) { 
-                                        if (input.val() > 9999.99) {
-                                           input.attr("data-maxlength-msg", "El valor maximo es 9999.99");
-                                           flagSave = false;
-                                           return false;
+                                        if (input.val() == ""){
+                                            flagSave = false;
+                                            return true;
                                         }
-                                        flagSave = true;                                   
-                                        return true;
+                                        return true
                                     }
                             }
                         }
@@ -56,7 +56,7 @@ $(document).ready(function(){
     $("#toolbarsubl").kendoToolBar({
         items: [
             { type: "button", text: "Guardar Cambios", icon: "k-icon k-i-save" ,click: GuardarCambios},
-            { type: "button", text: "Limpiar Filtros", icon: "k-icon k-i-file" ,click: LimpiarFiltros}
+            { type: "button", text: "", icon: "k-icon k-i-refresh" ,click: LimpiarFiltros}
         ]
     });
 
@@ -68,15 +68,15 @@ $(document).ready(function(){
         editable: true,
         filterable: true,
         scrollable: true,
+        navigatable: true,
         pageable: {
-                    refresh: true,
                     pageSizes: true,
                     buttonCount: 5
         },
         columns: [ // Columnas a Listar
             {field: "SUBLINEA",title: "SUBLINEA",width: 70,  editable: false, resizable:false, filterable: {multi: true, search: true}},
             {field: "DES_SUBLINEA",title: "DESCRIPCION",width:70, editable: false, filterable: {multi: true, search: true}},
-            {field: "MINIMO",title: "MINIMO",width:70, filterable: false},
+            {field: "MINIMO",title: "MINIMO",width:100, filterable: false},
             {field: "MAXIMO",title: "MAXIMO",width:100, filterable: false}
         ]
     });
@@ -99,9 +99,6 @@ $(document).ready(function(){
         if(flagSave){
     	   var grid = $("#gridMantMinMaxSubl").data("kendoGrid");
     	   grid.dataSource.sync();
-        }else{
-            $("#error-modal").text("Existen valores invalidos, revise y vuelva a intentarlo");
-            $("#modal-danger").modal('show');
         }
     }
     function onSubmit(e){
@@ -129,18 +126,51 @@ $(document).ready(function(){
     }
     $("#btnBuscarSublinea").click(function(){
     	var sublinea = $("#txtsubl").val();
-    	alert(sublinea);
-    	var grid = $("#gridMantMinMaxSubl").data("kendoGrid");
-    	grid.dataSource.data([]);
-    	grid.dataSource.filter({field: "SUBLINEA", operator: "equals", value: sublinea});
-    	grid.dataSource.read();
+        if(sublinea == ""){
+            var grid = $("#gridMantMinMaxSubl").data("kendoGrid");
+            grid.dataSource.data([]);
+            grid.dataSource.filter({});
+            grid.dataSource.read();
+        }else{
+        	var grid = $("#gridMantMinMaxSubl").data("kendoGrid");
+        	grid.dataSource.data([]);
+        	grid.dataSource.filter({field: "SUBLINEA", operator: "equals", value: sublinea});
+        	grid.dataSource.read();
+        }
     });
 
     function LimpiarFiltros(){
     	var grid = $("#gridMantMinMaxSubl").data("kendoGrid");
-        console.log(grid.options.editable);
     	grid.dataSource.data([]);
     	grid.dataSource.filter({});
     	grid.dataSource.read();
+    }
+    function validarMAX(input){
+        var row = input.closest("tr");
+        var maximo = row.closest("[data-role=grid]").data("kendoGrid").dataItem(row).MAXIMO;
+        var minimo = parseFloat(input.val().replace(",","."));
+        if (minimo > maximo) {
+          /* input.attr("data-maxlengthminimo-msg", "El valor MINIMO no puede ser mayor que el MAXIMO");
+           flagSave = false;
+           input.val(0);
+           input.focus();
+           /*setTimeout(function(){
+                input.val(0);
+           },200);
+           return false;*/
+           input.focus();   
+           input.val(0);
+           input.blur();
+           $("#error-modal").text("El valor MINIMO no puede ser mayor que el MAXIMO");
+           $("#modal-danger").modal('show');
+           flagSave = false;
+        }else if(input.val() == "") {
+            flagSave = false;
+            return true;
+        }else{
+            flagSave = true;                         
+            return true;
+        }             
+        
     }
 });

@@ -1922,6 +1922,7 @@ $(document).ready(function(){
                         REF_FIELD_1: {type: "string"}, // number - string - date
                         PO_NBR: {type: "string"},
                         SIZE_DESC: {type: "string"},
+                        CREATE_DATE_TIME: {type: "string"},
                         MSG_SHPMT: {type: "string"},  
                         MSG_SKU: {type: "string"}
                     }
@@ -2119,11 +2120,12 @@ $(document).ready(function(){
                     buttonCount: 5
         },
         columns: [ // Columnas a Listar
-            {selectable: true, width: "15px" },
-            {field: "SHPMT_NBR",title: "ASN",width: 60, filterable: {multi: true, search: true}},
+            {selectable: true, width: "25px" },
+            {field: "SHPMT_NBR",title: "ASN",width: 90, filterable: {multi: true, search: true}},
             {field: "REF_FIELD_1",title: "CITA",width:60,filterable: {multi: true, search: true}},
             {field: "PO_NBR",title: "OC",width:60,filterable: {multi: true, search: true}},
             {field: "SIZE_DESC",title: "SKU",width:60,filterable: {multi: true, search: true}},
+            {field: "CREATE_DATE_TIME",title: "FECHA",width:60,filterable: {multi: true, search: true}},
             {field: "MSG_SHPMT",title: "MENSAJE CABECERA",width:90,filterable: false},
             {field: "MSG_SKU",title: "MENSAJE DETALLE",width:90,filterable: false}
         ]

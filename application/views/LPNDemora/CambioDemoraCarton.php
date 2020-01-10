@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Carton Type Articulos</title>
+  <title>Cambio Demora Carton</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -19,6 +19,9 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Date Picker -->
@@ -33,6 +36,7 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/cultures/kendo.culture.es-CL.min.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,7 +48,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-purple sidebar-collapse sidebar-mini">
+<body class="hold-transition skin-purple sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
@@ -55,20 +59,18 @@
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>REDEX</b></span>
     </a>
+   
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
       </a>
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-        
+          
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -77,70 +79,54 @@
       </div>
     </nav>
   </header>
-
-  <!-- =============================================== -->
-
-  <!-- Left side column. contains the sidebar -->
+  <!-- Left side column. contains the logo and sidebar -->
   <?php $this->load->view("sidebar_menu"); ?>
-
-  <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <i class="fa fa-cube"></i> Carton Type Articulo
-      </h1>
-    </section>
 
     <!-- Main content -->
     <section class="content">
+      <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Buscar Sku</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="txtsku" id="txtsku" class="form-control pull-right" placeholder="Sku">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary" id="btnBuscarSku"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover" id="skuinfo">
-                <tr>
-                  <th>Sku</th>
-                  <th>Desc Sku</th>
-                  <th>Estilo</th>
-                  <th>Depto</th>
-                  <th>Desc Depto</th>
-                  <th>Linea</th>
-                  <th>Desc Linea</th>
-                  <th>Sublinea</th>
-                  <th>Desc Sublinea</th>
-                  <th>Carton Type</th>
-                  <th>Configurar</th>
-                </tr>
-              </table>
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-body no-padding">
+              <!-- THE CALENDAR -->
+              <div id="toolbar"></div>
+              <div id="grid"></div>
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box -->
         </div>
       </div>
+      <div id="POPUP_Importar">
+        <form method="post" id="import_form" enctype="multipart/form-data">
+            <input name="files" id="files" type="file" aria-label="files" accept=".xls, .xlsx"/>
+            <p style="padding-top: 1em; text-align: right">
+                <button type="submit" id="importar" name="importar" class="k-button k-primary">Importar</button>
+            </p>
+        </form>
+      </div>
+     
+          
+          </div>
+          <!-- /.box -->
+
+        </section>
+        <!-- right col -->
+      </div>
+      <!-- /.row (main row) -->
+
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+ 
+
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <aside class="control-sidebar control-sidebar-dark" style="display: none;">
     <!-- Create the tabs -->
     
   </aside>
@@ -208,17 +194,9 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-
-<div id="POPUP_CartonType">
-   <div >
-      <label>Carton Type:</label>
-      <select id="selectCartonType" data-placeholder="Seleccione..."
-              style="width: 100%;">
-      </select>
-    </div>
-    <br>
-    <div >
-       <button class="k-button k-primary" id="btnActCartonType" name="btnActCartonType" >Actualizar</button>
+<div class="modalloading" style="display: none">
+    <div class="center">
+        <img alt="" style="opacity: 1;" src="<?php echo base_url();?>assets/img/loader.gif"/>
     </div>
 </div>
 <!-- ./wrapper -->
@@ -256,11 +234,13 @@
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url();?>assets/bower_components/moment/moment.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/locale-all.js"></script>
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroDistribucion/cartontypeArticulo.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
     checkChanges();
@@ -270,28 +250,12 @@
         }else{
           $(".logo-lg").fadeIn();
         }
-        setTimeout(checkChanges, 2);
+        setTimeout(checkChanges, 200);
       }
   });
 </script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/LPNDemora/cambiodemoracarton.js?n=2"></script>
 <style type="text/css">
-  a{
-    color: white;
-  }
-  a:link{
-    color: white;
-  }
-  a:visited{
-    color: white;
-  }
-  a:hover{
-    color: white;
-    cursor: pointer;
-  }
-  a:active{
-    color: white;
-    cursor: pointer;
-  }
   .k-toolbar .k-button{
     color: black;
   }
@@ -308,7 +272,37 @@
   .k-grid {
     font-size: 12px;
   }
+  .modalloading
+  {
+      position: fixed;
+      z-index: 999;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: Black;
+      filter: alpha(opacity=60);
+      opacity: 0.6;
+      -moz-opacity: 0.6;
+  }
+  .center
+  {
+      z-index: 1000;
+      margin: 300px auto;
+      padding: 10px;
+      width: 130px;
+      background-color: White;
+      border-radius: 10px;
+      filter: alpha(opacity=100);
+      opacity: 1;
+      -moz-opacity: 1;
+  }
+  .center img
+  {
+      opacity: 1;
+      height: 120px;
+      width: 120px;
+  }
 </style>
-
 </body>
 </html>

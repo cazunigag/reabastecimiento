@@ -28,7 +28,7 @@ $(document).ready(function(){
                     }
             }
         },
-        pageSize: 50
+        pageSize: 100
     });
 
     var dataSourcePasillosputwy = new kendo.data.DataSource({
@@ -260,6 +260,12 @@ $(document).ready(function(){
     function Configurar(){
         if(data.length > 0){
             $.ajax({
+                beforeSend: function () {
+                    $(".modalloading").show();
+                },
+                complete: function () {
+                    $(".modalloading").hide();
+                },
                 type: "POST",
                 url: baseURL + 'Deptos/configurar',
                 data: { data: JSON.stringify(data) },
