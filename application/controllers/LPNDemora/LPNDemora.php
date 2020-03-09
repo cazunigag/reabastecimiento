@@ -7,10 +7,15 @@ class LPNDemora extends CI_Controller{
 
 		parent::__construct();
 		$this->load->model("LPNDemora/LPNDemora_model");
+		$this->load->library('session');
 	}
 
 	public function index(){
-		$this->load->view('LPNDemora/LPNDemora');
+		if($this->session->has_userdata('nombre')){
+	        $this->load->view('LPNDemora/LPNDemora');
+	    }else{
+	        redirect('', 'refresh');
+	    }
 	}
 	public function totalDemoraFecha(){
 		echo $this->LPNDemora_model->totalDemoraFecha();

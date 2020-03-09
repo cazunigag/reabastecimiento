@@ -249,3 +249,47 @@ $db['EIS'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+$db['PMMQA'] = array(
+	'dsn'	=> '',
+	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(Host = 10.0.150.13)(Port = 1521)))
+	(CONNECT_DATA = (SID = POLLC1)))',
+	'username' => 'odbms_adm',
+	'password' => 'pmmretail',
+	'database' => '',
+	'dbdriver' => 'oci8',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+$db['PMMWMSQA'] = array(
+	'dsn'	=> '',
+	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = WMSQA)(PORT = 1528)))
+    (CONNECT_DATA = (SID = LER6QA)(SERVER = DEDICATED)))',
+	'username' => 'pmmwms',
+	'password' => 'wms',
+	'database' => '',
+	'dbdriver' => 'oci8',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

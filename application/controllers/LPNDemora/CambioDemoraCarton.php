@@ -13,10 +13,15 @@ class CambioDemoraCarton extends CI_Controller{
 
 		parent::__construct();
 		$this->load->model("LPNDemora/CambioDemoraCarton_model");
+    $this->load->library('session');
 	}
 
 	public function index(){
-		$this->load->view('LPNDemora/CambioDemoraCarton');
+    if($this->session->has_userdata('nombre')){
+        $this->load->view('LPNDemora/CambioDemoraCarton');
+    }else{
+        redirect('', 'refresh');
+    }
 	}
 	public function importarEXCEL(){
         $data = array();

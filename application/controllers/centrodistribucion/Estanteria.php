@@ -15,12 +15,21 @@ class Estanteria extends CI_Controller{
         $this->load->helper("url");
         $this->load->model("Estanteria_model");
         $this->load->library("pagination");
+        $this->load->library('session');
     }
 	public function index(){
-		$this->load->view('CDLayout/centrodistribucion');
+        if($this->session->has_userdata('nombre')){
+            $this->load->view('CDLayout/centrodistribucion');
+        }else{
+            redirect('', 'refresh');
+        }
 	}
 	public function loadCDLayout(){
-		 $this->load->view('CDSource/CDLayout');
+        if($this->session->has_userdata('nombre')){
+            $this->load->view('CDSource/CDLayout');
+        }else{
+            redirect('', 'refresh');
+        }
 	}
 	public function loadPasillosEstanteria($piso){
         $data['clasificaciones'] = $this->Estanteria_model->getClasificaciones();
@@ -41,7 +50,11 @@ class Estanteria extends CI_Controller{
 		$this->load->view('CDSource/PasillosEstanteria', $data);
 	}
 	public function loadPisosEstanteria(){
-		 $this->load->view('CDSource/PisosEstanteria');
+        if($this->session->has_userdata('nombre')){
+            $this->load->view('CDSource/PisosEstanteria');
+        }else{
+            redirect('', 'refresh');
+        }
 	}
 	public function loadLocacionesEstanteria($pasillo){
 		$data['locacionesimpar'] = $this->Estanteria_model->loadLocacionesEstanteriaImpar($pasillo);

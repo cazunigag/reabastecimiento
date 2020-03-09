@@ -8,11 +8,16 @@ class Departamentos extends CI_Controller{
         $this->load->helper("url");
         $this->load->model("Reabastecimiento/Departamentos/Departamentos_model");
         $this->load->library("pagination");
+        $this->load->library('session');
     }
 	public function index()
 	{
-		$data['deptos'] = $this->Departamentos_model->listDepartamentos();
-		$this->load->view('Reabastecimiento/Departamentos/Departamentos', $data);
+		if($this->session->has_userdata('nombre')){
+	        $data['deptos'] = $this->Departamentos_model->listDepartamentos();
+			$this->load->view('Reabastecimiento/Departamentos/Departamentos', $data);
+	    }else{
+	       redirect('', 'refresh');
+	    }
 	}
 	public function selectDepto(){
 		$depto = $this->input->post('depto');

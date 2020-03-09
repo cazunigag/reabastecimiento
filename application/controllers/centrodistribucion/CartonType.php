@@ -9,9 +9,14 @@ class CartonType extends CI_Controller{
         $this->load->helper("url");
         $this->load->model("CentroDistribucion/CartonType_model");
         $this->load->library("pagination");
+        $this->load->library('session');
     }
 	public function index(){
-		$this->load->view('CDSource/CartonType');
+		if($this->session->has_userdata('nombre')){
+            $this->load->view('CDSource/CartonType');
+        }else{
+            redirect('', 'refresh');
+        }
 	}
 	public function dataGrid1(){
 		echo $this->CartonType_model->dataGrid1();

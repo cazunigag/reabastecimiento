@@ -12,6 +12,7 @@ class alertasWMS_model extends CI_Model{
 
 	}
 	public function erroresPKT(){
+		$db2 = $this->load->database('default', TRUE);
 		$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
 			  WHERE TO_cHAR(A.ERROR_SEQ_NBR)=B.REF_VALUE_1(+) AND A.PKT_CTRL_NBR = C.PKT_CTRL_NBR(+) AND TO_cHAR(C.ERROR_SEQ_NBR)=D.REF_VALUE_1(+)
 			  AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";

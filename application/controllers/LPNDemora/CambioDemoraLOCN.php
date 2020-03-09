@@ -13,10 +13,15 @@ class CambioDemoraLOCN extends CI_Controller{
 
 		parent::__construct();
 		$this->load->model("LPNDemora/CambioDemoraLOCN_model");
+    $this->load->library('session');
 	}
 
 	public function index(){
-		$this->load->view('LPNDemora/CambioDemoraLOCN');
+    if($this->session->has_userdata('nombre')){
+        $this->load->view('LPNDemora/CambioDemoraLOCN');
+    }else{
+        redirect('', 'refresh');
+    }
 	}
 	public function importarEXCEL(){
         $data = array();

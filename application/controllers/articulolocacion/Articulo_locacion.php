@@ -10,13 +10,24 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class Articulo_locacion extends CI_Controller{
 
+    public function __construct(){
+
+        parent::__construct();
+        $this->load->helper('url');
+        $this->load->library('session');
+    }
 	
 
 	public function index()
 	{
-		$this->load->helper('url');
+
 		$this->load->model('artlocacion_model');
-		$this->load->view('articulolocacion');
+        if($this->session->has_userdata('nombre')){
+            $this->load->view('articulolocacion');
+        }else{
+            redirect('', 'refresh');
+        }
+		
 	}
 	public function insertarArtLocacion(){
         $tempData = $this->input->post('models');

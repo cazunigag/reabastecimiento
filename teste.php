@@ -6,9 +6,14 @@
 		stream_set_blocking($errorStream, true);
 		stream_set_blocking($stream, true);
 		echo "output: ". stream_get_contents($stream,-1,-1);
-		ssh2_disconnect($conn);*/
+		ssh2_disconnect($conn);
 
 		$socket = fsockopen("10.0.156.21", 80);
-		echo $socket
+		echo $socket*/
+		$pass1 = hash("sha1", "Ripley.2020");
+		$pass2 = hash("sha1", "Ripley.2020");
+		echo $pass1;
+		echo "<br>";
+		echo $pass2;
 
 ?>

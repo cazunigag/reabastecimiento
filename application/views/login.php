@@ -1,3 +1,9 @@
+
+<?php 
+    if($this->session->has_userdata('name')){
+        $this->session->sess_destroy();
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,21 +41,24 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg"><h2 class="login-box-msg"><B>REDEX</B></h2></p>
-    
-     <?php echo validation_errors(); ?>
-    
-    <?php echo form_open('home'); ?>
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Usuario" name="username">
+      <div class="form-group has-feedback" id="user">
+        <input type="text" class="form-control" placeholder="Rut" name="username" id="username" required="">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <span class="help-block" id="helpuser"></span>
       </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Contraseña" name="password">
+      <div class="form-group has-feedback" id="pass">
+        <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <span class="help-block" id="helppass"></span>
+      </div>
+      <div class="row">
+        <div class="callout callout-danger" id="errmessage">
+          <p id="text"></p>
+        </div>
       </div>
       <div class="row">
         <div class="col-xs-4">
-          <button type="submit" value="Submit" name="submit" id="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+          <button type="button"  name="submit" id="submit" class="btn btn-primary btn-flat">Ingresar</button><i id="iconbtn"></i>
         </div>
         <!-- /.col -->
       </div>
@@ -69,7 +78,10 @@
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="<?php echo base_url();?>assets/plugins/iCheck/icheck.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/js/Login/login.js?n=1"></script>
 <script>
+  var baseURL= "<?php echo base_url();?>";
   $(function () {
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',

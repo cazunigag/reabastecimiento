@@ -52,7 +52,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<?php echo site_url('home/home');?>" class="logo">
+    <a href="<?php echo site_url('home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>RDX</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -69,7 +69,29 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-user"></i>
+              <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="<?php echo base_url();?>assets/img/user.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  <?php echo $this->session->userdata('nombre'); ?>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <a href="<?php echo site_url('logout');?>" class="btn btn-default btn-flat">Cerrar Sesion</a>
+                </div>
+              </li>
+            </ul>
+          </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -304,6 +326,37 @@
   }
   .k-grid {
     font-size: 12px;
+  }
+  .modalloading
+  {
+      position: fixed;
+      z-index: 999;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: Black;
+      filter: alpha(opacity=80);
+      opacity: 0.8;
+      -moz-opacity: 0.8;
+  }
+  .center
+  {
+      z-index: 1000;
+      margin: 300px auto;
+      padding: 10px;
+      width: 130px;
+      background-color: White;
+      border-radius: 10px;
+      filter: alpha(opacity=100);
+      opacity: 1;
+      -moz-opacity: 1;
+  }
+  .center img
+  {
+      opacity: 1;
+      height: 120px;
+      width: 120px;
   }
 </style>
 </body>

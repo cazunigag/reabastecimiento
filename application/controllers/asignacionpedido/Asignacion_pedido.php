@@ -8,10 +8,16 @@ class Asignacion_pedido extends CI_Controller{
         $this->load->helper("url");
         $this->load->model("asignacionpedido_model");
         $this->load->library("pagination");
+        $this->load->library('session');
     }
 	public function index()
 	{
-		$this->load->view('asignacionpedido');
+		$this->load->model('artlocacion_model');
+        if($this->session->has_userdata('nombre')){
+            $this->load->view('asignacionpedido');
+        }else{
+            redirect('', 'refresh');
+        }
 	}
 
 	public function getAsignaciones(){

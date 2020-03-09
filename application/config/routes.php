@@ -49,13 +49,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //rutas Generales
-$route['home'] = "login/valida_login";
-$route['home/home'] = "login/valida_login/home";
+$route['home'] = "login/home";
 $route['articuloLocacion'] = "articulolocacion/articulo_locacion";
 $route['asignacionPedido'] = "asignacionpedido/asignacion_pedido";
 $route['redex'] = "centrodistribucion/estanteria/loadCDLayout";
@@ -70,6 +69,10 @@ $route['almacenamientolocn'] = "Reabastecimiento/AlmacenamientoLocn/Almacenamien
 $route['sublineas'] = "Reabastecimiento/Mantenedores/Sublineas";
 $route['cartontype'] = "centrodistribucion/CartonType";
 $route['cartontypearticulo'] = "centrodistribucion/CartonTypeArticulo";
+$route['diferenciaInventario'] = "DiferenciaInventario/DiferenciaInventario";
+//rutas login
+$route['auth'] = "login/auth";
+$route['logout'] = "login/logOut";
 //rutas Estanteria
 $route['estanteria']  = "centrodistribucion/estanteria/loadPisosEstanteria";
 $route['piso/(:num)'] = "centrodistribucion/estanteria/loadPasillosEstanteria/$1";
@@ -259,3 +262,16 @@ $route['sublineas/save'] = "Reabastecimiento/Mantenedores/Sublineas/guardarCambi
 //rutas CartonType
 
 $route['cartontype/data'] = "centrodistribucion/CartonType/dataGrid1";
+
+//rutas Diferencia Inventario
+
+$route['difinvn/read'] = "DiferenciaInventario/DiferenciaInventario/read";
+$route['difinvn/readDiffPMM'] = "DiferenciaInventario/DiferenciaInventario/detalleDiffPMM";
+$route['difinvn/readDiffWMS'] = "DiferenciaInventario/DiferenciaInventario/detalleDiffWMS";
+
+//rutas calendario PKT
+
+$route['calendarioPKT'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT";
+$route['calendario/read'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/calendar";
+$route['calendario/estados'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/EstadosPKT";
+$route['calendario/detalle'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/DetallePKT";

@@ -8,10 +8,15 @@ class Almacenamiento_Locn extends CI_Controller{
         $this->load->helper("url");
         $this->load->model("Reabastecimiento/Almacenamiento_Locn/AlmacenamientoLocn_model");
         $this->load->library("pagination");
+        $this->load->library('session');
     }
 	public function index()
 	{
-		$this->load->view('Reabastecimiento/AlmacenamientoLocn/AlmacenamientoLocn');
+		if($this->session->has_userdata('nombre')){
+	        $this->load->view('Reabastecimiento/AlmacenamientoLocn/AlmacenamientoLocn');
+	    }else{
+	        redirect('', 'refresh');
+	    }
 	}
 	public function info(){
 		echo $this->AlmacenamientoLocn_model->info();

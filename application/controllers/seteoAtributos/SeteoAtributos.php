@@ -7,10 +7,15 @@ class SeteoAtributos extends CI_Controller{
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('SeteoAtributos/Seteoatributos_model');
+		$this->load->library('session');
 	}
 
 	public function index(){
-		$this->load->view('SeteoAtributos/SeteoAtributos');
+		if($this->session->has_userdata('nombre')){
+	        $this->load->view('SeteoAtributos/SeteoAtributos');
+	    }else{
+	        redirect('', 'refresh');
+	    }
 	}
 	public function infoSku(){
 		$sku = $this->input->post('sku');

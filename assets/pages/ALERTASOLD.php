@@ -49,7 +49,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<?php echo site_url('home/home');?>" class="logo">
+    <a href="<?php echo site_url('home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>R</b>eabastecimiento</span>

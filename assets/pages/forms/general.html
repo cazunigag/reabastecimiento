@@ -791,10 +791,11 @@
                   <input type="text" class="form-control" id="inputWarning" placeholder="Enter ...">
                   <span class="help-block">Help block with warning</span>
                 </div>
-                <div class="form-group has-error">
-                  <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Input with
+                <div class="form-group has-feedback has-error">
+                  <label id="hola" class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Input with
                     error</label>
                   <input type="text" class="form-control" id="inputError" placeholder="Enter ...">
+                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
                   <span class="help-block">Help block with error</span>
                 </div>
 
@@ -1116,4 +1117,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
+<script type="text/javascript">
+  $("#hola").remove();
+</script>
 </html>

@@ -122,7 +122,7 @@ $(document).ready(function(){
         },
         columns: [ // Columnas a Listar
             {selectable: true, width: "15px" },
-            {field: "SKU_ID",title: "SKU",width: 70, filterable:false, resizable:false, height: 80},
+            {field: "SKU_ID",title: "SKU",width: 70, filterable:false, resizable:false, height: 80, filterable: {multi: true, search: true}},
             {field: "MERCH_TYPE",title: "DEPTO",width:70,filterable:false},
             {field: "PUTWY_TYPE",title: "PUTWY TYPE",width:70,filterable: false},
             {field: "SUBLINEA",title: "SUBLINEA",width:70,filterable: false},
