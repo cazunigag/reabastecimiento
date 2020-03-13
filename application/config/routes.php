@@ -275,3 +275,9 @@ $route['calendarioPKT'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT";
 $route['calendario/read'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/calendar";
 $route['calendario/estados'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/EstadosPKT";
 $route['calendario/detalle'] = "centroAlertas/BT/CalendarioPickTicket/calendarioPKT/DetallePKT";
+
+// rutas Diferencia Stock BT-WMS
+
+$route['DiffBT-WMS'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS";
+$route['DiffBT-WMS/read'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS/read";
+$route['DiffBT-WMS/detalle'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS/detalleBloqueo";

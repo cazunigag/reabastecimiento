@@ -118,7 +118,7 @@
           <!-- /.box-header -->
           <div class="box-body">
               <div class="row">
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-md-3">
                   <!-- small box -->
                   <div class="info-box bg-green" id="pktBox">
                    <a id="PKTBajados"><span class="info-box-icon" ><i id="iconPKT" class="glyphicon glyphicon-ok"></i></span></a>

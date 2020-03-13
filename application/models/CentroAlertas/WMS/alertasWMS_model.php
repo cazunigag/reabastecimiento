@@ -13,7 +13,7 @@ class alertasWMS_model extends CI_Model{
 	}
 	public function erroresPKT(){
 		$db2 = $this->load->database('default', TRUE);
-		$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
+		/*$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
 			  WHERE TO_cHAR(A.ERROR_SEQ_NBR)=B.REF_VALUE_1(+) AND A.PKT_CTRL_NBR = C.PKT_CTRL_NBR(+) AND TO_cHAR(C.ERROR_SEQ_NBR)=D.REF_VALUE_1(+)
 			  AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
@@ -25,7 +25,24 @@ class alertasWMS_model extends CI_Model{
 		}
 		else{
 			return $this->db->error();
-		}	  
+		}*/
+		$datos = array();
+		$data = $db2->get_cursor();
+		$params = array(array('name' => ":data", 'value' => $data, 'type' => OCI_B_CURSOR, 'length' => -1 ));
+
+		$result = $db2->stored_procedure("PMMWMS", "Alerta_Pkt_Refcur_01", $params);
+		$result = oci_execute($data);
+		while ($resultado = @oci_fetch_assoc($data)) {
+			$datos[] = $resultado;
+	    }
+		if($result || $result != null){
+			$db2->close();
+			return json_encode($datos);
+		}
+		else{
+			$db2->close();
+			return $db2->error();
+		}
 	}
 	public function totPKTBajados(){
 		$sql="SELECT COUNT(*) AS TOT FROM PKT_HDR_INTRNL PHI WHERE SUBSTR(PHI.PKT_CTRL_NBR,1,3)='BTC' AND TRUNC(PHI.CREATE_DATE_TIME)=TRUNC(SYSDATE)";

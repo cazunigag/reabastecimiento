@@ -1,3 +1,16 @@
+<?php 
+  $modulos = $this->session->userdata('modulos'); 
+  $cpkt = 0;
+  $dsbw = 0;
+  foreach ($modulos as $key) {
+    if($key->MENU_NAME == "DIFERENCIA_STOCK_BT_WMS"){
+       $dsbw = 1;
+    }
+    if($key->MENU_NAME == "CALENDARIO_PICK_TICKET"){
+       $cpkt = 1;
+    }
+  }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -172,6 +185,7 @@
             </div>
           </div>
         </div>
+        <?php if($dsbw == 1 || $cpkt == 1){ ?>
         <div class="box box-primary">
           <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-gear"/>  Funciones Adicionales</i></h3>
@@ -183,27 +197,50 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div class="row">
-              <a class="btn btn-app" href="<?php echo site_url('calendarioPKT');?>" style="color: black;">
-                <i class="fa fa-calendar"></i> Calendario Pick Ticket
-              </a>
+              <?php if($cpkt == 1){ ?>
+              <div class="col-md-3">
+          <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user-2">
+                  <!-- Add the bg color to the header using any of the bg-* classes -->
+                  <a href="<?php echo site_url('calendarioPKT'); ?>">
+                    <div class="widget-user-header bg-aqua" id="boxWMS">
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="<?php echo base_url();?>assets/img/calender-vector-transparent.png" alt="User Avatar">
+                      </div>
+                      <!-- /.widget-user-image -->
+                      <h4 class="widget-user-username">Calendario PA</h4>
+                    </div>
+                  </a>
+                </div>
+                <!-- /.widget-user -->
+              </div>
+              <?php } if($dsbw == 1){ ?>
+              <div class="col-md-3">
+          <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user-2">
+                  <!-- Add the bg color to the header using any of the bg-* classes -->
+                  <a href="<?php echo site_url('DiffBT-WMS'); ?>">
+                    <div class="widget-user-header bg-aqua" id="boxWMS">
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="<?php echo base_url();?>assets/img/search.jpg" alt="User Avatar">
+                      </div>
+                      <!-- /.widget-user-image -->
+                      <h3 class="widget-user-username">Diferencia Stock WMS</h3>
+                    </div>
+                  </a>
+                </div>
+                <!-- /.widget-user -->
+              </div>
+              <?php } ?>
             </div>
           </div>
         </div>
+        <?php }?>
+      </section>
         <!-- ./col -->
-      </div>
-
-      <!-- /.row -->
-      <!-- Main row -->
-          
-          </div>
+    
           <!-- /.box -->
 
-        </section>
-        <!-- right col -->
-      </div>
-      <!-- /.row (main row) -->
-
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

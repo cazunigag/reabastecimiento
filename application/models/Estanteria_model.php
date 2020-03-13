@@ -286,7 +286,7 @@ class Estanteria_model extends CI_Model{
 		return $this->db->query($sql)->num_rows();	
 	}
 
-	public function getDetalleLocn($idLocn){
+	public function getDetalleLocn($idLocn){ 
 		$sql = "SELECT PLD.SKU_ID, IM.SKU_DESC, IM.MERCH_TYPE, IWM.PUTWY_TYPE, IM.CARTON_TYPE, PLD.ACTL_INVN_QTY, 
 				PLD.TO_BE_PIKD_QTY, PLD.TO_BE_FILLD_QTY, PLD.MOD_DATE_TIME
 				FROM PICK_LOCN_DTL PLD, ITEM_MASTER IM, ITEM_WHSE_MASTER IWM

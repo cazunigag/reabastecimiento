@@ -762,7 +762,7 @@ $(document).ready(function(){
     var ventana_filtrar = $("#POPUP_EALM");
     ventana_filtrar.kendoWindow({
         width: "1000px",
-        height: "550px",
+        height: "530px",
         title: "Errores Almacenaje",
         visible: false,
         actions: [

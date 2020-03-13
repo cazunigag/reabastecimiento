@@ -39,6 +39,13 @@ $(document).ready(function(){
 		                  	$("#iconbtn").toggleClass("fa");
 		                  	$("#iconbtn").toggleClass("fa-refresh");
                 			$("#iconbtn").toggleClass("fa-spin");
+                			$("#submit").empty();
+		              	},
+		              	complete: function () {
+		              		$("#iconbtn").toggleClass("fa");
+		                  	$("#iconbtn").toggleClass("fa-refresh");
+                			$("#iconbtn").toggleClass("fa-spin");
+                			$("#submit").html("Ingresar");
 		              	},
 			            type: "POST",
 			            data: {user: user, pass: pass},
