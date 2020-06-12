@@ -166,7 +166,7 @@ class Estanteria extends CI_Controller{
             $count++;
         }
 
-        $sheet->getStyle('A1:D1')->applyFromArray(
+        $sheet->setStyle('A1:D1')->applyFromArray(
               array(
                 'borders' => array(
                     'allborders' => array(

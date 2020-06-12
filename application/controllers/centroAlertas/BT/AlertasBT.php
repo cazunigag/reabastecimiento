@@ -45,4 +45,15 @@ class AlertasBT extends CI_Controller{
 		$pkts = json_decode($this->input->post('pkts'));
 		echo $this->alertasBT_model->actualizarPKT($pkts);
 	}
+	public function PedidosSinStock(){
+		echo $this->alertasBT_model->PedidosSinStock();
+	}
+	public function PP(){
+		$sku = $this->input->post('sku');
+		echo $this->alertasBT_model->PP($sku);
+	}
+	public function reserva(){
+		$sku = $this->input->post('sku');
+		echo $this->alertasBT_model->reserva($sku);
+	}
 }

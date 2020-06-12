@@ -5,22 +5,23 @@ class DiferenciaInventario_model extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->database();
+		$this->load->database('PMMWMS');
 		
 	}
 
 	public function read(){
 		$fecha = "";
 		$sql = "SELECT 
-					TO_CHAR(FECHA, 'DD/MM/YYYY') FECHA, 
+					TO_CHAR(FECHA, 'DD/MM/YYYY') FECHAS, 
 					MAYOR_PMM, 
 					MAYOR_WMS
-				FROM PNL_EXISTENCIAS";
+				FROM PNL_EXISTENCIAS
+				ORDER BY FECHA ASC";
 
 		$result = $this->db->query($sql);
 
 		foreach ($result->result() as $key) {
-			$fecha = date("Y-m-d",strtotime(str_replace("/", "-", $key->FECHA)));
+			$fecha = date("Y-m-d",strtotime(str_replace("/", "-", $key->FECHAS)));
 
 			$datos[] = array(
 				'FECHA' => $fecha, 
@@ -32,7 +33,7 @@ class DiferenciaInventario_model extends CI_Model{
 	}
 
 	public function detalleDiffPMM($fecha){
-		$db2 = $this->load->database('PMMQA', TRUE);
+		$db2 = $this->load->database('PMMPRODCONT', TRUE);
 		$sql = "SELECT TRUNC(A.PHY_PROC_DATE) FECHA, PRD.PRD_LVL_NUMBER, COUNT(*) MAYOR_PMM 
 				  FROM RPYPIHEE A, PHYPISEE PIS, PRDMSTEE PRD
 				WHERE TRUNC(A.PHY_PROC_DATE) = TO_DATE('$fecha', 'DD/MM/YYYY') AND
@@ -54,7 +55,7 @@ class DiferenciaInventario_model extends CI_Model{
 	}
 
 	public function detalleDiffWMS($fecha){
-		$db2 = $this->load->database('PMMQA', TRUE);
+		$db2 = $this->load->database('PMMPRODCONT', TRUE);
 		$sql = "SELECT TRUNC(A.PHY_PROC_DATE) FECHA, PRD.PRD_LVL_NUMBER, COUNT(*) MAYOR_WMS
 				  FROM RPYPIHEE A, PHYPISEE PIS, PRDMSTEE PRD
 				WHERE TRUNC(A.PHY_PROC_DATE) = TO_DATE('$fecha', 'DD/MM/YYYY') AND 

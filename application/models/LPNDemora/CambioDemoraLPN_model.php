@@ -42,12 +42,13 @@ class CambioDemoraLPN_model extends CI_Model{
 		            );
 				}		
 			}else{
-				if(date("Y-m-d",strtotime(substr($key['FECHA'], 0, 10))) == "1970-01-01"){
+				if(date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA']))) == "1970-01-01"){
 					$fecha = "";
 
 				}
 				else{
-					$fecha = date("Y-m-d",strtotime(substr($key['FECHA'], 0, 10)));
+					$fecha = date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA'])));
+					
 				}
 				if(is_null($fecha_sistema) || $fecha_sistema == ""){
 					$datos[] = array(

@@ -293,3 +293,24 @@ $db['PMMWMSQA'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+$db['SQLSRV'] = array(
+	'dsn'	=> 'sqlsrv:server=P-REDEX-188;database=DWHREDEXOP',
+	'hostname' => '',
+	'username' => 'PRODAURIS_2020',
+	'password' => 'Redex20##',
+	'database' => '',
+	'dbdriver' => 'pdo',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);

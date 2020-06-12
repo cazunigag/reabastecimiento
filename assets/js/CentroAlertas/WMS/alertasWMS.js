@@ -15,6 +15,7 @@ $(document).ready(function(){
     actualizarAlertaFASN();
     actualizarAlertaPST();
     actualizarAlertaINTF();
+    actualizarAlertaLPNNOALM();
 
     //DECLARACION DE VARIABLES
 
@@ -55,8 +56,11 @@ $(document).ready(function(){
     var runningPST = 0;
     var stopedINTF = 0;
     var runningINTF = 0;
+    var stopedLPNNOALM = 0;
+    var runningLPNNOALM = 0;
     var codigoASN = "";
     var codigoCITA = "";
+    var sku = "N/A";
 
     //FUNCIONALIDADES ALERTA PKT
 
@@ -330,9 +334,7 @@ $(document).ready(function(){
                 }
             });
         }
-        else{;
-            var popupdetallepkt = $("#POPUP_Detalle_PKT");
-            popupdetallepkt.data("kendoWindow").close();
+        else{
             $("#error-modal").text("Debe seleccionar al menos un Pick Ticket para actualizar");
             $("#modal-danger").modal('show');
         }
@@ -3446,6 +3448,7 @@ $(document).ready(function(){
             url: baseURL + 'alertas/wms/errores/cantFASN',
             dataType: 'json',
             success: function(result){
+                $("#nFASN").html(result);
                 if(result > 0){
                     if(runningFASN == 0){
                         stopedFASN = 0;
@@ -3466,27 +3469,6 @@ $(document).ready(function(){
                 console.log(JSON.stringify(result));
             }
         });
-        $.ajax({
-            beforeSend: function () {
-                $("#iconFASN").toggleClass("fa");
-                $("#iconFASN").toggleClass("fa-refresh");
-                $("#iconFASN").toggleClass("fa-spin");
-            },
-            complete: function () {
-                $("#iconFASN").toggleClass("fa");
-                $("#iconFASN").toggleClass("fa-refresh");
-                $("#iconFASN").toggleClass("fa-spin");
-            },
-            type: "POST",
-            url: baseURL + 'alertas/wms/errores/cantFASN',
-            dataType: 'json',
-            success: function(result){
-                $("#nFASN").html(result);  
-            },
-            error: function(result){
-                console.log(JSON.stringify(result));
-            }
-        });
     }
     function stopFASN(){
         $("#FASNBox").removeClass("bg-green");
@@ -3502,6 +3484,21 @@ $(document).ready(function(){
             url: baseURL + 'alertas/wms/errores/FASN',
             dataType: 'json',
             success: function(result){
+                $("#nFASN").html(result.length);
+                if(result.length > 0){
+                    if(runningFASN == 0){
+                        stopedFASN = 0;
+                        intermitenciaFASN();
+                        
+                    }
+                    setTimeout(actualizarAlertaFASN, 600000);
+                }else{
+                    setTimeout(actualizarAlertaFASN, 600000);
+                    if(stopedFASN == 0 && runningFASN == 1){
+                        runningFASN = 0;
+                        stopedFASN = 1
+                    }
+                }
                 e.success(result);
             },
             error: function(result){
@@ -3544,7 +3541,6 @@ $(document).ready(function(){
         ]
     });
     $("#FASNDetalles").click(function(){
-        actualizarAlertaFASN();
         var popupdetallefasn = $("#POPUP_Detalle_FASN");
         popupdetallefasn.data("kendoWindow").open();
         var grid = $("#gridDetFASN");
@@ -3731,7 +3727,6 @@ $(document).ready(function(){
     });
 
     $("#PSTDetalles").click(function(){
-        actualizarAlertaPST();
         var popupdetallefasn = $("#POPUP_Detalle_PST");
         popupdetallefasn.data("kendoWindow").open();
         var grid = $("#gridDetPST");
@@ -3752,10 +3747,35 @@ $(document).ready(function(){
 
     function onReadErrPST(e){
         $.ajax({
+            beforeSend: function () {
+                $("#iconPST").toggleClass("fa");
+                $("#iconPST").toggleClass("fa-refresh");
+                $("#iconPST").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPST").toggleClass("fa");
+                $("#iconPST").toggleClass("fa-refresh");
+                $("#iconPST").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/PST',
             dataType: 'json',
             success: function(result){
+                $("#nPST").html(result.length);
+                if(result.length > 0){
+                    if(runningPST == 0){
+                        stopedPST = 0;
+                        intermitenciaPST();
+                        
+                    }
+                    setTimeout(actualizarAlertaPST, 600000);
+                }else{
+                    setTimeout(actualizarAlertaPST, 600000);
+                    if(stopedPST == 0 && runningPST == 1){
+                        runningPST = 0;
+                        stopedPST = 1
+                    }
+                }
                 e.success(result);
             },
             error: function(result){
@@ -3865,7 +3885,6 @@ $(document).ready(function(){
     });
 
     $("#INTFDetalles").click(function(){
-        actualizarAlertaINTF();
         var popupdetallefasn = $("#POPUP_Detalle_INTF");
         popupdetallefasn.data("kendoWindow").open();
         var grid = $("#gridDetINTF");
@@ -3886,10 +3905,35 @@ $(document).ready(function(){
 
     function onReadErrINTF(e){
         $.ajax({
+            beforeSend: function () {
+                $("#iconINTF").toggleClass("fa");
+                $("#iconINTF").toggleClass("fa-refresh");
+                $("#iconINTF").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconINTF").toggleClass("fa");
+                $("#iconINTF").toggleClass("fa-refresh");
+                $("#iconINTF").toggleClass("fa-spin");
+            },
             type: "POST",
             url: baseURL + 'alertas/wms/errores/INTF',
             dataType: 'json',
             success: function(result){
+                $("#nINTF").html(result.length);
+                if(result.length > 0){
+                    if(runningINTF == 0){
+                        stopedINTF = 0;
+                        intermitenciaINTF();
+                        
+                    }
+                    setTimeout(actualizarAlertaINTF, 600000);
+                }else{
+                    setTimeout(actualizarAlertaINTF, 600000);
+                    if(stopedINTF == 0 && runningINTF == 1){
+                        runningINTF = 0;
+                        stopedINTF = 1
+                    }
+                }
                 e.success(result);
             },
             error: function(result){
@@ -3897,4 +3941,200 @@ $(document).ready(function(){
             }
         });
     } 
+
+    //FUNCIONES LPNNOALM
+
+    var dataSourceDetLPNNOALM = new kendo.data.DataSource({
+        transport: {
+            read: onReadErrLPNNOALM
+        },
+        schema: {
+            model: {
+                id: "PASILLO",
+                fields: {
+                        LPN: {type: "string"}, // number - string - date
+                        LOCACION: {type: "string"},
+                        SUC_DESTINO: {type: "string"},
+                        ESTADO_LPN: {type: "string"},
+                        DESC_ESTADO_LPN: {type: "string"},
+                        FECHA_CREACION_LPN: {type: "string"},
+                        ASN: {type: "string"},
+                        ESTADO_ASN: {type: "string"},
+                        DESC_ESTADO_ASN: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 100
+    });
+
+    function intermitenciaLPNNOALM(){
+      $("#LPNNOALMBox").toggleClass("bg-green");
+      $("#LPNNOALMBox").toggleClass("bg-red");
+      $("#iconLPNNOALM").toggleClass("glyphicon-ok");
+      $("#iconLPNNOALM").toggleClass("ion-android-alert");
+      if(stopedLPNNOALM == 0){
+         runningLPNNOALM = 1;
+         setTimeout(intermitenciaLPNNOALM, 500);
+      }
+      else{
+        stopLPNNOALM();
+      }
+    }
+    function actualizarAlertaLPNNOALM(){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconLPNNOALM").toggleClass("fa");
+                $("#iconLPNNOALM").toggleClass("fa-refresh");
+                $("#iconLPNNOALM").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconLPNNOALM").toggleClass("fa");
+                $("#iconLPNNOALM").toggleClass("fa-refresh");
+                $("#iconLPNNOALM").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/wms/errores/cantLPNNOALM',
+            dataType: 'json',
+            success: function(result){
+                $("#nLPNNOALM").html(result);
+                if(result > 0){
+                    if(runningLPNNOALM == 0){
+                        stopedLPNNOALM = 0;
+                        intermitenciaLPNNOALM();
+                        
+                    }
+                    setTimeout(actualizarAlertaLPNNOALM, 600000);
+                }else{
+                    setTimeout(actualizarAlertaLPNNOALM, 600000);
+                    if(stopedLPNNOALM == 0 && runningLPNNOALM == 1){
+                        runningLPNNOALM = 0;
+                        stopedLPNNOALM = 1
+                    }
+                }
+
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    }
+    function stopLPNNOALM(){
+        $("#LPNNOALMBox").removeClass("bg-green");
+        $("#LPNNOALMBox").removeClass("bg-red");
+        $("#iconLPNNOALM").removeClass("glyphicon-ok");
+        $("#iconLPNNOALM").removeClass("ion-android-alert"); 
+        $("#LPNNOALMBox").addClass("bg-green");
+        $("#iconLPNNOALM").addClass("glyphicon-ok");
+    }
+
+    $("#gridDetLPNNOALM").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourceDetLPNNOALM,
+        height: "100%", 
+        width: "600px",
+        selectable: "row",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [ // Columnas a Listar
+            {field: "LPN",title: "LPN",width: 110, filterable:false, resizable:false, height: 80},
+            {field: "LOCACION",title: "UBICACION",width:70,filterable:false},
+            {field: "SUC_DESTINO",title: "SUCURSAL DESTINO",width:70,filterable:false},
+            {field: "ESTADO_LPN",title: "ESTADO LPN",width:70,filterable:false},
+            {field: "DESC_ESTADO_LPN",title: "DESC ESTADO LPN",width:70,filterable:false},
+            {field: "FECHA_CREACION_LPN",title: "FECHA CREACION LPN",width:70,filterable:false},
+            {field: "ASN",title: "ASN",width:70,filterable:false},
+            {field: "ESTADO_ASN",title: "ESTADO ASN",width:70,filterable:false},
+            {field: "DESC_ESTADO_ASN",title: "DESC ESTADO ASN",width:70,filterable:false}
+        ]
+    });
+
+    $("#toolbarLPNNOALM").kendoToolBar({
+        items: [
+            { template: "<label>SKU:  </label>" },
+            { template: "<input type='text' id='skuLPNNOALM' class='k-textbox'>" },
+            { type: "button", text: "", icon: "k-icon k-i-search" ,click: FiltrarLPN},
+            { type: "button", text: "Limpiar Filtro", icon: "k-icon k-i-reset" ,click: LimpiarFLPNNOALM}
+        ]
+    });
+
+    $("#LPNNOALMDetalles").click(function(){
+        var popupdetallelpnnoalm = $("#POPUP_Detalle_LPNNOALM");
+        popupdetallelpnnoalm.data("kendoWindow").open();
+        var grid = $("#gridDetLPNNOALM");
+        grid.data("kendoGrid").dataSource.read();
+    });
+    var ventana_detalle_lpnnoalm = $("#POPUP_Detalle_LPNNOALM");
+    ventana_detalle_lpnnoalm.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "LPN NO ALMACENADOS",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
+
+    function onReadErrLPNNOALM(e){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconLPNNOALM").toggleClass("fa");
+                $("#iconLPNNOALM").toggleClass("fa-refresh");
+                $("#iconLPNNOALM").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconLPNNOALM").toggleClass("fa");
+                $("#iconLPNNOALM").toggleClass("fa-refresh");
+                $("#iconLPNNOALM").toggleClass("fa-spin");
+            },
+            type: "POST",
+            data: { sku: sku},
+            url: baseURL + 'alertas/wms/errores/LPNNOALM',
+            dataType: 'json',
+            success: function(result){
+                $("#nLPNNOALM").html(result.length);
+                if(result.length > 0){
+                    if(runningLPNNOALM == 0){
+                        stopedLPNNOALM = 0;
+                        intermitenciaLPNNOALM();
+                        
+                    }
+                    setTimeout(actualizarAlertaLPNNOALM, 600000);
+                }
+                else{
+                    setTimeout(actualizarAlertaLPNNOALM, 600000);
+                    if(stopedLPNNOALM == 0 && runningLPNNOALM == 1){
+                        runningLPNNOALM = 0;
+                        stopedLPNNOALM = 1
+                    }
+                }
+                e.success(result);
+            },
+            error: function(result){
+                console.log(JSON.stringify(result));
+            }
+        });
+    } 
+
+    function FiltrarLPN(){
+        sku = $("#skuLPNNOALM").val();
+        var grid = $("#gridDetLPNNOALM");
+        grid.data("kendoGrid").dataSource.data([]);
+        grid.data("kendoGrid").dataSource.read();
+    }
+
+    function LimpiarFLPNNOALM(){
+        sku = "N/A";
+        var grid = $("#gridDetLPNNOALM");
+        grid.data("kendoGrid").dataSource.data([]);
+        grid.data("kendoGrid").dataSource.read();
+    }
+
 });

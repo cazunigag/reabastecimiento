@@ -270,4 +270,12 @@ class AlertasWMS extends CI_Controller{
 	public function cantInvnNeedTypeFaltantes(){
 		echo sizeof(json_decode($this->alertasWMS_model->invnNeedTypeFaltantes()));
 	}
+	public function LPNNOALM(){
+		$sku = $this->input->post('sku');
+		echo $this->alertasWMS_model->LPNCasePick($sku);
+	}
+	public function cantLPNNOALM(){
+		$sku = "N/A";
+		echo sizeof(json_decode($this->alertasWMS_model->LPNCasePick($sku)));
+	}
 }

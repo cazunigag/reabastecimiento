@@ -67,27 +67,7 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-user"></i>
-              <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="<?php echo base_url();?>assets/img/user.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $this->session->userdata('nombre'); ?>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?php echo site_url('logout');?>" class="btn btn-default btn-flat">Cerrar Sesion</a>
-                </div>
-              </li>
-            </ul>
+        
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
@@ -360,6 +340,24 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-lg-3 col-xs-6">
+                <div class="info-box bg-green" id="LPNNOALMBox">
+                 <a id="CARGASEjecutadas"><span class="info-box-icon" ><i id="iconLPNNOALM" class="glyphicon glyphicon-ok"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">LPN NO ALMACENADOS</span>
+                    <span class="info-box-number" id="nLPNNOALM">0</span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="LPNNOALMDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
+            </div>  
           </div>
         </div>
       <!-- /.row -->
@@ -479,6 +477,11 @@
 
 <div id="POPUP_Detalle_INTF" class="grid">
   <div id="gridDetINTF"></div>
+</div>
+
+<div id="POPUP_Detalle_LPNNOALM" class="grid">
+  <div id="toolbarLPNNOALM"></div>
+  <div id="gridDetLPNNOALM"></div>
 </div>
 
 <div class="modal modal-success fade" id="modal-success">
@@ -611,7 +614,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/WMS/alertasWMS.js?n=1" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/WMS/alertasWMS.js?n=2" async>
 </script>
 <style type="text/css">
   a{

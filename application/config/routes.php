@@ -70,6 +70,11 @@ $route['sublineas'] = "Reabastecimiento/Mantenedores/Sublineas";
 $route['cartontype'] = "centrodistribucion/CartonType";
 $route['cartontypearticulo'] = "centrodistribucion/CartonTypeArticulo";
 $route['diferenciaInventario'] = "DiferenciaInventario/DiferenciaInventario";
+$route['PKTCancelados'] = "DiferenciaInventario/PKTCancelados/PKTCancelados";
+$route['AseguramientoCalidad'] = "AseguramientoCalidad/AseguramientoCalidad";
+$route['lector'] = "LectorCUD/LectorCUD/picking";
+$route['faltantes'] = "LectorCUD/LectorCUD/faltantes";
+
 //rutas login
 $route['auth'] = "login/auth";
 $route['logout'] = "login/logOut";
@@ -181,6 +186,9 @@ $route['alertas/wms/errores/cantPST'] =  "centroAlertas/WMS/alertasWMS/cantPasil
 $route['alertas/wms/errores/INTF'] =  "centroAlertas/WMS/alertasWMS/invnNeedTypeFaltantes";
 $route['alertas/wms/errores/cantINTF'] =  "centroAlertas/WMS/alertasWMS/cantInvnNeedTypeFaltantes";
 
+$route['alertas/wms/errores/LPNNOALM'] =  "centroAlertas/WMS/alertasWMS/LPNNOALM";
+$route['alertas/wms/errores/cantLPNNOALM'] =  "centroAlertas/WMS/alertasWMS/cantLPNNOALM";
+
 //rutas alertas BT
 
 $route['alertas/bt/errores/sinProcSDI'] = "centroAlertas/BT/alertasBT/sinProcesarSDI";
@@ -192,6 +200,9 @@ $route['alertas/bt/errores/cantMalEnviadosBT'] = "centroAlertas/BT/alertasBT/can
 $route['alertas/bt/errores/pickTicketDuplicados'] = "centroAlertas/BT/alertasBT/pickTicketDuplicados";
 $route['alertas/bt/errores/cantPickTicketDuplicados'] = "centroAlertas/BT/alertasBT/cantPickTicketDuplicados";
 $route['alertas/bt/actualizarPKT'] = "centroAlertas/BT/alertasBT/actualizarPKT";
+$route['alertas/bt/PSinStock'] = "centroAlertas/BT/alertasBT/PedidosSinStock";
+$route['alertas/bt/PP'] = "centroAlertas/BT/alertasBT/PP";
+$route['alertas/bt/RR'] = "centroAlertas/BT/alertasBT/reserva";
 
 //rutas alertas PMM
 
@@ -281,3 +292,36 @@ $route['calendario/detalle'] = "centroAlertas/BT/CalendarioPickTicket/calendario
 $route['DiffBT-WMS'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS";
 $route['DiffBT-WMS/read'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS/read";
 $route['DiffBT-WMS/detalle'] = "centroAlertas/BT/SinStockWMS/DiferenciaStockWMS/detalleBloqueo";
+
+//rutas pkt cancelados
+
+$route['PKTCancelados/read'] = "DiferenciaInventario/PKTCancelados/PKTCancelados/read";
+$route['PKTCancelados/detalle'] = "DiferenciaInventario/PKTCancelados/PKTCancelados/detalle";
+
+// rutas aseguramiento calidad
+
+$route['aseguramientoCalidad/recepcion'] = "AseguramientoCalidad/AseguramientoCalidad/recepcion";
+$route['aseguramientoCalidad/recepcion/read'] = "AseguramientoCalidad/Recepcion/recepcion/read";
+$route['aseguramientoCalidad/recepcion/detalle'] = "AseguramientoCalidad/Recepcion/recepcion/detalle";
+$route['aseguramientoCalidad/recepcion/reprocesar'] = "AseguramientoCalidad/Recepcion/recepcion/reprocesar";
+$route['aseguramientoCalidad/recepcion/interfaz'] = "AseguramientoCalidad/Recepcion/recepcion/detalleErrInterfaz";
+
+// rutas lector
+
+$route['lector/cargar'] = "LectorCUD/LectorCUD/importarEXCEL";
+$route['lector/cargarv2'] = "LectorCUD/LectorCUD/importarEXCELv2";
+$route['lector/buscar'] = "LectorCUD/LectorCUD/search";
+$route['lector/pick'] = "LectorCUD/LectorCUD/Pick";
+$route['lector/tiendas'] = "LectorCUD/LectorCUD/tiendas";
+$route['lector/cierreCarga'] = "LectorCUD/LectorCUD/cerrarCarga";
+$route['lector/detcierreCarga'] = "LectorCUD/LectorCUD/detalleCierreCarga";
+$route['lector/detfaltantes'] = "LectorCUD/LectorCUD/detalleFaltantes";
+$route['lector/detcierreCargav2'] = "LectorCUD/LectorCUD/detalleCierreCarga_V2";
+$route['lector/total'] = "LectorCUD/LectorCUD/totalPick";
+$route['lector/totalfaltantes'] = "LectorCUD/LectorCUD/totalFaltantes";
+$route['lector/resumen/(:any)/(:any)/(:any)'] = "LectorCUD/LectorCUD/resumenDespacho/$1/$2/$3";
+$route['lector/resumenV2/(:any)/(:any)/(:any)'] = "LectorCUD/LectorCUD/resumenDespacho_V2/$1/$2/$3";
+$route['lector/ids'] = "LectorCUD/LectorCUD/getIds";
+$route['lector/idsV2'] = "LectorCUD/LectorCUD/getIds_V2";
+
+

@@ -232,7 +232,7 @@
 </div>
 
 <div id="POPUP_CartonType">
-   <div >
+    <div >
       <label>Carton Type:</label>
       <select id="selectCartonType" data-placeholder="Seleccione..."
               style="width: 100%;">

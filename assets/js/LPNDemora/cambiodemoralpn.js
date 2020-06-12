@@ -152,6 +152,8 @@ $(document).ready(function(){
               dataType: 'json',
               success: function(result){
                 if(result == 0){
+                    var grid = $("#grid");
+                    grid.data("kendoGrid").dataSource.read();
                     $("#success-modal").text("Proceso Finalizado. LPNs actualizados correctamente");
                     $("#modal-success").modal('show');
                 }else if(result == 1){

@@ -584,13 +584,13 @@ class Estanteria_model extends CI_Model{
 		$DB3 = $this->load->database('PMMWMS', TRUE);
 		$sql = "UPDATE ITEM_MASTER SET CARTON_TYPE = '$cartonType' WHERE SKU_ID = '$sku'";
 		$result2 = $DB2->query($sql);
-		if($result || $result != null || $result2 || $result2 != null){
-			$this->db->close();
-			return $result;
+		if($result2 || $result2 != null){
+			$DB2->close();
+			return $result2;
 		}
 		else{
-			$this->db->close();
-			return $this->db->error();
+			$DB2->close();
+			return $DB2->error();
 		}
 	}
 	public function actualizarCartonTypeEstilo($estilo, $cartonType){

@@ -182,6 +182,23 @@
                   <!-- /.info-box-content -->
                 </div>
               </div>
+              <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="info-box bg-aqua" id="PSSBox">
+                 <a id="UpdPSS"><span class="info-box-icon" ><i id="iconPSS" class="fa fa-download"></i></span></a>
+                  <div class="info-box-content">
+                    <span class="info-box-text">PEDIDOS NO ASIGNADOS</span>
+                    <span class="info-box-number" id="nPSS"><br></span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                        <span class="progress-description">
+                          <a id="PSSDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
+                        </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -324,6 +341,17 @@
   <div id="toolbarCUD"></div>
   <div id="gridDetCUDD"></div>
 </div>
+<div id="POPUP_Detalle_PSS" class="grid">
+  <div id="toolbarPSS"></div>
+  <div id="gridDetPSS"></div>
+</div>
+<div id="POPUP_Detalle_PP" class="grid">
+  <div id="gridPP"></div>
+</div>
+<div id="POPUP_Detalle_RR" class="grid">
+  <div id="gridRR"></div>
+</div>
+
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
@@ -376,7 +404,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/BT/alertasBT.js" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/BT/alertasBT.js?n=3" async>
 </script>
 <style type="text/css">
   a{

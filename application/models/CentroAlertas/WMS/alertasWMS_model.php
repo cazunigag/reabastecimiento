@@ -13,7 +13,7 @@ class alertasWMS_model extends CI_Model{
 	}
 	public function erroresPKT(){
 		$db2 = $this->load->database('default', TRUE);
-		/*$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
+		$sql="SELECT A.PKT_CTRL_NBR, B.MSG AS MSG_HDR, C.SIZE_DESC, D.MSG AS MSG_DTL FROM INPT_PKT_HDR A, MSG_LOG B, INPT_PKT_DTL C, MSG_LOG D
 			  WHERE TO_cHAR(A.ERROR_SEQ_NBR)=B.REF_VALUE_1(+) AND A.PKT_CTRL_NBR = C.PKT_CTRL_NBR(+) AND TO_cHAR(C.ERROR_SEQ_NBR)=D.REF_VALUE_1(+)
 			  AND (A.ERROR_SEQ_NBR > 0 OR C.ERROR_SEQ_NBR > 0 OR A.PROC_STAT_CODE > 0 OR C.PROC_STAT_CODE > 0)";
 
@@ -25,8 +25,8 @@ class alertasWMS_model extends CI_Model{
 		}
 		else{
 			return $this->db->error();
-		}*/
-		$datos = array();
+		}
+		/*																																																																;
 		$data = $db2->get_cursor();
 		$params = array(array('name' => ":data", 'value' => $data, 'type' => OCI_B_CURSOR, 'length' => -1 ));
 
@@ -42,7 +42,7 @@ class alertasWMS_model extends CI_Model{
 		else{
 			$db2->close();
 			return $db2->error();
-		}
+		}*/
 	}
 	public function totPKTBajados(){
 		$sql="SELECT COUNT(*) AS TOT FROM PKT_HDR_INTRNL PHI WHERE SUBSTR(PHI.PKT_CTRL_NBR,1,3)='BTC' AND TRUNC(PHI.CREATE_DATE_TIME)=TRUNC(SYSDATE)";
@@ -1198,6 +1198,7 @@ class alertasWMS_model extends CI_Model{
 					 	AND CURR_WORK_GRP IS NOT NULL
 					 	AND SUBSTR(CURR_WORK_GRP,1,1) = 'R'
 					 	AND CURR_WORK_AREA IS NOT NULL
+					 	AND SUBSTR(CURR_WORK_AREA,1,1) <> 'W'
 					 GROUP BY
 					 	A.CURR_WORK_GRP, A.CURR_WORK_AREA) X
 				WHERE 
@@ -1212,15 +1213,113 @@ class alertasWMS_model extends CI_Model{
 				if($key->SUM_2 == 0){
 					array_push($resultado, array("CURR_WORK_GRP" => $key->CURR_WORK_GRP,
 									   "CURR_WORK_AREA" => $key->CURR_WORK_AREA,
-									   "FALTANTE" => "FALTA TIPO DE NECESIDAD DE INVENTARIO 2"));
+									   "FALTANTE" => "FALTA TIPO DE INVENTARIO 2"));
 				}
 				if($key->SUM_53 == 0){
 					array_push($resultado, array("CURR_WORK_GRP" => $key->CURR_WORK_GRP,
 									   "CURR_WORK_AREA" => $key->CURR_WORK_AREA,
-									   "FALTANTE" => "FALTA TIPO DE NECESIDAD DE INVENTARIO 53"));
+									   "FALTANTE" => "FALTA TIPO DE INVENTARIO 53"));
 				}
 			}
 			return json_encode($resultado);
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function LPNCasePick($sku){
+
+		if($sku == "N/A"){
+			$sql = "SELECT  
+					    SD.CASE_NBR LPN,
+					    LH.DSP_LOCN LOCACION,
+					    SD.STORE_NBR SUC_DESTINO,
+					    CH.STAT_CODE ESTADO_LPN,
+					    SC.CODE_DESC DESC_ESTADO_LPN,
+					    TO_CHAR(CH.CREATE_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') FECHA_CREACION_LPN,
+					    TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') FECHA_MOD_LPN,
+					    CH.ORIG_SHPMT_NBR ASN,
+					    AH.STAT_CODE ESTADO_ASN,
+					    SCC.CODE_DESC DESC_ESTADO_ASN
+					FROM 
+					    STORE_DISTRO SD,
+					    CASE_HDR CH,
+					    SYS_CODE SC, 
+					    ASN_HDR AH,
+					    SYS_CODE SCC ,
+					    LOCN_HDR  LH
+					WHERE 
+					     SD.STORE_NBR='10039'
+					    AND SD.CASE_NBR=CH.CASE_NBR
+					    AND CH.STAT_CODE  >0 AND CH.STAT_CODE <95
+					    AND SC.REC_TYPE='S' AND SC.CODE_TYPE='509' AND SC.CODE_ID=CH.STAT_CODE
+					    AND CH.ORIG_SHPMT_NBR=AH.SHPMT_NBR
+					    AND  SCC.REC_TYPE='S' AND SCC.CODE_TYPE='564' AND SCC.CODE_ID=AH.STAT_CODE
+					    AND CH.LOCN_ID=LH.LOCN_ID
+					GROUP BY
+					    SD.CASE_NBR ,
+					    LH.DSP_LOCN ,
+					    SD.STORE_NBR ,
+					    CH.STAT_CODE ,
+					    SC.CODE_DESC ,
+					    TO_CHAR(CH.CREATE_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') ,
+					    TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') ,
+					    CH.ORIG_SHPMT_NBR ,
+					    AH.STAT_CODE ,
+					    SCC.CODE_DESC 
+					ORDER BY 
+					   TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS')";
+
+		}else{
+			$sql = "SELECT  
+					    SD.CASE_NBR LPN,
+					    LH.DSP_LOCN LOCACION,
+					    SD.STORE_NBR SUC_DESTINO,
+					    CH.STAT_CODE ESTADO_LPN,
+					    SC.CODE_DESC DESC_ESTADO_LPN,
+					    TO_CHAR(CH.CREATE_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') FECHA_CREACION_LPN,
+					    TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') FECHA_MOD_LPN,
+					    CH.ORIG_SHPMT_NBR ASN,
+					    AH.STAT_CODE ESTADO_ASN,
+					    SCC.CODE_DESC DESC_ESTADO_ASN
+					FROM 
+					    STORE_DISTRO SD,
+					    CASE_HDR CH,
+					    SYS_CODE SC, 
+					    ASN_HDR AH,
+					    SYS_CODE SCC ,
+					    LOCN_HDR  LH,
+					    CASE_DTL CD
+					WHERE 
+					     SD.STORE_NBR='10039'
+					    AND SD.CASE_NBR=CH.CASE_NBR
+					    AND CH.STAT_CODE  >0 AND CH.STAT_CODE <95
+					    AND SC.REC_TYPE='S' AND SC.CODE_TYPE='509' AND SC.CODE_ID=CH.STAT_CODE
+					    AND CH.ORIG_SHPMT_NBR=AH.SHPMT_NBR
+					    AND  SCC.REC_TYPE='S' AND SCC.CODE_TYPE='564' AND SCC.CODE_ID=AH.STAT_CODE
+					    AND CH.LOCN_ID=LH.LOCN_ID
+					    AND CH.CASE_NBR = CD.CASE_NBR
+					    AND CD.SKU_ID = '$sku'
+					GROUP BY
+					    SD.CASE_NBR ,
+					    LH.DSP_LOCN ,
+					    SD.STORE_NBR ,
+					    CH.STAT_CODE ,
+					    SC.CODE_DESC ,
+					    TO_CHAR(CH.CREATE_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') ,
+					    TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS') ,
+					    CH.ORIG_SHPMT_NBR ,
+					    AH.STAT_CODE ,
+					    SCC.CODE_DESC 
+					ORDER BY 
+					   TO_CHAR(CH.MOD_DATE_TIME,'YYYY/MM/DD HH24:MI:SS')";
+
+		}		   
+		$result = $this->db->query($sql);
+		if($result || $result != null){
+			$data = json_encode($result->result());
+			$this->db->close();
+			return $data;
 		}
 		else{
 			return $this->db->error();

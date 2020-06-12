@@ -274,7 +274,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/DiferenciaInventario/diferenciainventario.js?n=2"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/DiferenciaInventario/diferenciainventario.js?n=1"></script>
 <style type="text/css">
   .k-toolbar .k-button{
     color: black;

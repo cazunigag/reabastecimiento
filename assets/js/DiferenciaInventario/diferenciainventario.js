@@ -9,7 +9,7 @@ $(document).ready(function(){
             model: {
                 id: "FECHA",
                 fields: {
-                        FECHA: {type: "string", editable: false}, // number - string - date
+                        FECHAS: {type: "string", editable: false}, // number - string - date
                         MAYOR_PMM: {type: "string", editable: false},
                         MAYOR_WMS: {type: "string", editable: false}
                     }
@@ -282,13 +282,16 @@ $(document).ready(function(){
             	field: "FECHA",
                 crosshair: {
                     visible: true
+                },
+                labels:{
+                    rotation: 315
                 }
             },
             valueAxis: {
                 labels: {
                     format: "N0"
                 },
-                majorUnit: 2000
+                majorUnit: 10000
             },
             tooltip: {
                 visible: true,

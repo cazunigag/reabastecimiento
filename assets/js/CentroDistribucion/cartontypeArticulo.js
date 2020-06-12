@@ -37,6 +37,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(result){
             	result.forEach(function(element){
+                    $("'#"+element.SKU_ID+"'").remove();
             		$("#skuinfo").append('<tr id="'+element.SKU_ID+'"><td>'+element.SKU_ID+'</td><td>'+element.SKU_DESC+'</td><td id="ESTILO'+element.SKU_ID+'">'+element.EXP_LICN_SYMBOL+'</td><td>'+element.MERCH_TYPE+'</td><td>'+element.CODE_DESC+'</td><td>'+element.SALE_GRP+'</td><td>'+element.COMMODITY_CODE+'</td><td>'+element.SPL_INSTR_1+'</td><td>'+element.COMMODITY_LEVEL_DESC+'</td><td>'+element.CARTON_TYPE+'</td><td><button onclick="configurarCT('+element.SKU_ID+')" type="button" class="btn btn-block btn-primary">Configurar</button></td></tr>');
             	});
             },
@@ -64,7 +65,7 @@ $(document).ready(function(){
         popupcartontype.data("kendoWindow").close();
         var cartonType = $("#selectCartonType").data("kendoComboBox").value();
         $.ajax({
-            url: baseURL + 'pasillos/actTipoCarton',
+            url: baseURL + 'pasillos/actTipoCartonArticulo',
             type: 'POST', // POST or GET
             dataType: 'json', // Tell it we're retrieving JSON
             data: {
@@ -73,6 +74,21 @@ $(document).ready(function(){
             success: function(data){
               if(data > 0){
                 alert('Actualizado Correctamente');
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + 'SeteoAttr/infoSku',
+                    data: {sku: sku},
+                    dataType: 'json',
+                    success: function(result){
+                        result.forEach(function(element){
+                            $("#"+element.SKU_ID+"").remove();
+                            $("#skuinfo").append('<tr id="'+element.SKU_ID+'"><td>'+element.SKU_ID+'</td><td>'+element.SKU_DESC+'</td><td id="ESTILO'+element.SKU_ID+'">'+element.EXP_LICN_SYMBOL+'</td><td>'+element.MERCH_TYPE+'</td><td>'+element.CODE_DESC+'</td><td>'+element.SALE_GRP+'</td><td>'+element.COMMODITY_CODE+'</td><td>'+element.SPL_INSTR_1+'</td><td>'+element.COMMODITY_LEVEL_DESC+'</td><td>'+element.CARTON_TYPE+'</td><td><button onclick="configurarCT('+element.SKU_ID+')" type="button" class="btn btn-block btn-primary">Configurar</button></td></tr>');
+                        });
+                    },
+                    error: function(result){
+                        console.log(JSON.stringify(result));
+                    }
+                });
               }
             }
         });

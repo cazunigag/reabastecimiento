@@ -172,9 +172,30 @@
           </ul>
         </li>
         <?php } ?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i>
+            <span> Diferencia Inventario</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="<?php echo site_url('diferenciaInventario');?>">
+                <i class="fa fa-line-chart"></i></i><span> Pix 605</span>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo site_url('PKTCancelados');?>">
+                <i class="fa fa-table"></i></i><span> PKT Cancelados</span>
+              </a>
+            </li> 
+          </ul>
+        </li>
         <li>
-          <a href="<?php echo site_url('diferenciaInventario');?>">
-            <i class="fa fa-line-chart"></i></i><span> Diferencia Inventario</span>
+          <a href="<?php echo site_url('AseguramientoCalidad');?>">
+            <i class="fa fa-check-circle-o"></i></i><span> Aseguramiento Calidad</span>
           </a>
         </li>
       </ul>

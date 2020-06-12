@@ -155,6 +155,8 @@ $(document).ready(function(){
                 if(result == 0){
                     $("#success-modal").text("Proceso Finalizado. Cartones actualizados correctamente");
                     $("#modal-success").modal('show');
+                    var grid = $("#grid");
+                    grid.data("kendoGrid").dataSource.read();
                 }else if(result == 2){
                     $("#error-modal").text("Existen Cartones en blanco en la planilla");
                     $("#modal-danger").modal('show');    
