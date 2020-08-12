@@ -56,4 +56,13 @@ class AlertasBT extends CI_Controller{
 		$sku = $this->input->post('sku');
 		echo $this->alertasBT_model->reserva($sku);
 	}
+	public function soloReabastecer(){
+		echo $this->alertasBT_model->soloReabastecer();
+	}
+	public function readPSSBT(){
+		echo $this->alertasBT_model->readPSSBT();
+	}
+	public function cargarTabla(){
+		echo $this->alertasBT_model->cargarTabla();
+	}
 }

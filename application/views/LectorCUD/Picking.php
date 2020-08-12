@@ -51,7 +51,7 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
       
 </head>
-<body class="hold-transition skin-purple  sidebar-collapse sidebar-mini fixed">
+<body class="hold-transition skin-purple  sidebar-collapse sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -139,7 +139,7 @@
           <div class="row">
             <div class="col-lg-2 col-xs-4">
               <div class="form-group">
-                <label>Fecha de Despacho:</label>
+                <label>Fecha</label>
 
                 <div class="input-group date">
                   <div class="input-group-addon">
@@ -306,6 +306,11 @@
 </div>
 </div>
 <div id="POPUP_Id">
+    EMPRESA: 
+    <select id="opls" data-placeholder="Seleccione..."
+            style="width: 100%;">
+    </select>
+    <br>
     ID TRANSPORTE: 
     <select id="selectId" data-placeholder="Seleccione..."
             style="width: 100%;">
@@ -313,7 +318,6 @@
     <p style="padding-top: 1em; text-align: right">
         <button type="submit" id="Seleccionar" name="Seleccionar" class="k-button k-primary">Seleccionar</button>
     </p>
- 
 </div>
 <div id="POPUP_Importar">
   <form method="post" id="import_form" enctype="multipart/form-data">
@@ -575,7 +579,7 @@
 <!-- page script -->
 <script src="<?php echo base_url();?>assets/artyom-source/artyom.window.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/LectorCUD/Picking/picking.js?n=3"></script>
+<script src="<?php echo base_url();?>assets/js/LectorCUD/Picking/picking.js?n=10"></script>
 <script src="<?php echo base_url();?>assets/js/LectorCUD/importarExcel.js?n=3"></script>
 <!--<script type="text/javascript">
   const artyom = new Artyom();

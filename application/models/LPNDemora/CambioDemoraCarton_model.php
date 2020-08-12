@@ -5,7 +5,7 @@ class CambioDemoraCarton_model extends CI_Model{
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->database();
+		$this->load->database('PMMWMS');
 		
 	}
 
@@ -25,25 +25,29 @@ class CambioDemoraCarton_model extends CI_Model{
 				}
 			}
 
-			if(is_null($key['FECHA']) || $key['FECHA'] == ""){
-				$datos[] = array(
-		            'CARTON' =>  $key['CARTON'],
-		            'ESTADO_INICIAL' =>  $estado_inicial,
-		            'ESTADO_FINAL' =>  $key['ESTADO'],
-		            'FECHA' => ""
-	            );
-			}else{
-				if(date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA']))) == "1970-01-01"){
-					$fecha = "";
-				}else{
-					$fecha = date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA'])));
+			if($estado_inicial == 20 || $estado_inicial == 21){
+				if($estado_inicial != $key['ESTADO']){
+					if(is_null($key['FECHA']) || $key['FECHA'] == ""){
+						$datos[] = array(
+							'CARTON' =>  $key['CARTON'],
+							'ESTADO_INICIAL' =>  $estado_inicial,
+							'ESTADO_FINAL' =>  $key['ESTADO'],
+							'FECHA' => ""
+						);
+					}else{
+						if(date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA']))) == "1970-01-01"){
+							$fecha = "";
+						}else{
+							$fecha = date("Y-m-d",strtotime(str_replace("/", "-",$key['FECHA'])));
+						}
+						$datos[] = array(
+							'CARTON' =>  $key['CARTON'],
+							'ESTADO_INICIAL' =>  $estado_inicial,
+							'ESTADO_FINAL' =>  $key['ESTADO'],
+							'FECHA' => $fecha
+						);
+					}
 				}
-				$datos[] = array(
-		            'CARTON' =>  $key['CARTON'],
-		            'ESTADO_INICIAL' =>  $estado_inicial,
-		            'ESTADO_FINAL' =>  $key['ESTADO'],
-		            'FECHA' => $fecha
-	            );
 			}
 		}
 		return json_encode($datos);

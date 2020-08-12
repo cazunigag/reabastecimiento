@@ -4,6 +4,7 @@ $(document).ready(function(){
     var id = "";
     var fecha = "";	
     var escaneos = 0;
+    var opl = "";
 
     $("#boxscanner").hide();
 
@@ -62,7 +63,7 @@ $(document).ready(function(){
                     else{
                         if(result.length > 0){
                             result.forEach(function(element){
-                              $("#boosmapinfo").prepend('<tr style="font-weight: bold; font-size: 90px; color: #990099;" id="'+element.CUD+'"><td style="font-size: 450px; text-align: center;" width="30%">'+element.ID+'</td><td height="100%" width="30%"><div class="col-xs-12">'+element.NOMBRE_TRANSPORTISTA+'</div><div class="col-xs-12" style="color: black;">SKU</div><div class="col-xs-12">'+element.ARTICULO+'</div></td><td height="100% width="30%"><div class="col-xs-12">'+element.PATENTE+'</div><div class="col-xs-12" style="color: black;">CANTIDAD</div><div class="col-xs-12">'+element.CANTIDAD+'</div></td></tr>');
+                                $("#boosmapinfo").prepend('<tr style="font-weight: bold; font-size: 90px; color: #990099;" id="'+element.CUD+'"><td style="font-size: 450px; text-align: center;" width="30%">'+element.ID+'</td><td height="100%" width="30%"><div class="col-xs-12">'+element.NOMBRE_TRANSPORTISTA+'</div><div class="col-xs-12" style="color: black;">SKU</div><div class="col-xs-12">'+element.ARTICULO+'</div><div class="col-xs-12" style="color: black;">CLIENTE</div><div class="col-xs-12">'+element.CLIENTE+'</div></td><td height="100% width="30%"><div class="col-xs-12">'+element.PATENTE+'</div><div class="col-xs-12" style="color: black;">CANTIDAD</div><div class="col-xs-12">'+element.CANTIDAD+'</div><div class="col-xs-12" style="color: black;">BULTOS</div><div class="col-xs-12">'+element.BULTOS+'</div></td></tr>');
                             });
                             if(escaneos == 4){
                                 document.getElementById("boosmapinfo").deleteRow(escaneos - 1);
@@ -94,6 +95,19 @@ $(document).ready(function(){
             }
         });
     }
+
+    var dataSource4  = new kendo.data.DataSource({
+        transport:{
+            read: onReadOPL
+        }
+    });
+
+    $("#opls").kendoComboBox({
+        autoBind: false,
+        dataSource: dataSource4,
+        dataTextField: "NOMBRE_TRANSPORTISTA",
+        dataValueField: "NOMBRE_TRANSPORTISTA"
+    });
 
     $('#datepicker').datepicker({
 		autoclose: true,
@@ -131,18 +145,20 @@ $(document).ready(function(){
     	tienda = $("#selectTienda").data("kendoComboBox").value();
        	fecha = $("#datepicker").val();	
     	if(fecha != ""){
+            $("#opls").data("kendoComboBox").dataSource.read();
             actTotal();
     		$("#cerrarCarga").fadeIn();
-    		$("#boxscanner").fadeIn();
+            $("#boxscanner").fadeIn();
     	}
     });
     $("#datepicker").change(function(){
     	tienda = $("#selectTienda").data("kendoComboBox").value();
        	fecha = $("#datepicker").val();	
     	if(tienda != ""){
+            $("#opls").data("kendoComboBox").dataSource.read();
             actTotal();
     		$("#cerrarCarga").fadeIn();
-    		$("#boxscanner").fadeIn();
+            $("#boxscanner").fadeIn();
     	}
     });
 
@@ -169,6 +185,7 @@ $(document).ready(function(){
     });
 
     $("#Faltantes").click(function(){
+        $("#opls").data("kendoComboBox").dataSource.read();
         var popupdetcierrecarga = $("#POPUP_det_Cierre_Carga");
         popupdetcierrecarga.data("kendoWindow").open();
         var grid = $("#gridDet");
@@ -255,12 +272,19 @@ $(document).ready(function(){
         id = $("#selectId").data("kendoComboBox").value();
     });
 
+    $("#opls").change(function(){
+        opl = $("#opls").data("kendoComboBox").value();	
+        if(tienda != "" && fecha != ""){
+            $("#selectId").data("kendoComboBox").dataSource.read();
+        }
+    });
+
     function onReadIds(e){
         $.ajax({
             url: baseURL + 'lector/idsV2',
             type:"POST",
             dataType: "json",
-            data: { tienda: tienda, fecha: fecha},
+            data: { tienda: tienda, fecha: fecha, opl: opl},
             success: function(result){
                 e.success(result);
             },
@@ -272,11 +296,28 @@ $(document).ready(function(){
     }
     $("#Seleccionar").click(function(){
         fec = fecha.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'-');
-        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec;
+        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec+'/'+opl;
     });
 
     $("#cerrarCarga").click(function(){
+        $("#opls").data("kendoComboBox").dataSource.read();
         var popupcierrecarga = $("#POPUP_Id");
         popupcierrecarga.data("kendoWindow").open();
     });
+
+    function onReadOPL(e){
+    	$.ajax({
+            url: baseURL + 'lector/getopl',
+            type:"POST",
+            data: {tienda: tienda, fecha: fecha},
+            dataType: "json",
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error durante el proceso, intentelo nuevamente");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
 });

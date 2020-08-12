@@ -2,11 +2,13 @@ $(document).ready(function(){
 
 	var tienda = "";
     var id = "";
+    var opl = "";
     var fecha = "";	
     var escaneos = 0;
 
     $("#boxscanner").hide();
     $("#ruta").hide();
+    $("#opl").hide();
 
 	$("#cud").on('change keyup', function(){
        tienda = $("#selectTienda").data("kendoComboBox").value();
@@ -19,7 +21,7 @@ $(document).ready(function(){
                 $("#cud").val('');
                 $.ajax({
                     type: "POST",
-                    url: baseURL + 'lector/pick',
+                    url: baseURL + 'lector/pickfaltantes',
                     dataType: 'json',
                     data: {barcode: barcode, tienda: tienda, fecha: fecha},
                     success: function(result){
@@ -84,7 +86,7 @@ $(document).ready(function(){
         $.ajax({
             url: baseURL + 'lector/totalfaltantes',
             type:"POST",
-            data: {id: id, tienda: tienda, fecha: fecha},
+            data: {id: id, tienda: tienda, fecha: fecha, opl: opl},
             dataType: "json",
             success: function(result){
                 $("#totales").html("Pickeados: "+result);
@@ -133,7 +135,8 @@ $(document).ready(function(){
        	fecha = $("#datepicker").val();
        	id = $("#selectId").data("kendoComboBox").value();	
     	if(fecha != ""){
-    		$("#ruta").fadeIn();
+            $("#selectOPL").data("kendoComboBox").dataSource.read();
+    		$("#opl").fadeIn();
     	}
     });
     $("#datepicker").change(function(){
@@ -141,14 +144,25 @@ $(document).ready(function(){
        	fecha = $("#datepicker").val();
        	id = $("#selectId").data("kendoComboBox").value();		
     	if(tienda != ""){
-    		$("#ruta").fadeIn();
+            $("#selectOPL").data("kendoComboBox").dataSource.read();
+    		$("#opl").fadeIn();
+    	}
+    });
+    $("#selectOPL").change(function(){
+        tienda = $("#selectTienda").data("kendoComboBox").value();
+       	fecha = $("#datepicker").val();
+       	opl = $("#selectOPL").data("kendoComboBox").value();	
+    	if(tienda != "" && fecha != ""){
+            $("#selectId").data("kendoComboBox").dataSource.read();
+            $("#ruta").fadeIn();
     	}
     });
     $("#selectId").change(function(){
     	tienda = $("#selectTienda").data("kendoComboBox").value();
-       	fecha = $("#datepicker").val();
+        fecha = $("#datepicker").val();
+        opl = $("#selectOPL").data("kendoComboBox").value();	
        	id = $("#selectId").data("kendoComboBox").value();	
-    	if(tienda != "" && fecha != ""){
+    	if(tienda != "" && fecha != "" && opl != ""){
             actTotal();
     		$("#cerrarCarga").fadeIn();
     		$("#boxscanner").fadeIn();
@@ -227,7 +241,7 @@ $(document).ready(function(){
             type: "POST",
             url: baseURL + 'lector/detfaltantes',
             dataType: 'json',
-            data: {id: id, tienda: tienda, fecha: fecha},
+            data: {id: id, tienda: tienda, fecha: fecha, opl: opl},
             success: function(result){
                 e.success(result);
             },
@@ -237,14 +251,14 @@ $(document).ready(function(){
         });
     }
 
-    var dataSource3  = new kendo.data.DataSource({
+    var dataSource4  = new kendo.data.DataSource({
         transport:{
             read: onReadIds
         }
     });
 
     $("#selectId").kendoComboBox({
-        dataSource: dataSource3,
+        dataSource: dataSource4,
         autoBind: false,
         dataTextField: "ID",
         dataValueField: "ID"
@@ -269,7 +283,7 @@ $(document).ready(function(){
             url: baseURL + 'lector/idsV2',
             type:"POST",
             dataType: "json",
-            data: { tienda: tienda, fecha: fecha},
+            data: { tienda: tienda, fecha: fecha, opl: opl},
             success: function(result){
                 e.success(result);
             },
@@ -281,11 +295,42 @@ $(document).ready(function(){
     }
     $("#Seleccionar").click(function(){
         fec = fecha.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'-');
-        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec;
+        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec+'/'+opl;
     });
 
     $("#cerrarCarga").click(function(){
         fec = fecha.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'-');
-        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec;
+        window.location.href = baseURL + 'lector/resumenV2/'+id+'/'+tienda+'/'+fec+'/'+opl;
     });
+
+    var dataSource3  = new kendo.data.DataSource({
+        transport:{
+            read: onReadOPL
+        }
+    });
+
+    $("#selectOPL").kendoComboBox({
+        autoBind: false,
+        dataSource: dataSource3,
+        dataTextField: "NOMBRE_TRANSPORTISTA",
+        dataValueField: "NOMBRE_TRANSPORTISTA"
+    });
+
+    function onReadOPL(e){
+    	$.ajax({
+            url: baseURL + 'lector/getopl',
+            type:"POST",
+            data: {tienda: tienda, fecha: fecha},
+            dataType: "json",
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                $("#error-modal").text("Ocurrio un error durante el proceso, intentelo nuevamente");
+                $("#modal-danger").modal('show');
+            }
+        });
+    }
+
+    
 });

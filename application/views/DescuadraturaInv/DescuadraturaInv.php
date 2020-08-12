@@ -1,22 +1,12 @@
-<?php 
-  $modulos = $this->session->userdata('modulos'); 
-  $cpkt = 0;
-  $dsbw = 0;
-  foreach ($modulos as $key) {
-    if($key->MENU_NAME == "DIFERENCIA_STOCK_BT_WMS"){
-       $dsbw = 1;
-    }
-    if($key->MENU_NAME == "CALENDARIO_PICK_TICKET"){
-       $cpkt = 1;
-    }
-  }
-?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Alertas BT</title>
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <title>PKT Cancelados</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -26,12 +16,15 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>node_modules/chart.js/dist/Chart.min.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Date Picker -->
@@ -46,6 +39,8 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/cultures/kendo.culture.es-CL.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/messages/kendo.messages.es-CL.min.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -57,16 +52,16 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-purple  sidebar-collapse sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo site_url('home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>RDX</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>BigTicket</b></span>
-      <span class="logo-mini"><b>BT</b></span>
+      <span class="logo-lg"><b>REDEX</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -111,172 +106,37 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <?php $this->load->view("sidebar_menu"); ?>
-
+ <?php $this->load->view("sidebar_menu"); ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="height: 100vh;">
       <!-- Small boxes (Stat box) -->
-      <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-warning"/>  Tablas Finales</i></h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div class="row">
-              <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="info-box bg-green" id="SDIBTBox">
-                 <span class="info-box-icon" ><i id="iconSDIBT" class="glyphicon glyphicon-ok"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">MSG SIN PROCESAR</span>
-                    <span class="info-box-number" id="nSDIBT">0</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                        <span class="progress-description">
-                          <a id="SDIBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                        </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-              </div>
-              <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="info-box bg-green" id="VBTBox">
-                 <span class="info-box-icon" ><i id="iconVBT" class="glyphicon glyphicon-ok"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">MSG MAL ENVIADOS</span>
-                    <span class="info-box-number" id="nVBT">0</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                        <span class="progress-description">
-                          <a id="VBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                        </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-              </div>
-              <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="info-box bg-green" id="CUDDBox">
-                 <span class="info-box-icon" ><i id="iconCUDD" class="glyphicon glyphicon-ok"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">CUD DUPLICADOS</span>
-                    <span class="info-box-number" id="nCUDD">0</span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                        <span class="progress-description">
-                          <a id="CUDDDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                        </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-              </div>
-              <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="info-box bg-aqua" id="PSSBox">
-                 <a id="UpdPSS"><span class="info-box-icon" ><i id="iconPSS" class="fa fa-download"></i></span></a>
-                  <div class="info-box-content">
-                    <span class="info-box-text">PEDIDOS NO ASIGNADOS WMS</span>
-                    <span class="info-box-number" id="nPSS"><br></span>
-                    <div class="progress">
-                      <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                        <span class="progress-description">
-                          <a id="PSSDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                        </span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="info-box bg-aqua" id="PSSBTBox">
-                <a id="UpdPSSBT"><span class="info-box-icon" ><i id="iconPSSBT" class="fa fa-download"></i></span></a>
-                <div class="info-box-content">
-                  <span class="info-box-text">PEDIDOS NO ASIGNADOS BT</span>
-                  <span class="info-box-number" id="nPSSBT"><br></span>
-                  <div class="progress">
-                    <div class="progress-bar" style="width: 100%"></div>
-                  </div>
-                      <span class="progress-description">
-                        <a id="PSSBTDetalles" class="small-box-footer">Detalles <i class="fa fa-arrow-circle-right"></i></a>
-                      </span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-            </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div id="toolbar"></div>
+            <div id="grid"></div>
           </div>
         </div>
-        <?php if($dsbw == 1 || $cpkt == 1){ ?>
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-gear"/>  Funciones Adicionales</i></h3>
+      </div>
 
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div class="row">
-              <?php if($cpkt == 1){ ?>
-              <div class="col-md-3">
-          <!-- Widget: user widget style 1 -->
-                <div class="box box-widget widget-user-2">
-                  <!-- Add the bg color to the header using any of the bg-* classes -->
-                  <a href="<?php echo site_url('calendarioPKT'); ?>">
-                    <div class="widget-user-header bg-aqua" id="boxWMS">
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="<?php echo base_url();?>assets/img/calender-vector-transparent.png" alt="User Avatar">
-                      </div>
-                      <!-- /.widget-user-image -->
-                      <h4 class="widget-user-username">Calendario PA</h4>
-                    </div>
-                  </a>
-                </div>
-                <!-- /.widget-user -->
-              </div>
-              <?php } if($dsbw == 1){ ?>
-              <div class="col-md-3">
-          <!-- Widget: user widget style 1 -->
-                <div class="box box-widget widget-user-2">
-                  <!-- Add the bg color to the header using any of the bg-* classes -->
-                  <a href="<?php echo site_url('DiffBT-WMS'); ?>">
-                    <div class="widget-user-header bg-aqua" id="boxWMS">
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="<?php echo base_url();?>assets/img/search.jpg" alt="User Avatar">
-                      </div>
-                      <!-- /.widget-user-image -->
-                      <h3 class="widget-user-username">Diferencia Stock WMS</h3>
-                    </div>
-                  </a>
-                </div>
-                <!-- /.widget-user -->
-              </div>
-              <?php } ?>
-            </div>
-          </div>
-        </div>
-        <?php }?>
-      </section>
-        <!-- ./col -->
-    
+      <div id="POPUP_Detalle">
+        <div id="gridDetalle"></div>
+      </div>
+      <div id="POPUP_mayorPMM">
+        <div id="gridDiffPMM"></div>
+      </div>
+      
+     
+          
+      
           <!-- /.box -->
+      <!-- /.row (main row) -->
 
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -292,8 +152,6 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-
-
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -326,7 +184,7 @@
         <p id="error-modal"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal" id="modalerrorCerrar">Cerrar</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -343,7 +201,7 @@
         <h4 class="modal-title"><i class="fa fa-info"></i> Informacion</h4>
       </div>
       <div class="modal-body">
-        <p>Operacion Cancelada</p>
+        <p id="info-modal"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cerrar</button>
@@ -353,31 +211,22 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<div id="POPUP_Detalle_VBT" class="grid">
-  <div id="gridDetVBT"></div>
+<div id="POPUP_Grafico">
+  <div class="chart" id="line-chart" style="height: 100%;"></div>
 </div>
-<div id="POPUP_Detalle_CUDD" class="grid">
-  <div id="toolbarCUD"></div>
-  <div id="gridDetCUDD"></div>
+<div id="POPUP_Importar">
+  <form method="post" id="import_form" enctype="multipart/form-data">
+      <input name="files" id="files" type="file" aria-label="files" accept=".xls, .xlsx"/>
+      <p style="padding-top: 1em; text-align: right">
+          <button type="submit" id="importar" name="importar" class="k-button k-primary">Importar</button>
+      </p>
+  </form>
 </div>
-<div id="POPUP_Detalle_PSS" class="grid">
-  <div id="toolbarPSS"></div>
-  <div id="gridDetPSS"></div>
+<div class="modalloading" style="display: none">
+    <div class="center">
+        <img alt="" style="opacity: 1;" src="<?php echo base_url();?>assets/img/loader.gif"/>
+    </div>
 </div>
-<div id="POPUP_Detalle_PP" class="grid">
-  <div id="gridPP"></div>
-</div>
-<div id="POPUP_Detalle_RR" class="grid">
-  <div id="gridRR"></div>
-</div>
-<div id="POPUP_Detalle_SR" class="grid">
-  <div id="toolbarSR"></div>
-  <div id="gridSR"></div>
-</div>
-<div id="POPUP_Detalle_PSSBT" class="grid">>
-  <div id="gridDetPSSBT"></div>
-</div>
-
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
@@ -391,6 +240,7 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
+<script src="<?php echo base_url();?>node_modules/chart.js/dist/Chart.min.js"></script>
 <!-- Sparkline -->
 <script src="<?php echo base_url();?>assets/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -413,6 +263,9 @@
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url();?>assets/bower_components/moment/moment.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/locale-all.js"></script>
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
@@ -430,30 +283,24 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroAlertas/BT/alertasBT.js?n=6" async>
-</script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/DescuadraturaInv/descuadraturainv.js?n=3"></script>
 <style type="text/css">
-  a{
-    color: white;
-  }
-  a:link{
-    color: white;
-  }
-  a:visited{
-    color: white;
-  }
-  a:hover{
-    color: white;
-    cursor: pointer;
-  }
-  a:active{
-    color: white;
-    cursor: pointer;
-  }
   .k-toolbar .k-button{
     color: black;
+  }
+  .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+  }
+      
+  .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+  }
+  .k-grid tbody tr {
+    line-height: 14px;
+  }
+  .k-grid {
+    font-size: 12px;
   }
 </style>
 </body>
 </html>
-s

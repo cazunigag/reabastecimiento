@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Carton Type</title>
+  <title>Work Area</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -66,29 +66,6 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-user"></i>
-              <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="<?php echo base_url();?>assets/img/user.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $this->session->userdata('nombre'); ?>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?php echo site_url('logout');?>" class="btn btn-default btn-flat">Cerrar Sesion</a>
-                </div>
-              </li>
-            </ul>
-          </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -111,7 +88,7 @@
         <div class="col-lg-12 col-xs-6">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-cube"></i> Carton Type</h3>
+              <h3 class="box-title"><i class="fa fa-cube"></i> Work Area</h3>
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input type="text" name="txtPasillo" id="txtPasillo" class="form-control pull-right" placeholder="Pasillo">
@@ -123,8 +100,8 @@
               </div>
 
             </div>
-            <div id="toolbarct"></div>
-            <div id="gridCT">
+            <div id="toolbar"></div>
+            <div id="grid">
             
             </div>
           </div>  
@@ -213,19 +190,24 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<div id="POPUP_Actual_CT">
-  <div id="gridActCt"></div>
-</div>
-<div id="POPUP_CartonType">
-   <div >
-      <label>Carton Type:</label>
-      <select id="selectCartonType" data-placeholder="Seleccione..."
+
+<div id="POPUP_WorkArea">
+    <div >
+      <label>Work Group:</label>
+      <select id="selectWorkGroup" data-placeholder="Seleccione..."
               style="width: 100%;">
       </select>
     </div>
     <br>
     <div >
-       <button class="k-button k-primary" id="btnActCartonType" name="btnActCartonType" >Actualizar</button>
+      <label>Work Area:</label>
+      <select id="selectWorkArea" data-placeholder="Seleccione..."
+              style="width: 100%;">
+      </select>
+    </div>
+    <br>
+    <div >
+       <button class="k-button k-primary" id="btnActWorkArea" name="btnActWorkArea" >Actualizar</button>
     </div>
 </div>
 <!-- ./wrapper -->
@@ -280,7 +262,7 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroDistribucion/cartontype.js" async>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroDistribucion/workarea.js?n=4" async>
 </script>
 <style type="text/css">
   .k-grid  .k-grid-header  .k-header  .k-link {

@@ -51,7 +51,7 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
       
 </head>
-<body class="hold-transition skin-purple  sidebar-collapse sidebar-mini fixed">
+<body class="hold-transition skin-purple  sidebar-collapse sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -139,7 +139,7 @@
           <div class="row">
             <div class="col-lg-2 col-xs-4">
               <div class="form-group">
-                <label>Fecha de Despacho:</label>
+                <label>Fecha</label>
 
                 <div class="input-group date">
                   <div class="input-group-addon">
@@ -157,6 +157,12 @@
                         style="width: 100%;">
                 </select>
               </div>  
+            </div>
+            <div class="col-lg-2 col-xs-4" id="opl">
+              <label>Empresa:</label>
+              <select id="selectOPL" data-placeholder="Seleccione..."
+                      style="width: 100%;">
+              </select>
             </div>
             <div class="col-lg-2 col-xs-4" id="ruta">
               <label>ID Transporte:</label>
@@ -581,7 +587,7 @@
 <!-- page script -->
 <script src="<?php echo base_url();?>assets/artyom-source/artyom.window.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/LectorCUD/Faltantes/faltantes.js?n=4"></script>
+<script src="<?php echo base_url();?>assets/js/LectorCUD/Faltantes/faltantes.js?n=5"></script>
 <script src="<?php echo base_url();?>assets/js/LectorCUD/importarExcel.js?n=3"></script>
 <!--<script type="text/javascript">
   const artyom = new Artyom();

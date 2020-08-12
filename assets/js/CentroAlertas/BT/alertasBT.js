@@ -418,9 +418,32 @@ $(document).ready(function(){
                         USUARIO: {type: "string"},
                         DISP_CASE_PICK: {type: "string"},
                         DISP_ACTIVO: {type: "string"},
-                        RESERVA: {type: "string"},
+                        WR: {type: "string"},
+                        PISO: {type: "string"},
+                        RACK: {type: "string"},
                         PP: {type: "string"},
                         TOTAL: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 100
+    });
+
+    var dataSourceSR = new kendo.data.DataSource({
+        transport: {
+            read: onReadSR
+        },
+        schema: {
+            model: {
+                id: "ART",
+                fields: {
+                        ART: {type: "string"}, // number - string - date
+                        DESC_ART: {type: "string"},
+                        CANTIDAD: {type: "string"},
+                        LPN: {type: "string"}, // number - string - date
+                        ESTADO_LPN: {type: "string"},
+                        AREA: {type: "string"},
+                        DSP_LOCN: {type: "string"}
                     }
             }
         },
@@ -473,6 +496,31 @@ $(document).ready(function(){
         pageSize: 100
     });
 
+    $("#gridSR").kendoGrid({
+        selectable: "cell",
+        autoBind: false,
+        dataSource: dataSourceSR,
+        height: "90%", 
+        width: "1000px",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [
+            {field: "ART",title: "ARTICULO",width: 70, filterable:false},
+            {field: "DESC_ART",title: "DESC ARTICULO",width:130, filterable:false},
+            {field: "CANTIDAD",title: "CANTIDAD",width:80, filterable:false},
+            {field: "LPN",title: "LPN",width: 120,filterable: false},
+            {field: "ESTADO_LPN",title: "ESTADO LPN",width:130,filterable: false},
+            {field: "AREA",title: "AREA",width:120,filterable: false},
+            {field: "DSP_LOCN",title: "UBICACION",width:100,filterable: false}
+        ]
+    });
+
     $("#gridDetPSS").kendoGrid({
         selectable: "cell",
         autoBind: false,
@@ -504,7 +552,9 @@ $(document).ready(function(){
             {field: "USUARIO",title: "USUARIO",width:100,filterable: false},
             {field: "DISP_CASE_PICK",title: "CASE PICK",width:100,filterable: false},
             {field: "DISP_ACTIVO",title: "ACTIVO",width:100,filterable: false},
-            {field: "RESERVA",title: "RESERVA",width:80,filterable: false},
+            {field: "WR",title: "WR",width:80,filterable: false},
+            {field: "PISO",title: "PISO",width:80,filterable: false},
+            {field: "RACK",title: "RACK",width:80,filterable: false},
             {field: "PP",title: "PP",width:40,filterable: false},
             {field: "TOTAL",title: "TOTAL",width:120,filterable: false}
         ]
@@ -514,8 +564,8 @@ $(document).ready(function(){
         var grid = $("#gridDetPSS").data("kendoGrid");
         var column = grid.columns[cellIndex];
         var columnsku = grid.columns[7];
-        var columnpp = grid.columns[17];
-        var columnrr = grid.columns[16];
+        var columnpp = grid.columns[19];
+        var columnrr = grid.columns[18];
         var dataItem = grid.dataItem(cell.closest("tr"));
 
         if(column.field == 'PP'){
@@ -529,7 +579,7 @@ $(document).ready(function(){
                 grid.data("kendoGrid").dataSource.read();
             }
         }
-        if(column.field == 'RESERVA'){
+        if(column.field == 'RACK'){
 
             if(dataItem[columnrr.field] =! "" && dataItem[columnrr.field] > 0){
                 sku = dataItem[columnsku.field];
@@ -596,7 +646,8 @@ $(document).ready(function(){
 
     $("#toolbarPSS").kendoToolBar({
         items: [
-            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarPSS}
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarPSS},
+            { type: "button", text: "Reabastecer", icon: "k-icon k-i-search" ,click: SoloReabastecer}
         ]
     });
 
@@ -604,7 +655,7 @@ $(document).ready(function(){
     ventana_detalle_pss.kendoWindow({
         width: "1000px",
         height: "550px",
-        title: "Pedidos No Asignados",
+        title: "Pedidos No Asignados WMS",
         visible: false,
         actions: [
             "Minimize",
@@ -612,6 +663,19 @@ $(document).ready(function(){
             "Close"     
         ]
     }).data("kendoWindow").maximize();
+
+    var ventana_detalle_sr = $("#POPUP_Detalle_SR");
+    ventana_detalle_sr.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "Solo Reabastecer",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").center();
 
     var ventana_detalle_pp = $("#POPUP_Detalle_PP");
     ventana_detalle_pp.kendoWindow({
@@ -643,6 +707,13 @@ $(document).ready(function(){
         var grid = $("#gridDetPSS");
         grid.data("kendoGrid").dataSource.read();
     });
+
+    function SoloReabastecer(){
+        var popupdetallepss = $("#POPUP_Detalle_SR");
+        popupdetallepss.data("kendoWindow").open();
+        var grid = $("#gridSR");
+        grid.data("kendoGrid").dataSource.read();
+    }
 
     $("#PSSDetalles").click(function(){
         var popupdetallepss = $("#POPUP_Detalle_PSS");
@@ -694,6 +765,21 @@ $(document).ready(function(){
         });
     }    
 
+    function onReadSR(e){
+        $.ajax({
+            type: "POST",
+            url: baseURL + 'alertas/bt/soloreabastecer',
+            dataType: 'json',
+            data: {sku: sku},
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    }
+
     function onReadRR(e){
         $.ajax({
             type: "POST",
@@ -708,28 +794,29 @@ $(document).ready(function(){
             }
         });
     }
-
+    
     function ExportarPSS(){
        var rows = [{
             cells: [
-               // The first cell.
               { value: "BODEGA" },
-               // The second cell.
               { value: "PKT" },
-              // The third cell.
+              { value: "PA" },
               { value: "BATCH NBR" },
-              // The fifth cell.
               { value: "LPN" },
               { value: "OLA" },
               { value: "DESC_OLA" },
               { value: "SKU" },
               { value: "SKU DESC" },
+              { value: "DEPTO" },
+              { value: "DESC DEPTO" },
               { value: "CANT" },
-              { value: "FECHA_OLA" },
+              { value: "FECHA OLA" },
               { value: "USUARIO" },
               { value: "CASE PICK" },
               { value: "ACTIVO" },
-              { value: "RESERVA" },
+              { value: "WR" },
+              { value: "PISO" },
+              { value: "RACK" },
               { value: "PP" },
               { value: "TOTAL" }
             ]
@@ -741,18 +828,23 @@ $(document).ready(function(){
             cells: [
               { value: data[i].BODEGA },
               { value: data[i].PKT },
+              { value: data[i].PALNIFICAION_AUTOMATICA },
               { value: data[i].BATCHNBR },
               { value: data[i].LPN },
               { value: data[i].OLA },
               { value: data[i].DESC_OLA },
               { value: data[i].SKU },
               { value: data[i].SKU_DESC },
+              { value: data[i].DEPTO },
+              { value: data[i].DESCP_DEPTO },
               { value: data[i].CANT },
               { value: data[i].FECHA_OLA },
               { value: data[i].USUARIO },
               { value: data[i].DISP_CASE_PICK },
               { value: data[i].DISP_ACTIVO },
-              { value: data[i].RESERVA },
+              { value: data[i].WR },
+              { value: data[i].PISO },
+              { value: data[i].RACK },
               { value: data[i].PP },
               { value: data[i].TOTAL }
             ]
@@ -763,6 +855,11 @@ $(document).ready(function(){
             {
               columns: [
                 // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
                 { autoWidth: true },
                 { autoWidth: true },
                 { autoWidth: true },
@@ -790,4 +887,194 @@ $(document).ready(function(){
         // Save the file as an Excel file with the xlsx extension.
         kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Pedidos Sin Stock.xlsx"}); 
     }
+
+    $("#toolbarSR").kendoToolBar({
+        items: [
+            { type: "button", text: "Exportar", icon: "k-icon k-i-file-excel" ,click: ExportarSR},
+        ]
+    });
+
+    function ExportarSR(){
+       var rows = [{
+            cells: [
+              { value: "ARTICULO" },
+              { value: "DESC ARTICULO" },
+              { value: "CANTIDAD" },
+              { value: "LPN" },
+              { value: "ESTADO LPN" },
+              { value: "AREA" },
+              { value: "UBICACION" }
+            ]
+          }];
+        var data = dataSourceSR.data();
+        for (var i = 0; i < data.length; i++){
+          // Push single row for every record.
+          rows.push({
+            cells: [
+              { value: data[i].ART },
+              { value: data[i].DESC_ART },
+              { value: data[i].CANTIDAD },
+              { value: data[i].LPN },
+              { value: data[i].ESTADO_LPN },
+              { value: data[i].AREA },
+              { value: data[i].DSP_LOCN },
+            ]
+          })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+          sheets: [
+            {
+              columns: [
+                // Column settings (width).
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true },
+                { autoWidth: true }
+              ],
+              // The title of the sheet.
+              title: "Solo Reserva",
+              // The rows of the sheet.
+              rows: rows
+            }
+          ]
+        });
+        // Save the file as an Excel file with the xlsx extension.
+        kendo.saveAs({dataURI: workbook.toDataURL(), fileName: "Solo Reserva.xlsx"}); 
+    }
+
+    // PEDIDOS SIN STOCK BIG TICKET
+
+    var dataSourcePSSBT = new kendo.data.DataSource({
+        transport: {
+            read: onReadPSSBT
+        },
+        schema: {
+            model: {
+                id: "CUD",
+                fields: {
+                        CUD: {type: "string"}, // number - string - date
+                        SKU: {type: "string"},
+                        SKU_DESC: {type: "string"},
+                        CANT: {type: "string"}, // number - string - date
+                        SUC_STOCK: {type: "string"},
+                        SUC_DESP: {type: "string"},
+                        FECHAVTA: {type: "string"},
+                        FECHA_PLAN: {type: "string"},
+                        ESTADO: {type: "string"},
+                        MOTIVO: {type: "string"},
+                        DISP_CASE_PICK: {type: "string"},
+                        DISP_ACTIVO: {type: "string"},
+                        RESERVA: {type: "string"},
+                        PP: {type: "string"},
+                        TOTAL: {type: "string"}
+                    }
+            }
+        },
+        pageSize: 100
+    });
+
+    function onReadPSSBT(){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconPSSBT").toggleClass("fa-refresh");
+                $("#iconPSSBT").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPSSBT").toggleClass("fa-refresh");
+                $("#iconPSSBT").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/bt/PSinStockBT',
+            dataType: 'json',
+            success: function(result){
+                e.success(result);
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    }
+
+    $("#gridDetPSSBT").kendoGrid({
+        autoBind: false,
+        dataSource: dataSourcePSSBT,
+        height: "100%", 
+        width: "100%",
+        sortable: true, 
+        filterable: true,
+        scrollable: true,
+        pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+        },
+        columns: [
+            {field: "CUD",title: "CUD",width: 130, filterable:false},
+            {field: "SKU",title: "SKU",width: 80, filterable:false},
+            {field: "SKU_DESC",title: "DESC SKU",width:80, filterable:false},
+            {field: "CANT",title: "CANTIDAD",width:80,filterable: false},
+            {field: "SUC_STOCK",title: "SUC STOCK",width: 70,filterable: false},
+            {field: "SUC_DESP",title: "SUC DESP",width:80,filterable: false},
+            {field: "FECHAVTA",title: "FECHA VTA",width:60,filterable: false},
+            {field: "FECHA_PLAN",title: "FECHA PLAN",width:80,filterable: false},
+            {field: "ESTADO",title: "ESTADO",width:80,filterable: false},
+            {field: "MOTIVO",title: "MOTIVO",width:80,filterable: false},
+            {field: "DISP_CASE_PICK",title: "CASE PICK",width:80,filterable: false},
+            {field: "DISP_ACTIVO",title: "ACTIVO",width:80,filterable: false},
+            {field: "RESERVA",title: "RESERVA",width:80,filterable: false},
+            {field: "PP",title: "PP",width:80,filterable: false},
+            {field: "TOTAL",title: "TOTAL",width:80,filterable: false}
+        ]
+    });
+
+    var ventana_detalle_pss = $("#POPUP_Detalle_PSSBT");
+    ventana_detalle_pss.kendoWindow({
+        width: "1000px",
+        height: "550px",
+        title: "Pedidos No Asignados BT",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"     
+        ]
+    }).data("kendoWindow").maximize();
+
+    $("#UpdPSSBT").click(function(){
+        var grid = $("#gridDetPSSBT");
+        grid.data("kendoGrid").dataSource.read();
+    });
+
+    /*$("#PSSBTDetalles").click(function(){
+        var popupdetallepss = $("#POPUP_Detalle_PSSBT");
+        popupdetallepss.data("kendoWindow").open();
+    });¨*/
+    
+    $("#PSSBTDetalles").click(function(){
+        $.ajax({
+            beforeSend: function () {
+                $("#iconPSSBT").toggleClass("fa-refresh");
+                $("#iconPSSBT").toggleClass("fa-spin");
+            },
+            complete: function () {
+                $("#iconPSSBT").toggleClass("fa-refresh");
+                $("#iconPSSBT").toggleClass("fa-spin");
+            },
+            type: "POST",
+            url: baseURL + 'alertas/bt/cargar',
+            dataType: 'json',
+            success: function(result){
+                if(result == 1){
+                    alert('cargo');
+                }
+            },
+            error: function(result){
+                alert(JSON.stringify(result));
+            }
+        });
+    });
+
 });

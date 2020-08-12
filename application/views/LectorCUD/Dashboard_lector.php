@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Carton Type</title>
+  <title>Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -13,12 +13,15 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/morris.js/morris.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Date Picker -->
@@ -33,6 +36,7 @@
   <script src="<?php echo base_url();?>assets/telerik/js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/jszip.min.js"></script>
   <script src="<?php echo base_url();?>assets/telerik/js/kendo.all.min.js"></script>
+  <script src="<?php echo base_url();?>assets/telerik/js/cultures/kendo.culture.es-CL.min.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,16 +48,16 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-purple sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo site_url('home');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>RDX</b></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>REDEX</b></span>
-      <span class="logo-mini"><b>RDX</b></span>
     </a>
    
     <!-- Header Navbar: style can be found in header.less -->
@@ -66,29 +70,6 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-user"></i>
-              <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="<?php echo base_url();?>assets/img/user.jpg" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $this->session->userdata('nombre'); ?>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?php echo site_url('logout');?>" class="btn btn-default btn-flat">Cerrar Sesion</a>
-                </div>
-              </li>
-            </ul>
-          </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -98,7 +79,12 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <?php $this->load->view("sidebar_menu"); ?>
+  <?php if($this->session->userdata('modulo') == 'lector'){
+           $this->load->view("sidebar_lector");
+        }else{
+           $this->load->view("sidebar_menu");
+        } 
+  ?>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -108,29 +94,50 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-6">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-cube"></i> Carton Type</h3>
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="txtPasillo" id="txtPasillo" class="form-control pull-right" placeholder="Pasillo">
+          <div class="col-xs-5">
+            <div class="box box-primary collapsed-box">
+              <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-calendar"></i> Fecha</h3>
 
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary" id="btnBuscarPasillo"><i class="fa fa-search"></i></button>
-                  </div>
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                 </div>
               </div>
-
+              <!-- /.box-header -->
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-10">
+                    <div class="demo-section k-content wide" style="display: inline-block;">
+                      <div id="datepicker"></div>
+                      <br>
+                      
+                      <!-- /.input group -->
+                    </div>
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.box-body -->
+  
             </div>
-            <div id="toolbarct"></div>
-            <div id="gridCT">
-            
-            </div>
-          </div>  
+          <!-- nav-tabs-custom -->
+       
         </div>
       </div>
+      <div class="row" id="grilla">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div id="grid"></div>
+          </div>
+        </div>
+      </div>
+         
+      </div>
 
+    <!---->
+          
+          </div>
           <!-- /.box -->
 
         </section>
@@ -138,7 +145,9 @@
       </div>
       <!-- /.row (main row) -->
 
-  
+    </section>
+    <!-- /.content -->
+  </div>
   <!-- /.content-wrapper -->
  
 
@@ -152,8 +161,6 @@
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-
-
 <div class="modal modal-success fade" id="modal-success">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -213,21 +220,18 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<div id="POPUP_Actual_CT">
-  <div id="gridActCt"></div>
-</div>
-<div id="POPUP_CartonType">
-   <div >
-      <label>Carton Type:</label>
-      <select id="selectCartonType" data-placeholder="Seleccione..."
-              style="width: 100%;">
-      </select>
-    </div>
-    <br>
-    <div >
-       <button class="k-button k-primary" id="btnActCartonType" name="btnActCartonType" >Actualizar</button>
+<div class="modalloading" style="display: none">
+    <div class="center">
+        <img alt="" style="opacity: 1;" src="<?php echo base_url();?>assets/img/loader.gif"/>
     </div>
 </div>
+<div id="POPUP_Pasillos_Putwy">
+  <div id="gridPasillosPutwy"></div>
+</div> 
+<div id="POPUP_Locn_Putwy">
+  <div id="gridLocnPutwy"></div>
+</div> 
+
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
@@ -263,6 +267,9 @@
 <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url();?>assets/bower_components/moment/moment.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="<?php echo base_url();?>assets/bower_components/fullcalendar/dist/locale-all.js"></script>
 <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 <script type="text/javascript">
   var baseURL= "<?php echo base_url();?>";
@@ -280,9 +287,12 @@
       }
   });
 </script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/CentroDistribucion/cartontype.js" async>
-</script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/LectorCUD/Dashboard/dashboard.js?n=2"></script>
 <style type="text/css">
+  
+  .k-toolbar .k-button{
+    color: black;
+  }
   .k-grid  .k-grid-header  .k-header  .k-link {
         height: auto;
   }
@@ -296,8 +306,36 @@
   .k-grid {
     font-size: 12px;
   }
-  .k-toolbar .k-button{
-    color: black;
+  .modalloading
+  {
+      position: fixed;
+      z-index: 999;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: Black;
+      filter: alpha(opacity=80);
+      opacity: 0.8;
+      -moz-opacity: 0.8;
+  }
+  .center
+  {
+      z-index: 1000;
+      margin: 300px auto;
+      padding: 10px;
+      width: 130px;
+      background-color: White;
+      border-radius: 10px;
+      filter: alpha(opacity=100);
+      opacity: 1;
+      -moz-opacity: 1;
+  }
+  .center img
+  {
+      opacity: 1;
+      height: 120px;
+      width: 120px;
   }
 </style>
 </body>

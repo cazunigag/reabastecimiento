@@ -40,16 +40,21 @@
           <i class="fa fa-search"></i></i><span> Faltantes</span>
         </a>
       </li>
-     <!-- <li>
-        <a href="<?php echo site_url('centroAlertas');?>">
-          <i class="fa fa-search"></i></i><span> Consulta</span>
+      <li>
+        <a href="<?php echo site_url('asignacionManual');?>">
+          <i class="fa fa-edit"></i></i><span> Asignacion Manual</span>
         </a>
       </li>
       <li>
-        <a href="<?php echo site_url('centroAlertas');?>">
-          <i class="fa fa-bar-chart"></i></i><span> KPI</span>
+        <a href="<?php echo site_url('devueltos');?>">
+          <i class="fa fa-arrow-left"></i></i><span> Devoluciones</span>
         </a>
-      </li>-->
+      </li>
+      <li>
+        <a href="<?php echo site_url('lector/dashboard');?>">
+          <i class="fa fa-dashboard"></i></i><span> Dashboard</span>
+        </a>
+      </li>
       <li>
         <a href="#" id="importarEX">
           <i class="fa fa-file-excel-o"></i></i><span> Cargar Excel</span>

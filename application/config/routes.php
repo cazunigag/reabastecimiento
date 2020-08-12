@@ -73,7 +73,13 @@ $route['diferenciaInventario'] = "DiferenciaInventario/DiferenciaInventario";
 $route['PKTCancelados'] = "DiferenciaInventario/PKTCancelados/PKTCancelados";
 $route['AseguramientoCalidad'] = "AseguramientoCalidad/AseguramientoCalidad";
 $route['lector'] = "LectorCUD/LectorCUD/picking";
+$route['lectorv2'] = "LectorCUD/LectorCUD/Testpicking";
 $route['faltantes'] = "LectorCUD/LectorCUD/faltantes";
+$route['lector/dashboard'] = "LectorCUD/LectorCUD/dashboard";
+$route['devueltos'] = "LectorCUD/LectorCUD/devueltos";
+$route['asignacionManual'] = "LectorCUD/LectorCUD/asignacionManual";
+$route['workarea'] = "centrodistribucion/WorkArea";
+$route['descuadraturainv'] = "DescuadraturaInv/DescuadraturaInv";
 
 //rutas login
 $route['auth'] = "login/auth";
@@ -203,6 +209,9 @@ $route['alertas/bt/actualizarPKT'] = "centroAlertas/BT/alertasBT/actualizarPKT";
 $route['alertas/bt/PSinStock'] = "centroAlertas/BT/alertasBT/PedidosSinStock";
 $route['alertas/bt/PP'] = "centroAlertas/BT/alertasBT/PP";
 $route['alertas/bt/RR'] = "centroAlertas/BT/alertasBT/reserva";
+$route['alertas/bt/soloreabastecer'] = "centroAlertas/BT/alertasBT/soloReabastecer";
+$route['alertas/bt/PSinStockBT'] = "centroAlertas/BT/alertasBT/readPSSBT";
+$route['alertas/bt/cargar'] = "centroAlertas/BT/alertasBT/cargarTabla";
 
 //rutas alertas PMM
 
@@ -312,6 +321,8 @@ $route['lector/cargar'] = "LectorCUD/LectorCUD/importarEXCEL";
 $route['lector/cargarv2'] = "LectorCUD/LectorCUD/importarEXCELv2";
 $route['lector/buscar'] = "LectorCUD/LectorCUD/search";
 $route['lector/pick'] = "LectorCUD/LectorCUD/Pick";
+$route['lector/testpick'] = "LectorCUD/LectorCUD/TestPick";
+$route['lector/pickfaltantes'] = "LectorCUD/LectorCUD/PickFaltantes";
 $route['lector/tiendas'] = "LectorCUD/LectorCUD/tiendas";
 $route['lector/cierreCarga'] = "LectorCUD/LectorCUD/cerrarCarga";
 $route['lector/detcierreCarga'] = "LectorCUD/LectorCUD/detalleCierreCarga";
@@ -320,8 +331,27 @@ $route['lector/detcierreCargav2'] = "LectorCUD/LectorCUD/detalleCierreCarga_V2";
 $route['lector/total'] = "LectorCUD/LectorCUD/totalPick";
 $route['lector/totalfaltantes'] = "LectorCUD/LectorCUD/totalFaltantes";
 $route['lector/resumen/(:any)/(:any)/(:any)'] = "LectorCUD/LectorCUD/resumenDespacho/$1/$2/$3";
-$route['lector/resumenV2/(:any)/(:any)/(:any)'] = "LectorCUD/LectorCUD/resumenDespacho_V2/$1/$2/$3";
+$route['lector/resumenV2/(:any)/(:any)/(:any)/(:any)'] = "LectorCUD/LectorCUD/resumenDespacho_V2/$1/$2/$3/$4";
 $route['lector/ids'] = "LectorCUD/LectorCUD/getIds";
 $route['lector/idsV2'] = "LectorCUD/LectorCUD/getIds_V2";
+$route['lector/dashboard/data'] = "LectorCUD/LectorCUD/dataDashboard";
+$route['lector/devolver'] = "LectorCUD/LectorCUD/devolver";
+$route['lector/datacud'] = "LectorCUD/LectorCUD/buscarCud";
+$route['lector/guardarinfodesp'] = "LectorCUD/LectorCUD/guardarInfoDespacho";
+$route['lector/detdevueltos'] = "LectorCUD/LectorCUD/detalleDevueltos";
+$route['lector/cantdevueltos'] = "LectorCUD/LectorCUD/contarDevueltos";
+$route['lector/datosTransporte'] = "LectorCUD/LectorCUD/datosTransporte";
+$route['lector/getopl'] = "LectorCUD/LectorCUD/getOPL";
 
+// RUTAS SETEO WORK AREA
 
+$route['workarea/data'] = "centrodistribucion/WorkArea/gridWorkArea";
+$route['listar/wa'] = "centrodistribucion/WorkArea/listWorkArea";
+$route['listar/wg'] = "centrodistribucion/WorkArea/listWorkGroup";
+$route['workarea/actualizar'] = "centrodistribucion/WorkArea/actualizarWorkArea";
+
+//RUTAS DESCUADRATURA INVENTARIO
+
+$route['descuadraturainv/data'] = "DescuadraturaInv/DescuadraturaInv/mainGrid";
+$route['descuadraturainv/actualizar'] = "DescuadraturaInv/DescuadraturaInv/update";
+$route['descuadraturainv/grafico'] = "DescuadraturaInv/DescuadraturaInv/dataGrafico";

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Redex | Home</title>
+  <title>Asignacion Manual</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -126,9 +126,10 @@
 
     <!-- Main content -->
     <section class="content">
+
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-barcode"/>  Picking</i></h3>
+          <h3 class="box-title"><i class="fa fa-edit"/>  Asignacion Manual</i></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -161,57 +162,47 @@
           </div>
         </div>
       </div>
-      <div class="box box-primary" id="boxscanner">
+      <div class="box box-primary" id="scanner">
         <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-search"/>  Scanner</i></h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
+          <h3 class="box-title"><i class="fa fa-barcode"/>  Scanner</i></h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
             <div class="col-xs-4">
               <input id="cud" class="form-control input-lg" type="text" placeholder="CUD">
-
+              <h3 class="box-title" id="tienda"></h3>
             </div>
             <div class="col-xs-4">
-              <p style="font-size: 40px; font-weight: bold; margin-left: 30px;" id="totales"></p>
+              <p style="font-size: 40px; font-weight: bold; margin-left: 30px;" id="comuna"></p>
             </div>
-            <div class="col-xs-2">
-              <div class="col-lg-1 col-xs-2">
-                <a class="btn btn-app" id="cerrarCarga">
-                  <i class="fa fa-check-square-o"></i> Cerrar Carga
-                </a>
-              </div>
+            <div class="col-xs-2" id="empresa">
+              <label>Empresa:</label>
+              <select id="selectOPL" data-placeholder="Seleccione..."
+                      style="width: 100%;">
+              </select>
             </div>
-            <div class="col-xs-2">
-              <div class="col-lg-1 col-xs-2">
-                <a class="btn btn-app" id="Faltantes">
-                  <i class="fa fa-search"></i> Resumen Faltantes
-                </a>
-              </div>
+            <div class="col-xs-2" id="ruta">
+              <label>Ruta:</label>
+              <select id="selectId" data-placeholder="Seleccione..."
+                      style="width: 100%;">
+              </select>
             </div>
-          </div>
-          <div class="row">
+        </div>
+        <div class="row" id="datosTransporte">
             <div class="col-xs-12">
               <table class="table table-hover">
                 <tr style="font-size: 40px; ">
-                    <th style="text-align: center; width: 30%;">ID TRANSPORTE</th>
-                    <th style="text-align: center; width: 40%;">CONDUCTOR</th>
-                    <th style="text-align: center; width: 30%;">PATENTE</th>
-                  <tbody id="boosmapinfo"></tbody>
+                  <th style="text-align: center; width: 30%;">CHOFER</th>
+                  <th style="text-align: center; width: 40%;">EMPRESA</th>
+                  <th style="text-align: center; width: 30%;">PATENTE</th>
                 </tr>
+                <tbody id="data"></tbody>
               </table>
             </div>
-          </div>
+
         </div>
-      <!--<div id="sourceSelectPanel" style="display:none">
-          <label for="sourceSelect">Change video source:</label>
-          <select id="sourceSelect" style="max-width:400px">
-          </select>
-      </div>-->
+      </div>
       
     </section>
     <!-- /.content -->
@@ -304,16 +295,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-</div>
-<div id="POPUP_Id">
-    ID TRANSPORTE: 
-    <select id="selectId" data-placeholder="Seleccione..."
-            style="width: 100%;">
-    </select>
-    <p style="padding-top: 1em; text-align: right">
-        <button type="submit" id="Seleccionar" name="Seleccionar" class="k-button k-primary">Seleccionar</button>
-    </p>
- 
 </div>
 <div id="POPUP_Importar">
   <form method="post" id="import_form" enctype="multipart/form-data">
@@ -575,7 +556,7 @@
 <!-- page script -->
 <script src="<?php echo base_url();?>assets/artyom-source/artyom.window.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/LectorCUD/LectorCUD.js?n=3"></script>
+<script src="<?php echo base_url();?>assets/js/LectorCUD/AsignacionManual/asignacionmanual.js?n=6"></script>
 <script src="<?php echo base_url();?>assets/js/LectorCUD/importarExcel.js?n=3"></script>
 <!--<script type="text/javascript">
   const artyom = new Artyom();

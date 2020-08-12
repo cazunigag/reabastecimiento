@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = WMSQA)(PORT = 1528)))
+	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.0.148.249)(PORT = 1528)))
     (CONNECT_DATA = (SID = LER6QA)(SERVER = DEDICATED)))',
 	'username' => 'pmmwms',
 	'password' => 'wms',
@@ -185,10 +185,10 @@ $db['LECLWMPROD'] = array(
 );
 $db['BTPROD'] = array(
 	'dsn'	=> '',
-	'hostname' => '(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = BTSCAN-PR)(PORT = 1521))
+	'hostname' => '(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.0.148.151)(PORT = 1521))
 	(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = BIGTICKET)))',
-	'username' => 'CONTINGENCIA_FPETITLAURENTT',
-	'password' => 'FPETITLAURENTT',
+	'username' => 'Bigt_usr',
+	'password' => 'Bigt_usr',
 	'database' => '',
 	'dbdriver' => 'oci8',
 	'dbprefix' => '',
@@ -273,7 +273,7 @@ $db['PMMQA'] = array(
 );
 $db['PMMWMSQA'] = array(
 	'dsn'	=> '',
-	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = WMSQA)(PORT = 1528)))
+	'hostname' => '(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.0.148.249)(PORT = 1528)))
     (CONNECT_DATA = (SID = LER6QA)(SERVER = DEDICATED)))',
 	'username' => 'pmmwms',
 	'password' => 'wms',

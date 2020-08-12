@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Redex | Home</title>
+  <title>Devueltos</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/pace/pace.min.css">
 
   <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/planoREDEX.css">
+
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/select2/dist/css/select2.min.css">
 
   <link rel="stylesheet" href="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
@@ -128,7 +130,7 @@
     <section class="content">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title"><i class="fa fa-barcode"/>  Picking</i></h3>
+          <h3 class="box-title"><i class="fa fa-arrow-left"/>  Devueltos</i></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -137,7 +139,7 @@
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
-            <div class="col-lg-2 col-xs-4">
+           <!-- <div class="col-lg-2 col-xs-4">
               <div class="form-group">
                 <label>Fecha</label>
 
@@ -147,9 +149,9 @@
                   </div>
                   <input type="text" class="form-control pull-right" id="datepicker" autocomplete="off">
                 </div>
-                <!-- /.input group -->
+                
               </div>
-            </div>
+            </div>-->
             <div class="col-lg-2 col-xs-4">
               <div >
                 <label>Tienda</label>
@@ -172,40 +174,48 @@
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
+            <div class="col-xs-3">
+              <div >
+                <label>Motivo devolucion:</label>
+                <select id="selectMotivo" data-placeholder="Seleccione..." style="width: 100%;">
+                  <option>Seleccione...</option>
+                  <option>Sin moradores</option>
+                  <option>Dirección errónea</option>
+                  <option>Despacho incompleto</option>
+                  <option>Cliente inubicable</option>
+                  <option>Desconoce compra</option>
+                  <option>Rechazo de compra</option>
+                  <option>Fuera de ruta</option>
+                  <option>Otros</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-1"></div>
             <div class="col-xs-4">
               <input id="cud" class="form-control input-lg" type="text" placeholder="CUD">
-
             </div>
-            <div class="col-xs-4">
-              <p style="font-size: 40px; font-weight: bold; margin-left: 30px;" id="totales"></p>
-            </div>
+            <div class="col-xs-2"><p style="font-size: 40px; font-weight: bold; margin-left: 30px;" id="cantdevueltos"></p></div>
             <div class="col-xs-2">
-              <div class="col-lg-1 col-xs-2">
-                <a class="btn btn-app" id="cerrarCarga">
-                  <i class="fa fa-check-square-o"></i> Cerrar Carga
-                </a>
-              </div>
+              <a class="btn btn-app" id="devueltos">
+                <i class="fa fa-search"></i> Resumen Devueltos
+              </a>
             </div>
-            <div class="col-xs-2">
-              <div class="col-lg-1 col-xs-2">
-                <a class="btn btn-app" id="Faltantes">
-                  <i class="fa fa-search"></i> Resumen Faltantes
-                </a>
-              </div>
             </div>
-          </div>
-          <div class="row">
+            <div class="row">
             <div class="col-xs-12">
               <table class="table table-hover">
                 <tr style="font-size: 40px; ">
-                    <th style="text-align: center; width: 30%;">ID TRANSPORTE</th>
-                    <th style="text-align: center; width: 40%;">CONDUCTOR</th>
-                    <th style="text-align: center; width: 30%;">PATENTE</th>
+                    <th style="text-align: center; width: 40%;">SKU</th>
+                    <th style="text-align: center; width: 40%;">DESCRIPCION</th>
+                    <th style="text-align: center; width: 20%;">CANTIDAD</th>
                   <tbody id="boosmapinfo"></tbody>
                 </tr>
               </table>
             </div>
           </div>
+        </div>
+      </div>
+          
         </div>
       <!--<div id="sourceSelectPanel" style="display:none">
           <label for="sourceSelect">Change video source:</label>
@@ -220,7 +230,8 @@
     <div id="Toolbar"></div>
     <div id="grid"></div>
   </div>
-  <div id="POPUP_det_Cierre_Carga">
+  <div id="POPUP_det_devueltos">
+    <div id="toolbardetdevueltos"></div>
     <div id="gridDet"></div>
   </div>
   
@@ -304,16 +315,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-</div>
-<div id="POPUP_Id">
-    ID TRANSPORTE: 
-    <select id="selectId" data-placeholder="Seleccione..."
-            style="width: 100%;">
-    </select>
-    <p style="padding-top: 1em; text-align: right">
-        <button type="submit" id="Seleccionar" name="Seleccionar" class="k-button k-primary">Seleccionar</button>
-    </p>
- 
 </div>
 <div id="POPUP_Importar">
   <form method="post" id="import_form" enctype="multipart/form-data">
@@ -511,6 +512,19 @@
   
 </script>-->
 <style type="text/css">
+  .k-grid  .k-grid-header  .k-header  .k-link {
+        height: auto;
+  }
+      
+  .k-grid  .k-grid-header  .k-header {
+        white-space: normal;
+  }
+  .k-grid tbody tr {
+    line-height: 14px;
+  }
+  .k-grid {
+    font-size: 12px;
+  }
 .modalloading
 {
     position: fixed;
@@ -559,7 +573,7 @@
       }
   });
 </script>
-
+<script src="<?php echo base_url();?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- PACE -->
@@ -575,7 +589,7 @@
 <!-- page script -->
 <script src="<?php echo base_url();?>assets/artyom-source/artyom.window.min.js"></script>
 <script src="<?php echo base_url();?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/LectorCUD/LectorCUD.js?n=3"></script>
+<script src="<?php echo base_url();?>assets/js/LectorCUD/Devueltos/devueltos.js?n=1"></script>
 <script src="<?php echo base_url();?>assets/js/LectorCUD/importarExcel.js?n=3"></script>
 <!--<script type="text/javascript">
   const artyom = new Artyom();
